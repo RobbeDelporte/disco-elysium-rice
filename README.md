@@ -13,7 +13,7 @@ Hyprland rice on Arch Linux — Disco Elysium inspired. Tiling Wayland composito
 | Shell | Zsh + Starship |
 | Lock screen | Hyprlock |
 | Idle manager | Hypridle |
-| Editor | Neovim + xed (fallback) |
+| Editor | Neovim |
 | File manager | Yazi (TUI) + Nemo (GUI) |
 | Wallpaper | awww |
 | Screenshots | Grimblast |

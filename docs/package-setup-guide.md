@@ -64,7 +64,7 @@ Key packages being installed:
 | Audio | `pipewire`, `wireplumber`, `pavucontrol` |
 | File manager | `nemo` |
 | Networking | `networkmanager`, `network-manager-applet`, `bluez`, `blueman` |
-| Theming | `nwg-look`, `qt5ct`, `qt6ct`, `papirus-icon-theme` |
+| Theming | `nwg-look`, `papirus-icon-theme` |
 | Fonts | `ttf-opensans`, `ttf-libre-baskerville`, `noto-fonts`, `noto-fonts-emoji`, `ttf-font-awesome` |
 | Astal/disco-shell deps | `gtk4`, `gtk4-layer-shell`, `meson`, `vala` |
 | Shell | `starship`, `zsh-autosuggestions`, `zsh-syntax-highlighting`, `zsh-completions` |

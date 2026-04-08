@@ -120,7 +120,6 @@ Log in at the TTY with your username and password (on TTY1). Hyprland starts aut
 - [ ] **Check monitors:** `hyprctl monitors` — edit `hosts/<hostname>/monitors.conf` if needed, then reload with `hyprctl reload`
 - [ ] **GPU drivers:** Run `lspci | grep VGA`, then uncomment the right lines in `hosts/<hostname>/packages.txt` and run `paru -S <driver-packages>`
 - [ ] **Set GTK theme:** Run `nwg-look` to pick theme, icons, fonts, cursor
-- [ ] **Set Qt theme:** Run `qt6ct` to match Qt apps
 - [ ] **Test notifications:** `notify-send "Hello" "Rice is working!"`
 - [ ] **Test screenshot:** `Super+S` to capture an area
 - [ ] **Test launcher:** `Super+D` or `Super+/` to open launcher

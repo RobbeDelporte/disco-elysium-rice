@@ -9,7 +9,7 @@ A dotfiles repository for a complete Arch Linux + Hyprland desktop rice, targeti
 All configs are functional with the Disco Elysium color palette applied. Desktop shell widgets are provided by the separate [disco-shell](https://github.com/RobbeDelporte/disco-shell) project (Rust + GPUI).
 
 ### What's Done
-- All configs: Hyprland, Kitty, Zsh, Starship, Hyprlock, Hypridle, Neovim, Yazi, GTK3/4, Qt6
+- All configs: Hyprland, Kitty, Zsh, Starship, Hyprlock, Hypridle, Neovim, Yazi, GTK3
 - Install script: `scripts/install.sh <hostname>` handles full automated setup
 - Host profiles: `hosts/system76/` and `hosts/tuxedo/` with vendor packages and monitor configs
 - Package lists: `packages/pacman.txt` and `packages/aur.txt`
@@ -34,14 +34,12 @@ Desktop widgets (bar, launcher, notifications, quick settings, overview, switche
 | Shell | Zsh | `configs/zsh/.zshrc` + `.zprofile` |
 | Shell prompt | Starship | `configs/starship/starship.toml` |
 | File manager (primary) | Yazi (TUI) | `configs/yazi/` |
-| File manager (backup) | Nemo (GTK3) | `configs/gtk-3.0/gtk.css` |
+| File manager (backup) | Nemo (GTK3) | themed via gsettings |
 | Text editor (primary) | Neovim | `configs/nvim/init.lua` |
-| Text editor (fallback) | xed (GTK3) | `configs/gtksourceview-4.0/disco-elysium.xml` |
 | Wallpaper | awww | (started in hyprland.conf) |
 | Screenshots | Grimblast | (keybind in hyprland.conf) |
 | Clipboard | Cliphist | (started in hyprland.conf) |
-| GTK3 theming | `nwg-look` + custom `gtk.css` | Nemo, native GTK3 apps |
-| Qt theming | `qt6ct` + Kvantum + custom palette | Qt apps (if any) |
+| GTK3 theming | `nwg-look` + Adwaita-dark (gsettings) | Nemo, native GTK3 apps |
 
 ## Key Documents
 
@@ -88,11 +86,6 @@ configs/          # Shared dotfiles (symlinked to ~/.config/)
   zsh/            # .zshrc, .zprofile (symlinked to ~/)
   starship/       # starship.toml (symlinked to ~/.config/starship.toml)
   fontconfig/     # fonts.conf (font rendering config)
-  gtk-3.0/        # gtk.css (GTK3 theme overrides)
-  gtk-4.0/        # gtk.css (GTK4 theme overrides)
-  gtksourceview-4.0/  # disco-elysium.xml (xed syntax highlighting)
-  qt6ct/          # Qt6 theme config (Kvantum + Disco Elysium palette)
-  kvantum/        # Kvantum theme config
 hosts/            # Per-machine overrides
   system76/       # packages.txt, monitors.conf
   tuxedo/         # packages.txt, monitors.conf

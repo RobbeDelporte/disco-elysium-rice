@@ -511,7 +511,7 @@ These are NEW properties to add (most were not set in the placeholder config):
 
 ### Hyprland env vars (`configs/hypr/hyprland.conf`)
 
-No color changes needed — cursor theme and Qt platform theme remain the same.
+No color changes needed — cursor theme remains the same.
 
 ---
 
@@ -530,12 +530,11 @@ The wallpaper (two figures on a rooftop against a dramatic amber sunset over a d
 
 ---
 
-## GTK/Qt Theme Guidance
+## GTK Theme Guidance
 
 | Component | Recommendation |
 |-----------|---------------|
-| GTK theme | Custom `~/.config/gtk-3.0/gtk.css` (GTK3) and `~/.config/gtk-4.0/gtk.css` (GTK4/libadwaita) |
-| Qt theme | `qt6ct` + **Kvantum** with a dark Kvantum theme |
+| GTK theme | Adwaita-dark (set via gsettings) |
 | Icon theme | **Gruvbox-Plus-Dark** (`gruvbox-plus-icon-theme` AUR) — warm, consistent with Disco Elysium palette |
 | Cursor theme | **Nordzy-cursors** — clean, neutral cursor |
 

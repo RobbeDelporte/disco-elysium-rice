@@ -54,8 +54,6 @@ power-profiles-daemon
 
 # Theming
 nwg-look
-qt6ct
-kvantum
 dconf
 
 # GPU (base — needed on all machines)
@@ -80,8 +78,5 @@ zsh-completions
 # Build tools
 base-devel
 git
-
-# Text editor (fallback)
-xed
 
 # Screenshots: grimblast is in aur.txt as grimblast-git
