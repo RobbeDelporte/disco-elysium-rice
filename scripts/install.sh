@@ -48,8 +48,8 @@ read_packages "$REPO_DIR/packages/pacman.txt" | xargs sudo pacman -S --needed --
 if ! paru --version &> /dev/null; then
     echo ">>> Installing paru (precompiled binary)..."
     TEMP_DIR=$(mktemp -d)
-    git clone https://aur.archlinux.org/paru-bin.git "$TEMP_DIR/paru-bin"
-    (cd "$TEMP_DIR/paru-bin" && makepkg -si --noconfirm)
+    git clone https://aur.archlinux.org/paru.git "$TEMP_DIR/paru"
+    (cd "$TEMP_DIR/paru" && makepkg -si --noconfirm)
     rm -rf "$TEMP_DIR"
 fi
 
