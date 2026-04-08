@@ -1,0 +1,373 @@
+/* GTK3 Theme Overrides — Disco Elysium
+   Overrides on top of adw-gtk3-dark */
+
+/* === Color Definitions === */
+@define-color theme_bg_color #171b1a;
+@define-color theme_fg_color #ccc8c2;
+@define-color theme_base_color #171b1a;
+@define-color theme_text_color #ccc8c2;
+@define-color theme_selected_bg_color #363b3a;
+@define-color theme_selected_fg_color #ccc8c2;
+@define-color insensitive_bg_color #1e2221;
+@define-color insensitive_fg_color #4b4b4b;
+@define-color borders #363b3a;
+@define-color unfocused_borders #363b3a;
+
+/* Override adw-gtk3 color variables */
+@define-color accent_bg_color #363b3a;
+@define-color accent_fg_color #ccc8c2;
+@define-color accent_color #363b3a;
+@define-color selected_bg_color #363b3a;
+@define-color selected_fg_color #ccc8c2;
+@define-color window_fg_color #ccc8c2;
+@define-color window_bg_color #171b1a;
+@define-color view_bg_color #171b1a;
+@define-color view_fg_color #ccc8c2;
+@define-color headerbar_bg_color #1e2221;
+@define-color headerbar_fg_color #ccc8c2;
+
+/* === Global: disable animations, remove shadows === */
+* {
+    transition: none;
+    animation: none;
+    -gtk-icon-shadow: none;
+    text-shadow: none;
+}
+
+/* === Window === */
+.background,
+window.background {
+    background-color: #171b1a;
+    color: #ccc8c2;
+}
+
+/* === Header Bar === */
+headerbar,
+.titlebar,
+headerbar.titlebar {
+    background-color: #1e2221;
+    background-image: none;
+    border-bottom: 1px solid rgba(54, 59, 58, 0.4);
+    color: #ccc8c2;
+    box-shadow: none;
+}
+
+headerbar *,
+.titlebar * {
+    color: #999a95;
+}
+
+headerbar button,
+headerbar button.flat,
+headerbar button.titlebutton,
+.titlebar button {
+    color: #999a95;
+    background-color: transparent;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+}
+
+headerbar button:hover,
+.titlebar button:hover {
+    color: #ccc8c2;
+    background-color: #282c2b;
+    background-image: none;
+}
+
+headerbar button:active,
+headerbar button:checked,
+.titlebar button:active,
+.titlebar button:checked {
+    color: #ccc8c2;
+    background-color: #282c2b;
+    background-image: none;
+}
+
+headerbar entry,
+.titlebar entry {
+    background-color: #171b1a;
+    background-image: none;
+    border: 1px solid #363b3a;
+    color: #ccc8c2;
+    box-shadow: none;
+}
+
+headerbar entry:focus,
+.titlebar entry:focus {
+    border-color: #999a95;
+}
+
+/* === Sidebar === */
+.sidebar,
+.nemo-places-sidebar,
+placessidebar,
+.nemo-window .sidebar {
+    background-color: #1e2221;
+    background-image: none;
+    color: #999a95;
+    border-right: 1px solid rgba(54, 59, 58, 0.3);
+}
+
+.sidebar row,
+.sidebar .list-row,
+placessidebar row,
+.nemo-places-sidebar .list-row {
+    color: #999a95;
+    background-color: transparent;
+}
+
+.sidebar row:hover,
+placessidebar row:hover,
+.nemo-places-sidebar .list-row:hover {
+    background-color: #282c2b;
+    color: #ccc8c2;
+}
+
+.sidebar row:selected,
+.sidebar row:active,
+placessidebar row:selected,
+.nemo-places-sidebar .list-row:selected {
+    background-color: #363b3a;
+    border-left: 3px solid #d2d2d2;
+    color: #ccc8c2;
+}
+
+.sidebar row:selected *,
+placessidebar row:selected * {
+    color: #ccc8c2;
+}
+
+/* Sidebar section headers */
+.sidebar .sidebar-section-label,
+placessidebar .sidebar-heading,
+.sidebar-section-label {
+    color: #999a95;
+    font-weight: 700;
+}
+
+/* === File List / Tree View / Icon View === */
+.view,
+treeview.view,
+iconview {
+    background-color: #171b1a;
+    color: #ccc8c2;
+}
+
+.view:hover,
+treeview.view row:hover {
+    background-color: #282c2b;
+}
+
+/* === Selections — darker background, same text === */
+treeview.view:selected:focus, treeview.view:selected,
+entry selection, spinbutton:not(.vertical) selection,
+flowbox flowboxchild:selected,
+.view text selection:focus, iconview text selection:focus,
+.view text selection, iconview text selection,
+textview text selection:focus, textview text selection,
+.view:selected, iconview:selected,
+.view text:selected, iconview text:selected,
+textview text:selected,
+.view:active, list row:selected, list row:active,
+row:selected, row:active {
+    background-color: #363b3a;
+    color: #ccc8c2;
+}
+
+.selection-mode button.titlebutton, treeview.view:selected:focus, treeview.view:selected,
+entry selection, spinbutton:not(.vertical) selection,
+flowbox flowboxchild:selected,
+.view text selection:focus, iconview text selection:focus,
+.view text selection, iconview text selection,
+textview text selection:focus, textview text selection,
+.view:selected, iconview:selected,
+.view text:selected, iconview text:selected,
+textview text:selected,
+.view:active, list row:selected, list row:active,
+row:selected, row:active {
+    color: #ccc8c2;
+}
+
+/* Backdrop (unfocused) selections */
+.view:backdrop:selected,
+treeview.view:selected:backdrop,
+list row:backdrop:selected,
+row:backdrop:selected {
+    background-color: #2e3332;
+    color: #999a95;
+}
+
+/* Column headers */
+treeview.view header button,
+.nemo-window treeview.view header button {
+    background-color: #1e2221;
+    background-image: none;
+    color: #999a95;
+    border-bottom: 1px solid rgba(54, 59, 58, 0.3);
+    border-right: 1px solid rgba(54, 59, 58, 0.2);
+    font-weight: 700;
+    box-shadow: none;
+}
+
+treeview.view header button:hover {
+    background-color: #282c2b;
+    color: #999a95;
+}
+
+/* Cell text */
+.view .cell,
+treeview.view .cell {
+    color: #ccc8c2;
+}
+
+/* === Status Bar === */
+statusbar,
+.nemo-window statusbar {
+    background-color: #1e2221;
+    background-image: none;
+    border-top: 1px solid rgba(54, 59, 58, 0.3);
+    color: #999a95;
+}
+
+/* === Scrollbars === */
+scrollbar slider {
+    background-color: #363b3a;
+    border-radius: 999px;
+    min-width: 6px;
+    min-height: 6px;
+}
+
+scrollbar slider:hover {
+    background-color: #999a95;
+}
+
+scrollbar trough {
+    background-color: #171b1a;
+}
+
+/* === Menus === */
+menu,
+.menu,
+.context-menu {
+    background-color: #1e2221;
+    border: 1px solid rgba(54, 59, 58, 0.4);
+    color: #ccc8c2;
+}
+
+menu menuitem,
+.menu menuitem {
+    color: #ccc8c2;
+}
+
+menu menuitem:hover,
+.menu menuitem:hover {
+    background-color: #363b3a;
+    color: #ccc8c2;
+}
+
+menu separator,
+.menu separator,
+separator {
+    background-color: rgba(54, 59, 58, 0.3);
+}
+
+/* === Tooltips === */
+tooltip,
+tooltip.background {
+    background-color: #1e2221;
+    border: 1px solid #363b3a;
+    color: #ccc8c2;
+}
+
+/* === Buttons === */
+button {
+    background-color: #1e2221;
+    background-image: none;
+    border: 1px solid rgba(54, 59, 58, 0.5);
+    color: #999a95;
+    box-shadow: none;
+}
+
+button:hover {
+    background-color: #282c2b;
+    background-image: none;
+    color: #ccc8c2;
+}
+
+button:active,
+button:checked {
+    background-color: #282c2b;
+    background-image: none;
+    color: #ccc8c2;
+}
+
+/* === Entries / Inputs === */
+entry {
+    background-color: #1e2221;
+    background-image: none;
+    border: 1px solid #363b3a;
+    color: #ccc8c2;
+    box-shadow: none;
+}
+
+entry:focus {
+    border-color: #999a95;
+}
+
+/* === Text Selection === */
+selection,
+entry selection,
+textview text selection,
+label selection {
+    background-color: #363b3a;
+    color: #ccc8c2;
+}
+
+/* === Rubberband (lasso drag select) === */
+.rubberband,
+rubberband {
+    background-color: rgba(210, 210, 210, 0.15);
+    border: 1px solid rgba(210, 210, 210, 0.6);
+}
+
+/* === Notebook Tabs === */
+notebook,
+notebook header {
+    background-color: #1e2221;
+    background-image: none;
+}
+
+notebook header tab {
+    background-color: #1e2221;
+    background-image: none;
+    color: #999a95;
+    border: 1px solid rgba(54, 59, 58, 0.3);
+}
+
+notebook header tab:checked {
+    background-color: #171b1a;
+    background-image: none;
+    color: #ccc8c2;
+}
+
+/* === Toolbar === */
+toolbar,
+.toolbar {
+    background-color: #1e2221;
+    background-image: none;
+    border-bottom: 1px solid rgba(54, 59, 58, 0.4);
+}
+
+/* === Infobar === */
+infobar {
+    background-color: #1e2221;
+    color: #ccc8c2;
+}
+
+/* === Dialog === */
+dialog .dialog-vbox,
+messagedialog .dialog-vbox {
+    background-color: #171b1a;
+    color: #ccc8c2;
+}

@@ -1,0 +1,15 @@
+# Screenshots
+grimblast-git
+
+# Fonts
+ttf-jetbrains-mono-nerd
+ttf-playfair-display
+
+# Cursor
+nordzy-cursors
+
+# Icons
+gruvbox-plus-icon-theme
+
+# System tools
+overskride

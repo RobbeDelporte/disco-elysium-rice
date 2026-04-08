@@ -1,0 +1,35 @@
+# =============================================
+# Starship Prompt — Minimal Shell
+# =============================================
+
+format = """$directory$git_branch$git_status$character"""
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+style = "bold #4ba89a"
+
+[git_branch]
+format = "[$symbol$branch]($style) "
+symbol = " "
+style = "bold #7555c6"
+
+[git_status]
+format = "[$all_status$ahead_behind]($style) "
+style = "bold #eb6408"
+
+[python]
+format = "[$symbol$version]($style) "
+symbol = " "
+
+[nodejs]
+format = "[$symbol$version]($style) "
+symbol = " "
+
+[rust]
+format = "[$symbol$version]($style) "
+symbol = " "
+
+[character]
+success_symbol = "[>](bold #0fb666)"
+error_symbol = "[>](bold #b83a3a)"

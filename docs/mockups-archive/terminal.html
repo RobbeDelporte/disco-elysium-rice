@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kitty Terminal — Mockup</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0e0f0e;
+    color: #ccc8c2;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 40px;
+    min-height: 100vh;
+  }
+
+  h2 {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 14px;
+    color: #4b4b4b;
+    margin-bottom: 24px;
+  }
+
+  .description {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 13px;
+    color: #999a95;
+    line-height: 1.7;
+    max-width: 800px;
+    margin-bottom: 32px;
+  }
+
+  .label {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 11px;
+    color: #4b4b4b;
+    margin: 40px 0 16px;
+  }
+
+  /* === TERMINAL WINDOW === */
+  .terminal {
+    background: #171b1a;
+    border: 1px solid #363b3a;
+    border-radius: 2px;
+    padding: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow: hidden;
+  }
+
+  /* Colors */
+  .c-text     { color: #ccc8c2; }
+  .c-muted    { color: #999a95; }
+  .c-disabled { color: #4b4b4b; }
+  .c-black    { color: #171b1a; }
+  .c-border   { color: #363b3a; }
+
+  /* ANSI colors */
+  .c-red      { color: #cb456a; }
+  .c-red-b    { color: #eb6408; }
+  .c-green    { color: #0fb666; }
+  .c-green-b  { color: #3dcc88; }
+  .c-yellow   { color: #e3ba3e; }
+  .c-yellow-b { color: #eece6e; }
+  .c-blue     { color: #5bc0d6; }
+  .c-blue-b   { color: #89d4e5; }
+  .c-magenta  { color: #7555c6; }
+  .c-magenta-b{ color: #9a7ed6; }
+  .c-cyan     { color: #5bc0d6; }
+  .c-white    { color: #ccc8c2; }
+  .c-white-b  { color: #ffffff; }
+
+  .bold { font-weight: 700; }
+
+  /* Selection highlight */
+  .sel {
+    background: #5bc0d6;
+    color: #171b1a;
+  }
+
+  /* Cursor */
+  .cursor {
+    background: #ccc8c2;
+    color: #171b1a;
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  /* Starship prompt */
+  .prompt-dir  { color: #5bc0d6; font-weight: 700; }
+  .prompt-git  { color: #7555c6; font-weight: 700; }
+  .prompt-status { color: #eb6408; font-weight: 700; }
+  .prompt-char { color: #4b4b4b; font-weight: 700; }
+  .prompt-char-err { color: #b83a3a; font-weight: 700; }
+
+  .line { min-height: 1.6em; }
+
+  /* Color palette display */
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 4px;
+    margin-top: 16px;
+  }
+  .swatch {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 1px;
+  }
+</style>
+</head>
+<body>
+
+<h2>Mockup 5 / 9 — Terminal (Kitty)</h2>
+<p class="description">Kitty with the Disco Elysium 16-color palette. Starship prompt shows directory in intellect blue, git branch in psyche purple, status in action orange. Cursor is orange beam.</p>
+
+<div class="label">Typical session — git repo with starship prompt</div>
+<div class="terminal">
+  <div class="line"><span class="prompt-dir">~/my-rice</span> <span class="prompt-git"> main</span> <span class="prompt-status">!3 +1</span></div>
+  <div class="line"><span class="prompt-char">></span> git status</div>
+  <div class="line"><span class="c-muted">On branch</span> <span class="c-magenta">main</span></div>
+  <div class="line"><span class="c-muted">Changes not staged for commit:</span></div>
+  <div class="line"><span class="c-muted">  (use "git add &lt;file&gt;..." to update)</span></div>
+  <div class="line">&nbsp;</div>
+  <div class="line">        <span class="c-red">modified:   configs/astal/src/style.scss</span></div>
+  <div class="line">        <span class="c-red">modified:   configs/hypr/hyprland.conf</span></div>
+  <div class="line">        <span class="c-red">modified:   docs/style-guide.md</span></div>
+  <div class="line">&nbsp;</div>
+  <div class="line"><span class="c-muted">Untracked files:</span></div>
+  <div class="line">        <span class="c-green">docs/mockups/status-bar.html</span></div>
+  <div class="line">&nbsp;</div>
+  <div class="line"><span class="prompt-dir">~/my-rice</span> <span class="prompt-git"> main</span> <span class="prompt-status">!3 +1</span></div>
+  <div class="line"><span class="prompt-char">></span> ls --color</div>
+  <div class="line"><span class="c-blue bold">configs</span>  <span class="c-blue bold">docs</span>  <span class="c-blue bold">hosts</span>  <span class="c-blue bold">packages</span>  <span class="c-blue bold">references</span>  <span class="c-blue bold">scripts</span>  <span class="c-blue bold">wallpapers</span></div>
+  <div class="line"><span class="c-text">CLAUDE.md</span>  <span class="c-text">README.md</span></div>
+  <div class="line">&nbsp;</div>
+  <div class="line"><span class="prompt-dir">~/my-rice</span> <span class="prompt-git"> main</span> <span class="prompt-status">!3 +1</span></div>
+  <div class="line"><span class="prompt-char">></span> echo <span class="c-green">"Hello from Martinaise"</span></div>
+  <div class="line"><span class="c-text">Hello from Martinaise</span></div>
+  <div class="line">&nbsp;</div>
+  <div class="line"><span class="prompt-dir">~/my-rice</span> <span class="prompt-git"> main</span></div>
+  <div class="line"><span class="prompt-char">></span> <span class="cursor"></span></div>
+</div>
+
+<div class="label">Error prompt state</div>
+<div class="terminal" style="padding-bottom: 12px;">
+  <div class="line"><span class="prompt-dir">~/my-rice</span> <span class="prompt-git"> main</span></div>
+  <div class="line"><span class="prompt-char">></span> cat nonexistent.txt</div>
+  <div class="line"><span class="c-red">cat: nonexistent.txt: No such file or directory</span></div>
+  <div class="line">&nbsp;</div>
+  <div class="line"><span class="prompt-dir">~/my-rice</span> <span class="prompt-git"> main</span></div>
+  <div class="line"><span class="prompt-char-err">></span> <span class="cursor"></span></div>
+</div>
+
+<div class="label">16-Color Palette</div>
+<div class="palette">
+  <div class="swatch" style="background:#171b1a; color:#4b4b4b;">0 blk</div>
+  <div class="swatch" style="background:#cb456a; color:#171b1a;">1 red</div>
+  <div class="swatch" style="background:#0fb666; color:#171b1a;">2 grn</div>
+  <div class="swatch" style="background:#e3ba3e; color:#171b1a;">3 ylw</div>
+  <div class="swatch" style="background:#5bc0d6; color:#171b1a;">4 blu</div>
+  <div class="swatch" style="background:#7555c6; color:#ccc8c2;">5 mag</div>
+  <div class="swatch" style="background:#5bc0d6; color:#171b1a;">6 cyn</div>
+  <div class="swatch" style="background:#ccc8c2; color:#171b1a;">7 wht</div>
+</div>
+<div class="palette" style="margin-top: 4px;">
+  <div class="swatch" style="background:#363b3a; color:#999a95;">8 blk+</div>
+  <div class="swatch" style="background:#eb6408; color:#171b1a;">9 red+</div>
+  <div class="swatch" style="background:#3dcc88; color:#171b1a;">10 grn+</div>
+  <div class="swatch" style="background:#eece6e; color:#171b1a;">11 ylw+</div>
+  <div class="swatch" style="background:#89d4e5; color:#171b1a;">12 blu+</div>
+  <div class="swatch" style="background:#9a7ed6; color:#171b1a;">13 mag+</div>
+  <div class="swatch" style="background:#89d4e5; color:#171b1a;">14 cyn+</div>
+  <div class="swatch" style="background:#ffffff; color:#171b1a;">15 wht+</div>
+</div>
+
+</body>
+</html>

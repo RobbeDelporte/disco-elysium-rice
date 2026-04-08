@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quick Settings — Combined Design</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700&family=Open+Sans+Condensed:wght@300;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0e0f0e; color: #ccc8c2; font-family: 'JetBrains Mono', monospace; min-height: 100vh; overflow-x: hidden; }
+
+  .desktop {
+    width: calc(100% - 48px); margin: 24px 24px 0;
+    height: 700px; position: relative;
+    border-radius: 4px; overflow: hidden;
+    background-image: url('../../wallpapers/martinaise.png');
+    background-size: cover; background-position: center 20%;
+  }
+
+  /* ── Status bar ── */
+  .bar { position: absolute; top: 0; left: 0; right: 0; height: 36px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 8px; z-index: 10; background: rgba(10,12,11,0.78); backdrop-filter: blur(20px); border-bottom: 2px solid rgba(210,210,210,0.18); }
+  .bar-left { display: flex; align-items: center; } .bar-center { display: flex; justify-content: center; align-items: center; } .bar-right { display: flex; justify-content: flex-end; align-items: center; }
+  .ws-diamond { padding: 0 7px; display: flex; align-items: center; } .ws-diamond .diamond { width: 7px; height: 7px; background: #4b4b4b; transform: rotate(45deg); } .ws-diamond.active .diamond { background: #d2d2d2; box-shadow: 0 0 5px rgba(210,210,210,0.35); }
+  .ws-well { background: rgba(16,19,18,0.45); border-left: 1px solid rgba(54,59,58,0.20); border-right: 1px solid rgba(54,59,58,0.20); border-top: none; border-bottom: none; box-shadow: inset 1px 0 0 rgba(210,210,210,0.03), inset -1px 0 0 rgba(210,210,210,0.03); display: flex; align-items: center; height: 36px; padding: 0 4px; }
+  .sep-light-v { width: 1px; height: 36px; background: linear-gradient(180deg, rgba(210,210,210,0.0) 0%, rgba(210,210,210,0.12) 30%, rgba(210,210,210,0.12) 70%, rgba(210,210,210,0.0) 100%); margin: 0 10px; flex-shrink: 0; }
+  .window-title { font-family: 'Libre Baskerville', serif; font-weight: 500; font-size: 11px; color: #999a95; padding: 0 6px; }
+  .clock { font-family: 'Open Sans', sans-serif; font-weight: 300; font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; color: #ccc8c2; }
+  .clock-ornament { display: flex; align-items: center; gap: 10px; }
+  .clock-line { width: 30px; height: 1px; background: linear-gradient(90deg, rgba(210,210,210,0.0) 0%, rgba(210,210,210,0.20) 100%); }
+  .clock-line.right { background: linear-gradient(90deg, rgba(210,210,210,0.20) 0%, rgba(210,210,210,0.0) 100%); }
+  .module-well { background: rgba(16,19,18,0.45); border-left: 1px solid rgba(54,59,58,0.20); border-right: 1px solid rgba(54,59,58,0.20); border-top: none; border-bottom: none; box-shadow: inset 1px 0 0 rgba(210,210,210,0.03), inset -1px 0 0 rgba(210,210,210,0.03); display: flex; align-items: center; height: 36px; padding: 0 2px; }
+  .modules { display: flex; align-items: center; }
+  .module { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #999a95; padding: 0 8px; display: flex; align-items: center; gap: 4px; height: 36px; position: relative; }
+  .module .mod-icon { width: 14px; height: 14px; flex-shrink: 0; }
+  .module.intellect .mod-icon { color: rgba(91,192,214,0.7); } .module.psyche .mod-icon { color: rgba(117,85,198,0.7); } .module.physique .mod-icon { color: rgba(203,69,106,0.7); } .module.motorics .mod-icon { color: rgba(227,186,62,0.7); }
+  .module::after { content: ''; position: absolute; bottom: 4px; left: 8px; right: 8px; height: 2px; border-radius: 1px; }
+  .module.intellect::after { background: rgba(91,192,214,0.35); } .module.psyche::after { background: rgba(117,85,198,0.35); } .module.physique::after { background: rgba(203,69,106,0.35); } .module.motorics::after { background: rgba(227,186,62,0.35); }
+  .action-icons { display: flex; align-items: center; }
+  .icon-btn { display: flex; align-items: center; justify-content: center; width: 30px; height: 36px; color: #999a95; } .icon-btn svg { width: 16px; height: 16px; }
+
+  /* ── Fake terminal ── */
+  .tiled-windows { position: absolute; top: 42px; left: 4px; bottom: 4px; width: 48%; }
+  .fake-window { border: 1px solid rgba(153,154,149,0.25); border-radius: 2px; overflow: hidden; height: 100%; }
+  .fake-terminal { background: rgba(23,27,26,0.92); padding: 10px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #999a95; line-height: 1.6; height: 100%; }
+  .fake-terminal .prompt-dir { color: #5bc0d6; } .fake-terminal .prompt-branch { color: #7555c6; } .fake-terminal .prompt-char { color: #0fb666; } .fake-terminal .cmd { color: #ccc8c2; }
+
+  /* ══════════════════════════════════════════════════════════
+     QS PANEL
+     ══════════════════════════════════════════════════════════ */
+  .qs-anchor {
+    position: absolute; top: 38px; right: 0; bottom: 0;
+    display: flex; align-items: center;
+    padding-bottom: 8%;
+    z-index: 25;
+  }
+
+  .qs-panel {
+    width: 340px;
+    background: rgba(10, 12, 11, 0.78);
+    backdrop-filter: blur(20px);
+    border-left: 3px solid rgba(210, 210, 210, 0.22);
+    border-bottom: 2px solid rgba(210, 210, 210, 0.18);
+    border-top: 1px solid rgba(54, 59, 58, 0.20);
+    border-right: 1px solid rgba(54, 59, 58, 0.20);
+    padding: 14px;
+    display: flex; flex-direction: column;
+  }
+
+  .qs-header { display: flex; align-items: center; gap: 8px; min-height: 30px; }
+  .banner-eroded {
+    font-family: 'Open Sans Condensed', sans-serif; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2px; font-size: 14px;
+    color: #171b1a; background: #999a95; padding: 3px 12px;
+    display: inline-block; overflow: hidden; position: relative;
+    margin-left: -17px;
+  }
+  .banner-eroded::before { content: ''; position: absolute; inset: -2px; background: #d2d2d2; filter: url(#erode); }
+  .banner-eroded span { position: relative; z-index: 1; }
+
+  .sep-h { height: 1px; width: 100%; background: linear-gradient(90deg, rgba(210,210,210,0.0) 0%, rgba(210,210,210,0.10) 20%, rgba(210,210,210,0.10) 80%, rgba(210,210,210,0.0) 100%); margin: 12px 0; }
+
+  .section-label {
+    font-family: 'Open Sans Condensed', sans-serif; font-weight: 700;
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: #4b4b4b; margin-bottom: 6px;
+  }
+
+  /* ── Cards — skill-colored left borders (B) ── */
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+
+  .qs-card {
+    background: #1e2221;
+    border: 1px solid rgba(54, 59, 58, 0.40);
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: background 0.1s ease;
+  }
+  .qs-card:hover { background: #282c2b; }
+  .qs-card.active {
+    background: #282c2b;
+    border-left: 3px solid #d2d2d2;
+    padding-left: 10px;
+  }
+  /* Skill-colored left borders when active */
+  .qs-card.active.wifi { border-left-color: rgba(91,192,214,0.6); }
+  .qs-card.active.bt { border-left-color: rgba(117,85,198,0.6); }
+  .qs-card.active.audio { border-left-color: rgba(203,69,106,0.6); }
+
+  .card-inner { display: flex; align-items: center; gap: 10px; }
+  .card-icon { width: 16px; height: 16px; color: #4b4b4b; flex-shrink: 0; }
+  .card-info { display: flex; flex-direction: column; gap: 1px; flex: 1; min-width: 0; }
+  .card-title { font-family: 'Open Sans Condensed', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #999a95; }
+  .card-subtitle { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #4b4b4b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .qs-card.active .card-icon { color: #999a95; }
+  .qs-card.active .card-title { color: #ccc8c2; }
+  .qs-card.active .card-subtitle { color: #999a95; }
+
+  /* Drilldown chevron — large */
+  .chevron {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 22px; font-weight: 700;
+    color: #4b4b4b; flex-shrink: 0;
+    line-height: 1;
+  }
+  .qs-card:hover .chevron { color: #999a95; }
+  .qs-card.active .chevron { color: #999a95; }
+
+  /* Cycle arrows — large */
+  .cycle-arrows {
+    display: flex; gap: 2px; flex-shrink: 0;
+  }
+  .cycle-arrow {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 20px; font-weight: 700;
+    color: #4b4b4b; line-height: 1;
+    cursor: pointer;
+    transition: color 0.1s ease;
+  }
+  .cycle-arrow:hover { color: #ccc8c2; }
+
+  /* ── Slider — cream thumb (A) ── */
+  .slider-row {
+    display: flex; align-items: center; gap: 8px;
+    background: #1e2221;
+    border: 1px solid rgba(54, 59, 58, 0.40);
+    padding: 8px 12px;
+    margin-bottom: 4px;
+  }
+  .slider-icon { width: 14px; height: 14px; color: #4b4b4b; flex-shrink: 0; }
+  .slider-track { flex: 1; height: 4px; background: #101312; position: relative; }
+  .slider-fill { height: 4px; background: #999a95; }
+  .slider-thumb { width: 10px; height: 10px; background: #d2d2d2; border-radius: 5px; position: absolute; top: -3px; }
+  .slider-value { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #999a95; min-width: 30px; text-align: right; }
+
+  /* ── Media player — album art + stacked (C) ── */
+  .media-row {
+    display: flex; align-items: center; gap: 12px;
+    background: #1e2221;
+    border: 1px solid rgba(54, 59, 58, 0.40);
+    padding: 10px 12px;
+  }
+  .album-art {
+    width: 42px; height: 42px;
+    background: linear-gradient(135deg, rgba(117,85,198,0.15) 0%, rgba(91,192,214,0.10) 100%);
+    border: 1px solid rgba(54, 59, 58, 0.30);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .album-art svg { width: 18px; height: 18px; color: #4b4b4b; }
+  .media-right { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .media-info { display: flex; flex-direction: column; gap: 1px; }
+  .media-title { font-family: 'Open Sans Condensed', sans-serif; font-weight: 700; font-size: 12px; color: #ccc8c2; }
+  .media-artist { font-family: 'Libre Baskerville', serif; font-size: 10px; color: #999a95; }
+  .media-controls { display: flex; gap: 4px; }
+  .media-btn { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; color: #4b4b4b; cursor: pointer; }
+  .media-btn.play { color: #999a95; }
+  .media-btn svg { width: 14px; height: 14px; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <filter id="erode" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="turbulence" baseFrequency="0.04" numOctaves="4" seed="15" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="desktop">
+  <!-- Real status bar -->
+  <div class="bar">
+    <div class="bar-left">
+      <div class="ws-well"><div class="ws-diamond"><div class="diamond"></div></div><div class="ws-diamond active"><div class="diamond"></div></div><div class="ws-diamond"><div class="diamond"></div></div><div class="ws-diamond"><div class="diamond"></div></div><div class="ws-diamond"><div class="diamond"></div></div></div>
+      <div class="sep-light-v"></div>
+      <div class="window-title">kitty — ~/my-rice</div>
+    </div>
+    <div class="bar-center">
+      <div class="sep-light-v"></div>
+      <div class="clock-ornament"><div class="clock-line"></div><div class="clock">Wed 02 Apr, 14:30</div><div class="clock-line right"></div></div>
+      <div class="sep-light-v"></div>
+    </div>
+    <div class="bar-right">
+      <div class="module-well"><div class="modules">
+        <div class="module intellect"><svg class="mod-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="15" x2="4" y2="15"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="15" x2="23" y2="15"/></svg><span>12%</span></div>
+        <div class="module psyche"><svg class="mod-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg><span>34%</span></div>
+        <div class="module physique"><svg class="mod-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg><span>72%</span></div>
+        <div class="module motorics"><svg class="mod-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="6" width="18" height="12" rx="2" ry="2"/><line x1="23" y1="13" x2="23" y2="11"/></svg><span>85%</span></div>
+      </div></div>
+      <div class="sep-light-v"></div>
+      <div class="action-icons">
+        <div class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+        <div class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+        <div class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QS Panel -->
+  <div class="qs-anchor">
+    <div class="qs-panel">
+      <div class="qs-header"><div class="banner-eroded"><span>QUICK SETTINGS</span></div></div>
+      <div class="sep-h"></div>
+
+      <!-- Connections -->
+      <div class="section-label">CONNECTIONS</div>
+      <div class="card-grid">
+        <div class="qs-card active wifi">
+          <div class="card-inner">
+            <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+            <div class="card-info"><div class="card-title">WIFI</div><div class="card-subtitle">Home_5G</div></div>
+            <span class="chevron">›</span>
+          </div>
+        </div>
+        <div class="qs-card active bt">
+          <div class="card-inner">
+            <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="4"/></svg>
+            <div class="card-info"><div class="card-title">BLUETOOTH</div><div class="card-subtitle">WH-1000XM5</div></div>
+            <span class="chevron">›</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- System -->
+      <div class="section-label">SYSTEM</div>
+      <div class="card-grid">
+        <div class="qs-card active audio">
+          <div class="card-inner">
+            <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            <div class="card-info"><div class="card-title">AUDIO</div><div class="card-subtitle">Speakers 72%</div></div>
+            <span class="chevron">›</span>
+          </div>
+        </div>
+        <div class="qs-card">
+          <div class="card-inner">
+            <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <div class="card-info"><div class="card-title">POWER</div><div class="card-subtitle">balanced</div></div>
+            <div class="cycle-arrows"><span class="cycle-arrow">‹</span><span class="cycle-arrow">›</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sep-h"></div>
+
+      <!-- Brightness slider -->
+      <div class="slider-row">
+        <svg class="slider-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <div class="slider-track"><div class="slider-fill" style="width:65%"></div><div class="slider-thumb" style="left:63%"></div></div>
+        <div class="slider-value">65%</div>
+      </div>
+
+      <!-- Media player -->
+      <div class="media-row">
+        <div class="album-art">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="media-right">
+          <div class="media-info">
+            <div class="media-title">Boat Ride to Martinaise</div>
+            <div class="media-artist">Sea Power</div>
+          </div>
+          <div class="media-controls">
+            <div class="media-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg></div>
+            <div class="media-btn play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg></div>
+            <div class="media-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terminal -->
+  <div class="tiled-windows">
+    <div class="fake-window"><div class="fake-terminal">
+      <div><span class="prompt-dir">~/my-rice</span> <span class="prompt-branch"> main</span></div>
+      <div><span class="prompt-char">❯</span> <span class="cmd">disco-shell toggle-quicksettings</span></div>
+      <div style="color:#4b4b4b;margin-top:2px">disco-shell: quicksettings toggled</div>
+      <div style="margin-top:6px"><span class="prompt-dir">~/my-rice</span> <span class="prompt-branch"> main</span></div>
+      <div><span class="prompt-char">❯</span> <span class="cmd" style="opacity:0.5">_</span></div>
+    </div></div>
+  </div>
+</div>
+
+<div style="height: 40px;"></div>
+
+</body>
+</html>

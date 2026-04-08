@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<style-scheme id="disco-elysium" name="Disco Elysium" version="1.0">
+  <author>Robbe Delporte</author>
+  <description>Dark color scheme inspired by Disco Elysium — 4 skill colors</description>
+
+  <color name="base"       value="#171b1a"/>
+  <color name="surface"    value="#1e2221"/>
+  <color name="border"     value="#363b3a"/>
+  <color name="text"       value="#ccc8c2"/>
+  <color name="cream"      value="#d2d2d2"/>
+  <color name="muted"      value="#999a95"/>
+  <color name="disabled"   value="#4b4b4b"/>
+  <color name="intellect"  value="#5bc0d6"/>
+  <color name="psyche"     value="#7555c6"/>
+  <color name="physique"   value="#cb456a"/>
+  <color name="motorics"   value="#e3ba3e"/>
+  <color name="action"     value="#eb6408"/>
+  <color name="success"    value="#0fb666"/>
+  <color name="error"      value="#b83a3a"/>
+
+  <style name="text"                  foreground="text" background="base"/>
+  <style name="cursor"                foreground="text"/>
+  <style name="selection"             foreground="base" background="intellect"/>
+  <style name="current-line"          background="surface"/>
+  <style name="line-numbers"          foreground="border" background="base"/>
+  <style name="current-line-number"   foreground="muted"/>
+  <style name="right-margin"          foreground="border" background="base"/>
+  <style name="bracket-match"         foreground="text" background="border" bold="true"/>
+  <style name="bracket-mismatch"      foreground="text" background="error"/>
+  <style name="search-match"          foreground="base" background="motorics"/>
+
+  <style name="def:comment"           foreground="border"/>
+  <style name="def:constant"          foreground="motorics"/>
+  <style name="def:string"            foreground="physique"/>
+  <style name="def:character"         foreground="physique"/>
+  <style name="def:number"            foreground="motorics"/>
+  <style name="def:boolean"           foreground="motorics"/>
+  <style name="def:floating-point"    foreground="motorics"/>
+  <style name="def:keyword"           foreground="psyche"/>
+  <style name="def:type"              foreground="intellect"/>
+  <style name="def:function"          foreground="text"/>
+  <style name="def:builtin"           foreground="text"/>
+  <style name="def:preprocessor"      foreground="psyche"/>
+  <style name="def:identifier"        foreground="muted"/>
+  <style name="def:operator"          foreground="disabled"/>
+  <style name="def:error"             foreground="error" bold="true"/>
+  <style name="def:warning"           foreground="motorics"/>
+  <style name="def:note"              foreground="action" bold="true"/>
+  <style name="def:special-char"      foreground="action"/>
+  <style name="def:net-address"       foreground="intellect" underline="true"/>
+</style-scheme>

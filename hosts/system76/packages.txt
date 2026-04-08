@@ -1,0 +1,9 @@
+# System76 vendor packages (AUR)
+system76-power
+system76-firmware
+system76-driver
+firmware-manager
+
+# GPU drivers (Intel Iris Xe + NVIDIA RTX 3050 Mobile)
+intel-media-driver    # Intel integrated
+nvidia-open-dkms nvidia-utils   # NVIDIA discrete/hybrid (system76-power handles switching)

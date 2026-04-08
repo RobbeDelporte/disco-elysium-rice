@@ -1,0 +1,8 @@
+# Tuxedo vendor packages (AUR)
+tuxedo-keyboard
+tuxedo-control-center
+envycontrol
+
+# GPU drivers — uncomment the line matching your hardware after running: lspci | grep VGA
+# intel-media-driver    # Intel integrated
+# nvidia nvidia-utils   # NVIDIA discrete/hybrid (use envycontrol for switching)

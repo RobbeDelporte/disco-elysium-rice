@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overview — disco-shell Mockup</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700&family=Open+Sans+Condensed:wght@300;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0e0f0e;
+    color: #ccc8c2;
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  h2.section-title {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 700; text-transform: uppercase;
+    letter-spacing: 3px; font-size: 13px;
+    color: #4b4b4b; margin: 36px 24px 10px;
+  }
+  .subtitle {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 12px; color: #999a95;
+    line-height: 1.7; margin: 0 24px 20px; max-width: 750px;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     DESKTOP CONTEXT
+     ══════════════════════════════════════════════════════════ */
+  .desktop {
+    width: calc(100% - 48px); margin: 0 24px;
+    height: 720px; position: relative;
+    border-radius: 4px; overflow: hidden;
+    background-image: url('../../wallpapers/martinaise.png');
+    background-size: cover; background-position: center 20%;
+  }
+
+  /* ── Status bar ── */
+  .bar {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 14px; z-index: 10;
+    background: rgba(10, 12, 11, 0.78);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 2px solid rgba(210, 210, 210, 0.18);
+    font-family: 'Open Sans', sans-serif; font-weight: 300;
+    font-size: 14px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: #ccc8c2;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     OVERVIEW OVERLAY
+     ══════════════════════════════════════════════════════════ */
+  .dim {
+    position: absolute; inset: 0;
+    background: rgba(10, 12, 11, 0.55);
+    display: flex; justify-content: center;
+    padding-top: 80px;
+    z-index: 20;
+  }
+
+  .overview { width: 680px; position: relative; }
+
+  /* ── Banner ── */
+  .banner-eroded {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; font-size: 16px;
+    color: #171b1a;
+    background: #999a95;
+    padding: 4px 14px;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: -1px;
+    z-index: 2;
+  }
+  .banner-eroded::before {
+    content: '';
+    position: absolute; inset: -2px;
+    background: #d2d2d2;
+    filter: url(#erode);
+  }
+  .banner-eroded span { position: relative; z-index: 1; }
+
+  /* ── Panel ── */
+  .panel {
+    background: rgba(10, 12, 11, 0.90);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(54, 59, 58, 0.25);
+    padding: 14px;
+  }
+
+  /* ── Search entry ── */
+  .search {
+    width: 100%;
+    background: rgba(16, 19, 18, 0.60);
+    border: 1px solid rgba(54, 59, 58, 0.30);
+    color: #ccc8c2;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 400; font-size: 16px;
+    padding: 10px 12px; outline: none;
+    caret-color: #d2d2d2; margin-bottom: 12px;
+    box-sizing: border-box;
+  }
+  .search::placeholder {
+    color: #4b4b4b; font-style: italic;
+    font-family: 'Libre Baskerville', serif; font-size: 13px;
+  }
+  .search:focus { border-color: rgba(210, 210, 210, 0.25); }
+
+  /* ── Workspace grid ── */
+  .ws-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+
+  .ws-tile {
+    background: #1e2221;
+    border: 1px solid rgba(54, 59, 58, 0.40);
+    padding: 14px;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.1s ease, border-color 0.1s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .ws-tile:hover { background: #282c2b; }
+  .ws-tile.selected {
+    background: #282c2b;
+    border: 1px solid rgba(210, 210, 210, 0.18);
+  }
+  .ws-tile.empty { opacity: 0.45; }
+  .ws-tile.empty:hover { opacity: 0.7; }
+
+  .ws-num-watermark {
+    position: absolute; right: -5px; bottom: -15px;
+    font-family: 'Open Sans Condensed', sans-serif; font-weight: 700;
+    font-size: 80px; color: rgba(54, 59, 58, 0.25); line-height: 1;
+    pointer-events: none;
+  }
+
+  .ws-clients {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .client-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 5px;
+    border-radius: 2px;
+    transition: background 0.1s ease;
+  }
+  .client-row:hover { background: rgba(40, 44, 43, 0.5); }
+
+  .client-icon {
+    width: 16px; height: 16px;
+    background: rgba(54, 59, 58, 0.3);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; color: #999a95;
+  }
+  .client-icon svg { width: 10px; height: 10px; }
+
+  .client-class {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: #ccc8c2;
+    white-space: nowrap;
+  }
+
+  .client-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 11px;
+    color: #999a95;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+  }
+
+  /* ── Search results mode ── */
+  .search-results { display: flex; flex-direction: column; gap: 2px; }
+
+  .search-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 12px;
+    border-left: 3px solid transparent;
+    background: #1e2221;
+    cursor: pointer;
+    transition: background 0.1s ease;
+  }
+  .search-item:hover { background: rgba(40, 44, 43, 0.5); }
+  .search-item.selected {
+    background: #d2d2d2;
+    border-left-color: transparent;
+  }
+  .search-item.selected .search-class { color: #171b1a; }
+  .search-item.selected .search-title { color: #4b4b4b; }
+  .search-item.selected .ws-badge { background: #171b1a; color: #d2d2d2; }
+
+  .search-icon {
+    width: 28px; height: 28px;
+    background: rgba(54, 59, 58, 0.3);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; color: #999a95;
+  }
+  .search-icon svg { width: 16px; height: 16px; }
+
+  .search-info { flex: 1; display: flex; flex-direction: column; gap: 1px; }
+  .search-class {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 700; font-size: 13px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    color: #ccc8c2;
+  }
+  .search-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 11px; color: #999a95;
+  }
+
+  .ws-badge {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 700; font-size: 11px;
+    color: #171b1a;
+    background: #d2d2d2;
+    padding: 2px 8px;
+    border-radius: 1px;
+    flex-shrink: 0;
+  }
+
+  /* ── Hint ── */
+  .hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: #363b3a;
+    padding: 8px 12px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- SVG erosion filter -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <filter id="erode" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="turbulence" baseFrequency="0.04" numOctaves="4" seed="19" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<h2 class="section-title">Workspace Overview — disco-shell</h2>
+<p class="subtitle">Centered overlay panel showing a 3x2 workspace grid. Active workspace highlighted with cream border. Typing switches to window-search mode with cream inversion selection. Keyboard navigation with HJKL/arrows.</p>
+
+<!-- Grid mode -->
+<div class="desktop">
+  <div class="bar">Wed 02 Apr, 14:30</div>
+
+  <div class="dim">
+    <div class="overview">
+      <div class="banner-eroded"><span>OVERVIEW</span></div>
+
+      <div class="panel">
+        <input class="search" type="text" placeholder="Type to search windows..." value="" readonly>
+
+        <div class="ws-grid">
+          <!-- Workspace 1 — selected -->
+          <div class="ws-tile selected">
+            <div class="ws-num-watermark">1</div>
+            <div class="ws-clients">
+              <div class="client-row">
+                <div class="client-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="8" x2="22" y2="8"/></svg></div>
+                <div class="client-class">kitty</div>
+                <div class="client-title">~/my-rice</div>
+              </div>
+              <div class="client-row">
+                <div class="client-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                <div class="client-class">nvim</div>
+                <div class="client-title">init.lua</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Workspace 2 -->
+          <div class="ws-tile">
+            <div class="ws-num-watermark">2</div>
+            <div class="ws-clients">
+              <div class="client-row">
+                <div class="client-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                <div class="client-class">firefox</div>
+                <div class="client-title">GitHub - RobbeDelporte/my-rice</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Workspace 3 -->
+          <div class="ws-tile">
+            <div class="ws-num-watermark">3</div>
+            <div class="ws-clients">
+              <div class="client-row">
+                <div class="client-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                <div class="client-class">slack</div>
+                <div class="client-title">#general</div>
+              </div>
+              <div class="client-row">
+                <div class="client-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                <div class="client-class">discord</div>
+                <div class="client-title">Server - Linux Rice</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Workspace 4 — empty -->
+          <div class="ws-tile empty">
+            <div class="ws-num-watermark">4</div>
+            <div class="ws-clients"></div>
+          </div>
+
+          <!-- Workspace 5 — empty -->
+          <div class="ws-tile empty">
+            <div class="ws-num-watermark">5</div>
+            <div class="ws-clients"></div>
+          </div>
+
+          <!-- Workspace 6 — empty -->
+          <div class="ws-tile empty">
+            <div class="ws-num-watermark">6</div>
+            <div class="ws-clients"></div>
+          </div>
+        </div>
+
+        <div class="hint">type to search · enter to switch · esc to close</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="height: 40px;"></div>
+
+</body>
+</html>

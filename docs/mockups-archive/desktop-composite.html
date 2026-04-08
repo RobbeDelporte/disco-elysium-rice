@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desktop Composite — Mockup</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0e0f0e;
+    color: #ccc8c2;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 40px;
+    min-height: 100vh;
+  }
+
+  h2 {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 14px;
+    color: #4b4b4b;
+    margin-bottom: 24px;
+  }
+
+  .description {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 13px;
+    color: #999a95;
+    line-height: 1.7;
+    max-width: 800px;
+    margin-bottom: 32px;
+  }
+
+  .label {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 11px;
+    color: #4b4b4b;
+    margin: 40px 0 16px;
+  }
+
+  /* === DESKTOP === */
+  .desktop {
+    background: linear-gradient(135deg, #2a1f18 0%, #1a2028 25%, #3a2818 55%, #1d1510 80%, #171b1a 100%);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 16/10;
+    max-width: 1100px;
+  }
+
+  /* === BAR === */
+  .bar {
+    background: rgba(23, 27, 26, 0.88);
+    border-bottom: 1px solid rgba(54, 59, 58, 0.4);
+    height: 28px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 10px;
+  }
+  .bar-left { display: flex; align-items: center; }
+  .bar-center { text-align: center; }
+  .bar-right { display: flex; justify-content: flex-end; align-items: center; }
+
+  .ws {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    padding: 0 7px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    color: #999a95;
+  }
+  .ws.active {
+    color: #171b1a;
+    position: relative;
+  }
+  .ws.active::before {
+    content: '';
+    position: absolute;
+    inset: 4px 1px;
+    background: #d2d2d2;
+    z-index: 0;
+  }
+  .ws.active span { position: relative; z-index: 1; }
+
+  .bar-divider {
+    width: 1px;
+    height: 12px;
+    background: rgba(54, 59, 58, 0.4);
+    margin: 0 6px;
+  }
+
+  .bar-wintitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #999a95;
+  }
+
+  .bar-clock {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ccc8c2;
+  }
+
+  .bar-mod {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #999a95;
+    padding: 0 8px;
+  }
+  .bar-mod .name {
+    border-bottom: 1px solid transparent;
+    padding-bottom: 1px;
+  }
+  .bar-mod.int .name { border-bottom-color: #5bc0d6; }
+  .bar-mod.psy .name { border-bottom-color: #7555c6; }
+  .bar-mod.phy .name { border-bottom-color: #cb456a; }
+  .bar-mod.mot .name { border-bottom-color: #e3ba3e; }
+
+  .bar-icon {
+    color: #999a95;
+    padding: 0 5px;
+    font-size: 11px;
+  }
+
+  /* === TILING AREA === */
+  .tiling {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    padding: 8px;
+    padding-top: 4px;
+    height: calc(100% - 28px);
+  }
+
+  .window {
+    background: #171b1a;
+    border: 1px solid rgba(54, 59, 58, 0.25);
+    border-radius: 2px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .window.active {
+    border-color: rgba(153, 154, 149, 0.25);
+  }
+
+  /* Terminal window content */
+  .win-terminal {
+    padding: 6px 8px;
+    font-size: 10px;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .win-terminal .prompt-dir { color: #5bc0d6; font-weight: 700; }
+  .win-terminal .prompt-git { color: #7555c6; font-weight: 700; }
+  .win-terminal .prompt-char { color: #4b4b4b; font-weight: 700; }
+  .win-terminal .c-muted { color: #999a95; }
+  .win-terminal .c-green { color: #0fb666; }
+  .win-terminal .c-red { color: #cb456a; }
+  .win-terminal .c-blue { color: #5bc0d6; font-weight: 700; }
+
+  /* Right side: stacked */
+  .right-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* Browser-like window */
+  .win-browser {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .browser-tab-bar {
+    background: #1e2221;
+    padding: 4px 8px;
+    display: flex;
+    gap: 8px;
+    font-size: 9px;
+    border-bottom: 1px solid rgba(54, 59, 58, 0.2);
+  }
+  .browser-tab {
+    color: #999a95;
+    padding: 2px 6px;
+  }
+  .browser-tab.active {
+    color: #ccc8c2;
+    border-bottom: 1px solid #999a95;
+  }
+  .browser-content {
+    flex: 1;
+    padding: 8px;
+    font-size: 9px;
+    color: #4b4b4b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Editor-like window */
+  .win-editor {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .editor-gutter {
+    width: 24px;
+    text-align: right;
+    padding-right: 6px;
+    color: #363b3a;
+    user-select: none;
+    flex-shrink: 0;
+  }
+  .editor-body {
+    flex: 1;
+    padding: 6px 0;
+    font-size: 10px;
+    line-height: 1.5;
+    display: flex;
+  }
+  .editor-code {
+    flex: 1;
+    padding-left: 6px;
+  }
+  .editor-code .kw { color: #7555c6; }
+  .editor-code .fn { color: #5bc0d6; }
+  .editor-code .str { color: #0fb666; }
+  .editor-code .num { color: #e3ba3e; }
+  .editor-code .cm { color: #363b3a; }
+  .editor-code .op { color: #999a95; }
+</style>
+</head>
+<body>
+
+<h2>Mockup 6 / 9 — Desktop Composite</h2>
+<p class="description">Full desktop view: Bar at top, two tiled windows with 4px gaps, wallpaper visible through gaps and semi-transparent bar. Active window has a slightly brighter border. Shows the complete visual system working together.</p>
+
+<div class="label">Two windows tiled — terminal (active) + browser</div>
+<div class="desktop">
+  <div class="bar">
+    <div class="bar-left">
+      <div class="ws"><span>1</span></div>
+      <div class="ws active"><span>2</span></div>
+      <div class="ws"><span>3</span></div>
+      <div class="bar-divider"></div>
+      <div class="bar-wintitle">kitty — ~/my-rice</div>
+    </div>
+    <div class="bar-center">
+      <div class="bar-clock">Fri 28 Mar, 14:30</div>
+    </div>
+    <div class="bar-right">
+      <div class="bar-mod int"><span class="name">CPU</span> 12%</div>
+      <div class="bar-mod psy"><span class="name">MEM</span> 34%</div>
+      <div class="bar-mod phy"><span class="name">VOL</span> 65%</div>
+      <div class="bar-mod mot"><span class="name">BAT</span> 87%</div>
+      <div class="bar-divider"></div>
+      <div class="bar-icon">🔔</div>
+      <div class="bar-icon">⏻</div>
+    </div>
+  </div>
+  <div class="tiling">
+    <!-- Left: Terminal (active) -->
+    <div class="window active">
+      <div class="win-terminal">
+        <div><span class="prompt-dir">~/my-rice</span> <span class="prompt-git"> main</span></div>
+        <div><span class="prompt-char">></span> git log --oneline -5</div>
+        <div><span class="c-muted">e3295a7</span> docs: add lock screen mockup</div>
+        <div><span class="c-muted">805d86e</span> docs: add notification mockup</div>
+        <div><span class="c-muted">c890d9e</span> docs: add launcher mockup</div>
+        <div><span class="c-muted">3186663</span> fix: resolve merge conflicts</div>
+        <div><span class="c-muted">a80e503</span> Merge branch 'main'</div>
+        <div>&nbsp;</div>
+        <div><span class="prompt-dir">~/my-rice</span> <span class="prompt-git"> main</span></div>
+        <div><span class="prompt-char">></span> ls <span class="c-muted">--color</span></div>
+        <div><span class="c-blue">configs</span>  <span class="c-blue">docs</span>  <span class="c-blue">hosts</span>  <span class="c-blue">packages</span>  <span class="c-blue">scripts</span></div>
+        <div>CLAUDE.md  README.md</div>
+        <div>&nbsp;</div>
+        <div><span class="prompt-dir">~/my-rice</span> <span class="prompt-git"> main</span></div>
+        <div><span class="prompt-char">></span> <span style="display:inline-block;width:2px;height:1em;background:#ccc8c2;vertical-align:text-bottom;"></span></div>
+      </div>
+    </div>
+
+    <!-- Right: Stacked browser + editor -->
+    <div class="right-stack">
+      <div class="window win-browser" style="flex:1.2;">
+        <div class="browser-tab-bar">
+          <div class="browser-tab active">style-overview.html</div>
+          <div class="browser-tab">Arch Wiki</div>
+        </div>
+        <div class="browser-content">
+          style-overview.html preview
+        </div>
+      </div>
+      <div class="window win-editor" style="flex:1;">
+        <div class="editor-body">
+          <div class="editor-gutter">
+            <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div>
+          </div>
+          <div class="editor-code">
+            <div><span class="cm">-- Neovim config</span></div>
+            <div><span class="kw">vim.opt</span><span class="op">.</span>number <span class="op">=</span> <span class="num">true</span></div>
+            <div><span class="kw">vim.opt</span><span class="op">.</span>relativenumber <span class="op">=</span> <span class="num">true</span></div>
+            <div><span class="kw">vim.opt</span><span class="op">.</span>tabstop <span class="op">=</span> <span class="num">4</span></div>
+            <div><span class="kw">vim.opt</span><span class="op">.</span>shiftwidth <span class="op">=</span> <span class="num">4</span></div>
+            <div><span class="kw">vim.opt</span><span class="op">.</span>termguicolors <span class="op">=</span> <span class="num">true</span></div>
+            <div><span class="kw">vim.g</span><span class="op">.</span>mapleader <span class="op">=</span> <span class="str">" "</span></div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
