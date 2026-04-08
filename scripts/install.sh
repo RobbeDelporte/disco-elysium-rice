@@ -56,6 +56,9 @@ if ! paru --version &> /dev/null; then
 fi
 
 # ---- Step 4: Install AUR packages ----
+# Remove ttf-opensans if installed — ttf-playfair-display pulls in
+# ttf-google-fonts-typewolf which conflicts with it
+sudo pacman -Rdd --noconfirm ttf-opensans 2>/dev/null || true
 echo ">>> Installing AUR packages..."
 read_packages "$REPO_DIR/packages/aur.txt" | xargs paru -S --needed --noconfirm --overwrite='*' --ask 4
 
