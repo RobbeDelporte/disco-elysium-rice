@@ -65,7 +65,6 @@ mesa
 noto-fonts
 noto-fonts-emoji
 ttf-font-awesome
-ttf-opensans
 
 # Portals
 xdg-desktop-portal-gtk
