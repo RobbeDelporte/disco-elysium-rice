@@ -66,7 +66,6 @@ noto-fonts
 noto-fonts-emoji
 ttf-font-awesome
 ttf-opensans
-ttf-libre-baskerville
 
 # Portals
 xdg-desktop-portal-gtk
