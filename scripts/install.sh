@@ -44,8 +44,8 @@ sudo pacman -Syu --noconfirm
 echo ">>> Installing pacman packages..."
 read_packages "$REPO_DIR/packages/pacman.txt" | xargs sudo pacman -S --needed --noconfirm
 
-# ---- Step 3: Check for paru ----
-if ! command -v paru &> /dev/null; then
+# ---- Step 3: Install/rebuild paru if missing or broken (e.g. libalpm version mismatch) ----
+if ! paru --version &> /dev/null; then
     echo ">>> Installing paru (precompiled binary)..."
     TEMP_DIR=$(mktemp -d)
     git clone https://aur.archlinux.org/paru-bin.git "$TEMP_DIR/paru-bin"
