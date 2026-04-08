@@ -42,7 +42,7 @@ sudo pacman -Syu --noconfirm
 
 # ---- Step 2: Install pacman packages ----
 echo ">>> Installing pacman packages..."
-read_packages "$REPO_DIR/packages/pacman.txt" | xargs sudo pacman -S --needed --noconfirm
+read_packages "$REPO_DIR/packages/pacman.txt" | xargs sudo pacman -S --needed --noconfirm --overwrite '*'
 
 # ---- Step 3: Install/rebuild paru if missing or broken (e.g. libalpm version mismatch) ----
 if ! paru --version &> /dev/null; then
@@ -57,12 +57,12 @@ fi
 
 # ---- Step 4: Install AUR packages ----
 echo ">>> Installing AUR packages..."
-read_packages "$REPO_DIR/packages/aur.txt" | xargs paru -S --needed --noconfirm
+read_packages "$REPO_DIR/packages/aur.txt" | xargs paru -S --needed --noconfirm --overwrite '*'
 
 # ---- Step 5: Install host-specific packages ----
 if [ -f "$REPO_DIR/hosts/$HOST/packages.txt" ]; then
     echo ">>> Installing host-specific packages for $HOST..."
-    read_packages "$REPO_DIR/hosts/$HOST/packages.txt" | xargs paru -S --needed --noconfirm
+    read_packages "$REPO_DIR/hosts/$HOST/packages.txt" | xargs paru -S --needed --noconfirm --overwrite '*'
 fi
 
 # ---- Step 6: Cursor theme (Nordzy-cursors, installed via AUR) ----
