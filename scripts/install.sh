@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -uo pipefail
+set -euo pipefail
 
 # =============================================
 # Hyprland Rice Install Script
@@ -46,10 +46,10 @@ read_packages "$REPO_DIR/packages/pacman.txt" | xargs sudo pacman -S --needed --
 
 # ---- Step 3: Check for paru ----
 if ! command -v paru &> /dev/null; then
-    echo ">>> Installing paru..."
+    echo ">>> Installing paru (precompiled binary)..."
     TEMP_DIR=$(mktemp -d)
-    git clone https://aur.archlinux.org/paru.git "$TEMP_DIR/paru"
-    (cd "$TEMP_DIR/paru" && makepkg -si --noconfirm)
+    git clone https://aur.archlinux.org/paru-bin.git "$TEMP_DIR/paru-bin"
+    (cd "$TEMP_DIR/paru-bin" && makepkg -si --noconfirm)
     rm -rf "$TEMP_DIR"
 fi
 
@@ -105,9 +105,11 @@ ln -s "$REPO_DIR/configs/nvim" "$NVIM_TARGET"
 echo "  Linked configs/nvim -> $NVIM_TARGET"
 
 # Symlink host-specific monitor config
+# Note: ~/.config/hypr is itself a symlink to the repo, so we place the
+# monitors.conf symlink at the resolved repo path to avoid writing into git.
 if [ -f "$REPO_DIR/hosts/$HOST/monitors.conf" ]; then
-    ln -sf "$REPO_DIR/hosts/$HOST/monitors.conf" "$CONFIG_DIR/hypr/monitors.conf"
-    echo "  Linked hosts/$HOST/monitors.conf -> $CONFIG_DIR/hypr/monitors.conf"
+    ln -sf "$REPO_DIR/hosts/$HOST/monitors.conf" "$REPO_DIR/configs/hypr/monitors.conf"
+    echo "  Linked hosts/$HOST/monitors.conf -> configs/hypr/monitors.conf"
 fi
 
 # ---- Step 8: Symlink zsh and starship files ----
@@ -119,19 +121,19 @@ echo "  Linked .zshrc, .zprofile, and starship.toml"
 
 # ---- Step 8c: Set GTK theme via gsettings ----
 echo ">>> Configuring GTK and icon themes..."
-gsettings set org.gnome.desktop.wm.preferences button-layout 'close:'
-gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
-gsettings set org.gnome.desktop.interface icon-theme 'Gruvbox-Plus-Dark'
-gsettings set org.gnome.desktop.interface cursor-theme 'Nordzy-cursors'
-gsettings set org.gnome.desktop.interface cursor-size 32
-gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+dbus-launch gsettings set org.gnome.desktop.wm.preferences button-layout 'close:'
+dbus-launch gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
+dbus-launch gsettings set org.gnome.desktop.interface icon-theme 'Gruvbox-Plus-Dark'
+dbus-launch gsettings set org.gnome.desktop.interface cursor-theme 'Nordzy-cursors'
+dbus-launch gsettings set org.gnome.desktop.interface cursor-size 32
+dbus-launch gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 echo "  Set GTK theme to Adwaita-dark, icons to Gruvbox-Plus-Dark, color scheme to dark"
 
 
 # ---- Step 9: Set default shell ----
 if [ "$SHELL" != "/usr/bin/zsh" ]; then
     echo ">>> Setting Zsh as default shell (you may be prompted for your password)..."
-    chsh -s /usr/bin/zsh || echo "  Warning: chsh failed. Run 'chsh -s /usr/bin/zsh' manually after install."
+    chsh -s /usr/bin/zsh || { echo "  Warning: chsh failed. Run 'chsh -s /usr/bin/zsh' manually after install."; true; }
 fi
 
 # ---- Step 10: Install zinit ----
@@ -150,7 +152,7 @@ echo "  Install: cp target/release/disco-shell ~/.local/bin/"
 # ---- Step 11: Enable services ----
 echo ">>> Enabling systemd services..."
 sudo systemctl enable --now NetworkManager
-sudo systemctl enable bluetooth || echo "  Warning: bluetooth service failed to enable (no BT hardware?)"
+sudo systemctl enable bluetooth || { echo "  Warning: bluetooth service failed to enable (no BT hardware?)"; true; }
 
 # ---- Step 12: Create Pictures directory for screenshots ----
 mkdir -p "$HOME/Pictures"

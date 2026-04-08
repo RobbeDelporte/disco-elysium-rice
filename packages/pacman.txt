@@ -26,9 +26,11 @@ brightnessctl
 playerctl
 grim
 slurp
+socat
 
 # Audio
 pipewire
+pipewire-pulse
 wireplumber
 pavucontrol
 

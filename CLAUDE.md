@@ -57,9 +57,9 @@ Desktop widgets (bar, launcher, notifications, quick settings, overview, switche
 ```
 1. Boot Arch USB, run archinstall (minimal, no DE)
 2. Log in, connect to WiFi: nmcli device wifi connect "SSID" password "pass"
-3. git clone git@github.com:RobbeDelporte/disco-elysium-rice.git ~/disco-elysium-rice
+3. git clone https://github.com/RobbeDelporte/disco-elysium-rice.git ~/disco-elysium-rice
 4. cd ~/disco-elysium-rice && ./scripts/install.sh system76
-5. Build disco-shell: git clone git@github.com:RobbeDelporte/disco-shell.git ~/disco-shell && cd ~/disco-shell && cargo build --release && cp target/release/disco-shell ~/.local/bin/
+5. Build disco-shell: git clone https://github.com/RobbeDelporte/disco-shell.git ~/disco-shell && cd ~/disco-shell && cargo build --release && cp target/release/disco-shell ~/.local/bin/
 6. sudo reboot → Hyprland starts automatically
 ```
 

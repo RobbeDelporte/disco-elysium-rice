@@ -1,5 +1,5 @@
 # Tuxedo vendor packages (AUR)
-tuxedo-keyboard
+tuxedo-drivers-dkms
 tuxedo-control-center
 envycontrol
 
