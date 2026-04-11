@@ -57,6 +57,7 @@ power-profiles-daemon
 # Theming
 nwg-look
 dconf
+papirus-icon-theme
 
 # GPU (base — needed on all machines)
 mesa

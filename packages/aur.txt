@@ -9,7 +9,7 @@ ttf-playfair-display
 nordzy-cursors
 
 # Icons
-gruvbox-plus-icon-theme
+papirus-folders
 
 # System tools
 overskride

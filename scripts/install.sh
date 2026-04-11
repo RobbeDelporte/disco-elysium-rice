@@ -128,12 +128,15 @@ echo "  Linked .zshrc, .zprofile, and starship.toml"
 echo ">>> Configuring GTK and icon themes..."
 dbus-launch gsettings set org.gnome.desktop.wm.preferences button-layout 'close:'
 dbus-launch gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
-dbus-launch gsettings set org.gnome.desktop.interface icon-theme 'Gruvbox-Plus-Dark'
+dbus-launch gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'
 dbus-launch gsettings set org.gnome.desktop.interface cursor-theme 'Nordzy-cursors'
 dbus-launch gsettings set org.gnome.desktop.interface cursor-size 32
 dbus-launch gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-echo "  Set GTK theme to Adwaita-dark, icons to Gruvbox-Plus-Dark, color scheme to dark"
-
+echo "  Set GTK theme to Adwaita-dark, icons to Papirus-Dark, color scheme to dark"
+if command -v papirus-folders &>/dev/null; then
+    papirus-folders -C palebrown --theme Papirus-Dark
+    echo "  Set Papirus folder color to palebrown"
+fi
 
 # ---- Step 9: Set default shell ----
 if [ "$SHELL" != "/usr/bin/zsh" ]; then
