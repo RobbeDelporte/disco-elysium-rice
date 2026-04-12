@@ -129,6 +129,7 @@ echo ">>> Configuring GTK and icon themes..."
 dbus-launch gsettings set org.gnome.desktop.wm.preferences button-layout 'close:'
 dbus-launch gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
 dbus-launch gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'
+dbus-launch gsettings set org.cinnamon.desktop.interface icon-theme 'Papirus-Dark'
 dbus-launch gsettings set org.gnome.desktop.interface cursor-theme 'Nordzy-cursors'
 dbus-launch gsettings set org.gnome.desktop.interface cursor-size 32
 dbus-launch gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
