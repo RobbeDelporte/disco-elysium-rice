@@ -15,3 +15,6 @@ papirus-folders
 
 # System tools
 overskride
+
+# Desktop shell
+quickshell
