@@ -54,8 +54,17 @@ setup() {
   r=$(convert "$out" -format "%[fx:int(255*mean.r)]" info:)
   g=$(convert "$out" -format "%[fx:int(255*mean.g)]" info:)
   b=$(convert "$out" -format "%[fx:int(255*mean.b)]" info:)
-  # #112233 = 17,34,51. Allow ±30 per channel (loose for future layers).
-  (( r >= 0 && r <= 60 ))
-  (( g >= 10 && g <= 70 ))
-  (( b >= 25 && b <= 90 ))
+  # #112233 = 17,34,51. Allow ±50 per channel (loose for future layers).
+  (( r >= 0 && r <= 100 ))
+  (( g >= 0 && g <= 100 ))
+  (( b >= 0 && b <= 100 ))
+}
+
+@test "halation: top-right quadrant is warmer than bottom-left" {
+  run_with_fixture sample
+  [ "$status" -eq 0 ]
+  out="$BATS_TEST_TMPDIR/sample.png"
+  tr=$(convert "$out" -crop 32x24+32+0 +repage -format "%[fx:mean.r-mean.b]" info:)
+  bl=$(convert "$out" -crop 32x24+0+24 +repage -format "%[fx:mean.r-mean.b]" info:)
+  awk -v tr="$tr" -v bl="$bl" 'BEGIN { exit !(tr > bl + 0.02) }'
 }

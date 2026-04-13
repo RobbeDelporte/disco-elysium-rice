@@ -78,6 +78,18 @@ hex_to_rgb_triple() {
   printf '%d,%d,%d' "0x${hex:0:2}" "0x${hex:2:2}" "0x${hex:4:2}"
 }
 
+# Maps an origin keyword to normalized coordinates (cx, cy) in [0,1].
+halation_origin_coords() {
+  case "$1" in
+    top-left)     echo "0 0" ;;
+    top-right)    echo "1 0" ;;
+    bottom-left)  echo "0 1" ;;
+    bottom-right) echo "1 1" ;;
+    center)       echo "0.5 0.5" ;;
+    *) echo "error: unknown halation origin: $1" >&2; exit 1 ;;
+  esac
+}
+
 render_texture() {
   local name="$1"
   local out="$TEXTURES_DIR/$name.png"
@@ -92,8 +104,42 @@ render_texture() {
 
   mkdir -p "$TEXTURES_DIR"
 
-  # Base: a solid-fill image of the requested size.
-  gmic -input "${width},${height},1,3" -fill "[$rgb]" -output "$out" >/dev/null
+  local tmp="$TEXTURES_DIR/.$name.tmp.png"
+
+  # Layer 0: base fill.
+  gmic -input "${width},${height},1,3" -fill "[$rgb]" -output "$tmp" >/dev/null
+
+  # Layer 1: halation.
+  if [[ "$(toml_get "$name" halation enabled 2>/dev/null || echo false)" == "True" ]]; then
+    local h_color h_strength h_origin h_radius
+    h_color=$(toml_get "$name" halation color)
+    h_strength=$(toml_get "$name" halation strength)
+    h_origin=$(toml_get "$name" halation origin)
+    h_radius=$(toml_get "$name" halation radius)
+    local h_rgb; h_rgb=$(hex_to_rgb_triple "$h_color")
+    local coords; coords=$(halation_origin_coords "$h_origin")
+    local cx cy; read -r cx cy <<< "$coords"
+    local px py rad
+    px=$(python3 -c "print(int(${cx}*(${width}-1)))")
+    py=$(python3 -c "print(int(${cy}*(${height}-1)))")
+    rad=$(python3 -c "print(int(${h_radius}*max(${width},${height})))")
+
+    local blur_rad
+    blur_rad=$(python3 -c "print(max(1, ${rad}//4))")
+
+    # Generate a halation layer: black canvas, draw a soft warm disc, blur,
+    # screen-blend onto the base.
+    local r g b
+    read -r r g b <<< "$h_rgb"
+    gmic "$tmp" \
+         -input "${width},${height},1,3" -fill "[0,0,0]" \
+         -ellipse[-1] ${px},${py},${rad},${rad},0,${h_strength},${r},${g},${b} \
+         -blur[-1] ${blur_rad} \
+         -blend screen \
+         -output "$tmp" >/dev/null
+  fi
+
+  mv "$tmp" "$out"
 }
 
 main() {
