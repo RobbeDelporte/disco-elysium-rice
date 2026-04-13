@@ -68,3 +68,23 @@ setup() {
   bl=$(convert "$out" -crop 32x24+0+24 +repage -format "%[fx:mean.r-mean.b]" info:)
   awk -v tr="$tr" -v bl="$bl" 'BEGIN { exit !(tr > bl + 0.02) }'
 }
+
+@test "grain: output has higher stddev than base-only" {
+  tmp_fix="$BATS_TEST_TMPDIR/base-only.toml"
+  cat > "$tmp_fix" <<'EOF'
+[sample]
+width = 64
+height = 48
+base_color = "#112233"
+EOF
+  TEXTURES_CONFIG="$tmp_fix" TEXTURES_OUT_DIR="$BATS_TEST_TMPDIR/baseout" \
+    run "$SCRIPT" sample
+  [ "$status" -eq 0 ]
+  base_std=$(convert "$BATS_TEST_TMPDIR/baseout/sample.png" -format "%[fx:standard_deviation]" info:)
+
+  run_with_fixture sample
+  [ "$status" -eq 0 ]
+  full_std=$(convert "$BATS_TEST_TMPDIR/sample.png" -format "%[fx:standard_deviation]" info:)
+
+  awk -v b="$base_std" -v f="$full_std" 'BEGIN { exit !(f > b + 0.02) }'
+}

@@ -9,3 +9,9 @@ color = "#ff8800"
 strength = 0.5
 origin = "top-right"
 radius = 0.7
+
+[sample.grain]
+enabled = true
+iso = 800
+opacity = 0.25
+monochrome = true

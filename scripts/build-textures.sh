@@ -90,6 +90,11 @@ halation_origin_coords() {
   esac
 }
 
+# Map ISO to a noise standard deviation (0..30 range). Linear, clamped.
+iso_to_noise_std() {
+  python3 -c "print(max(2, min(30, ${1} / 80)))"
+}
+
 render_texture() {
   local name="$1"
   local out="$TEXTURES_DIR/$name.png"
@@ -136,6 +141,27 @@ render_texture() {
          -ellipse[-1] ${px},${py},${rad},${rad},0,${h_strength},${r},${g},${b} \
          -blur[-1] ${blur_rad} \
          -blend screen \
+         -output "$tmp" >/dev/null
+  fi
+
+  # Layer 2: grain.
+  if [[ "$(toml_get "$name" grain enabled 2>/dev/null || echo false)" == "True" ]]; then
+    local g_iso g_opacity g_mono g_std
+    g_iso=$(toml_get "$name" grain iso)
+    g_opacity=$(toml_get "$name" grain opacity)
+    g_mono=$(toml_get "$name" grain monochrome)
+    g_std=$(iso_to_noise_std "$g_iso")
+
+    local mono_cmd=""
+    if [[ "$g_mono" == "True" ]]; then
+      mono_cmd="-channels[-1] 0,0 -to_rgb[-1]"
+    fi
+
+    gmic "$tmp" \
+         -input "${width},${height},1,3,128" \
+         -noise[-1] "${g_std},0" \
+         ${mono_cmd} \
+         -blend overlay,${g_opacity} \
          -output "$tmp" >/dev/null
   fi
 
