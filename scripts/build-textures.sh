@@ -165,6 +165,34 @@ render_texture() {
          -output "$tmp" >/dev/null
   fi
 
+  # Layer 3: scratches (vertical emulsion damage).
+  if [[ "$(toml_get "$name" scratches enabled 2>/dev/null || echo false)" == "True" ]]; then
+    local s_density s_opacity s_orient
+    s_density=$(toml_get "$name" scratches density)
+    s_opacity=$(toml_get "$name" scratches opacity)
+    s_orient=$(toml_get "$name" scratches orientation)
+
+    if [[ "$s_orient" == "vertical" ]]; then
+      gmic "$tmp" \
+           -input "${width},1,1,1,0" \
+           -noise[-1] 100,0 -normalize[-1] 0,1 \
+           -threshold[-1] "$(python3 -c "print(1-${s_density})")" \
+           -resize[-1] "${width},${height},1,1" \
+           -to_rgb[-1] \
+           -blend screen,${s_opacity} \
+           -output "$tmp" >/dev/null
+    else
+      gmic "$tmp" \
+           -input "1,${height},1,1,0" \
+           -noise[-1] 100,0 -normalize[-1] 0,1 \
+           -threshold[-1] "$(python3 -c "print(1-${s_density})")" \
+           -resize[-1] "${width},${height},1,1" \
+           -to_rgb[-1] \
+           -blend screen,${s_opacity} \
+           -output "$tmp" >/dev/null
+    fi
+  fi
+
   mv "$tmp" "$out"
 }
 

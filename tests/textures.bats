@@ -88,3 +88,16 @@ EOF
 
   awk -v b="$base_std" -v f="$full_std" 'BEGIN { exit !(f > b + 0.02) }'
 }
+
+@test "scratches: vertical variance exceeds horizontal variance" {
+  run_with_fixture sample
+  [ "$status" -eq 0 ]
+  out="$BATS_TEST_TMPDIR/sample.png"
+  # Column-average image → stddev measures horizontal variation (across columns).
+  # Row-average image → stddev measures vertical variation (across rows).
+  # Vertical scratches produce strong variation-across-columns but columns
+  # are near-uniform top-to-bottom, so col_std should exceed row_std.
+  col_std=$(convert "$out" -resize 64x1\! -format "%[fx:standard_deviation]" info:)
+  row_std=$(convert "$out" -resize 1x48\! -format "%[fx:standard_deviation]" info:)
+  awk -v c="$col_std" -v r="$row_std" 'BEGIN { exit !(c > r + 0.005) }'
+}

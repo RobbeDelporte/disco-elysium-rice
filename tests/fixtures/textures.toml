@@ -15,3 +15,9 @@ enabled = true
 iso = 800
 opacity = 0.25
 monochrome = true
+
+[sample.scratches]
+enabled = true
+density = 0.08
+opacity = 0.10
+orientation = "vertical"
