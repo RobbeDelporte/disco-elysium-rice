@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Info Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;700&family=Libre+Baskerville&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body style="margin:0;padding:0;min-height:100vh;background:linear-gradient(170deg,#3a2418 0%,#5a2a12 35%,#2a1a14 70%,#0e0a08 100%);font-family:'Archivo Narrow',sans-serif;color:#ccc8c2;overflow:hidden;">
+
+<!-- Panel: 240px wide, full viewport height, texture tiled vertically -->
+<div style="position:fixed;top:0;left:0;width:240px;height:100vh;overflow:hidden;
+            background-image:url('../../../assets/textures/single-page-content-bg.png');
+            background-repeat:repeat-y;
+            background-size:240px auto;
+            border-right:1px solid rgba(54,59,58,0.6);">
+
+  <!-- Thin dark tint for legibility -->
+  <div style="position:absolute;inset:0;background:rgba(14,17,16,0.32);"></div>
+
+  <!-- Content -->
+  <div style="position:relative;padding:22px 16px 16px 16px;box-sizing:border-box;height:100%;display:flex;flex-direction:column;overflow-y:auto;">
+
+    <span style="position:absolute;top:-8px;left:-6px;background:#d2d2d2;color:#171b1a;padding:3px 14px 4px 14px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:3px;clip-path:polygon(0% 8%,3% 0%,98% 4%,100% 95%,97% 100%,2% 96%);">SYSTEM</span>
+
+    <div style="text-align:center;margin-top:12px;">
+      <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:34px;line-height:1;color:#d2d2d2;text-shadow:0 0 10px rgba(0,0,0,0.85);">12:34</div>
+      <div style="font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:3px;color:#999a95;margin-top:4px;">FRI · 13 APR</div>
+    </div>
+
+    <div style="font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:3px;color:#999a95;display:flex;align-items:center;gap:8px;margin:14px 0 8px 0;">
+      <span style="height:1px;flex:0 0 10px;background:#363b3a;"></span>VITALS<span style="height:1px;flex:1;background:#363b3a;"></span>
+    </div>
+    <div style="display:grid;grid-template-columns:16px 36px 1fr 40px;align-items:center;gap:8px;margin:7px 0;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#cb456a" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="7" width="16" height="10" rx="1"/><line x1="20" y1="10" x2="20" y2="14"/><line x1="5" y1="12" x2="14" y2="12" stroke-width="3"/></svg>
+      <span style="font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#999a95;font-size:9px;">BAT</span>
+      <span style="position:relative;height:3px;background:rgba(54,59,58,0.7);"><span style="position:absolute;top:0;left:0;bottom:0;width:78%;background:#cb456a;opacity:.9;"></span></span>
+      <span style="font-weight:700;color:#ccc8c2;font-size:10px;text-align:right;">78%</span>
+    </div>
+    <div style="display:grid;grid-template-columns:16px 36px 1fr 40px;align-items:center;gap:8px;margin:7px 0;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e3ba3e" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="5" width="14" height="14" rx="1"/><rect x="9" y="9" width="6" height="6"/></svg>
+      <span style="font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#999a95;font-size:9px;">CPU</span>
+      <span style="position:relative;height:3px;background:rgba(54,59,58,0.7);"><span style="position:absolute;top:0;left:0;bottom:0;width:24%;background:#e3ba3e;opacity:.9;"></span></span>
+      <span style="font-weight:700;color:#ccc8c2;font-size:10px;text-align:right;">24%</span>
+    </div>
+    <div style="display:grid;grid-template-columns:16px 36px 1fr 40px;align-items:center;gap:8px;margin:7px 0;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5bc0d6" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="7" width="20" height="10" rx="1"/><line x1="6" y1="11" x2="6" y2="13"/><line x1="10" y1="11" x2="10" y2="13"/><line x1="14" y1="11" x2="14" y2="13"/><line x1="18" y1="11" x2="18" y2="13"/></svg>
+      <span style="font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#999a95;font-size:9px;">MEM</span>
+      <span style="position:relative;height:3px;background:rgba(54,59,58,0.7);"><span style="position:absolute;top:0;left:0;bottom:0;width:62%;background:#5bc0d6;opacity:.9;"></span></span>
+      <span style="font-weight:700;color:#ccc8c2;font-size:10px;text-align:right;">62%</span>
+    </div>
+    <div style="display:grid;grid-template-columns:16px 36px 1fr 40px;align-items:center;gap:8px;margin:7px 0;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7555c6" stroke-width="1.8" stroke-linecap="round"><path d="M8 20V6"/><path d="M4 10l4-4 4 4"/><path d="M16 4v14"/><path d="M20 14l-4 4-4-4"/></svg>
+      <span style="font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#999a95;font-size:9px;">NET</span>
+      <span style="position:relative;height:3px;background:rgba(54,59,58,0.7);"><span style="position:absolute;top:0;left:0;bottom:0;width:30%;background:#7555c6;opacity:.9;"></span></span>
+      <span style="font-weight:700;color:#ccc8c2;font-size:10px;text-align:right;">1.2M</span>
+    </div>
+
+    <div style="font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:3px;color:#999a95;display:flex;align-items:center;gap:8px;margin:14px 0 8px 0;">
+      <span style="height:1px;flex:0 0 10px;background:#363b3a;"></span>CONNECTIVITY<span style="height:1px;flex:1;background:#363b3a;"></span>
+    </div>
+    <div style="display:grid;grid-template-columns:16px 44px 1fr 10px;align-items:center;gap:8px;padding:7px 3px;margin:3px -6px;border-left:3px solid #eb6408;background:rgba(40,44,43,0.55);">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d2d2d2" stroke-width="1.8" stroke-linecap="round"><path d="M2 9a15 15 0 0 1 20 0"/><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1" fill="#d2d2d2"/></svg>
+      <span style="font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#ccc8c2;">WIFI</span>
+      <span style="font-family:'Libre Baskerville',serif;font-size:10px;color:#999a95;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">ReVachol</span>
+      <span style="color:#999a95;font-size:10px;">›</span>
+    </div>
+    <div style="display:grid;grid-template-columns:16px 44px 1fr 10px;align-items:center;gap:8px;padding:7px 3px;margin:3px -6px;border-left:3px solid transparent;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d2d2d2" stroke-width="1.8" stroke-linecap="round"><path d="M7 7l10 10-5 5V2l5 5L7 17"/></svg>
+      <span style="font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#ccc8c2;">BT</span>
+      <span style="font-family:'Libre Baskerville',serif;font-size:10px;color:#999a95;text-align:right;">AirPods</span>
+      <span style="color:#999a95;font-size:10px;">›</span>
+    </div>
+    <div style="display:grid;grid-template-columns:16px 44px 1fr 10px;align-items:center;gap:8px;padding:7px 3px;margin:3px -6px;border-left:3px solid transparent;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4b4b4b" stroke-width="1.8" stroke-linecap="round"><path d="M3 10v4a2 2 0 0 0 2 2h2l4 4V4L7 8H5a2 2 0 0 0-2 2z"/><path d="M16 8a5 5 0 0 1 0 8"/></svg>
+      <span style="font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#ccc8c2;">AUDIO</span>
+      <span style="font-family:'Libre Baskerville',serif;font-size:10px;color:#999a95;text-align:right;">Built-in</span>
+      <span style="color:#999a95;font-size:10px;">›</span>
+    </div>
+
+    <div style="font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:3px;color:#999a95;display:flex;align-items:center;gap:8px;margin:14px 0 8px 0;">
+      <span style="height:1px;flex:0 0 10px;background:#363b3a;"></span>CONTROLS<span style="height:1px;flex:1;background:#363b3a;"></span>
+    </div>
+    <div style="display:grid;grid-template-columns:30px 1fr 30px;align-items:center;gap:8px;margin:8px 0;">
+      <span style="font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#999a95;">VOL</span>
+      <span style="position:relative;height:4px;background:rgba(54,59,58,0.7);"><span style="position:absolute;top:0;left:0;bottom:0;width:50%;background:#d2d2d2;"></span><span style="position:absolute;top:50%;left:50%;width:8px;height:8px;background:#d2d2d2;transform:translate(-50%,-50%) rotate(45deg);box-shadow:0 0 6px rgba(210,210,210,0.35);"></span></span>
+      <span style="font-weight:700;font-size:10px;color:#ccc8c2;text-align:right;">50</span>
+    </div>
+    <div style="display:grid;grid-template-columns:30px 1fr 30px;align-items:center;gap:8px;margin:8px 0;">
+      <span style="font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#999a95;">BRI</span>
+      <span style="position:relative;height:4px;background:rgba(54,59,58,0.7);"><span style="position:absolute;top:0;left:0;bottom:0;width:70%;background:#d2d2d2;"></span><span style="position:absolute;top:50%;left:70%;width:8px;height:8px;background:#d2d2d2;transform:translate(-50%,-50%) rotate(45deg);box-shadow:0 0 6px rgba(210,210,210,0.35);"></span></span>
+      <span style="font-weight:700;font-size:10px;color:#ccc8c2;text-align:right;">70</span>
+    </div>
+
+    <div style="font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:3px;color:#999a95;display:flex;align-items:center;gap:8px;margin:14px 0 8px 0;">
+      <span style="height:1px;flex:0 0 10px;background:#363b3a;"></span>WORKSPACES<span style="height:1px;flex:1;background:#363b3a;"></span>
+    </div>
+    <div style="display:flex;gap:10px;margin:8px 0;justify-content:center;">
+      <span style="width:10px;height:10px;transform:rotate(45deg);background:#999a95;display:inline-block;"></span>
+      <span style="width:10px;height:10px;transform:rotate(45deg);background:#999a95;display:inline-block;"></span>
+      <span style="width:10px;height:10px;transform:rotate(45deg);background:#d2d2d2;box-shadow:0 0 6px rgba(210,210,210,0.55);display:inline-block;"></span>
+      <span style="width:10px;height:10px;transform:rotate(45deg);background:#4b4b4b;display:inline-block;"></span>
+    </div>
+
+    <div style="font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:3px;color:#999a95;display:flex;align-items:center;gap:8px;margin:14px 0 8px 0;">
+      <span style="height:1px;flex:0 0 10px;background:#363b3a;"></span>PLAYING<span style="height:1px;flex:1;background:#363b3a;"></span>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-family:'Libre Baskerville',serif;font-size:13px;color:#ccc8c2;margin-top:4px;">Tequila Sunset</div>
+      <div style="font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#999a95;margin-top:3px;">SEA POWER</div>
+      <div style="display:flex;justify-content:center;gap:18px;margin-top:12px;color:#d2d2d2;font-size:14px;">
+        <span>◀</span><span>⏸</span><span>▶</span>
+      </div>
+    </div>
+
+    <div style="flex:1;"></div>
+
+    <div style="padding:10px 12px;background:rgba(30,34,33,0.85);color:#999a95;border-top:1px solid rgba(54,59,58,0.6);border-bottom:1px solid rgba(54,59,58,0.6);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:3px;text-align:center;cursor:pointer;">END SESSION</div>
+
+  </div>
+</div>
+
+</body>
+</html>
