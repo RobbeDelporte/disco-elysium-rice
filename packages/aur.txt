@@ -4,6 +4,8 @@ grimblast-git
 # Fonts
 ttf-jetbrains-mono-nerd
 ttf-playfair-display
+ttf-archivo-narrow   # Archivo Narrow (headers/labels — replaces Open Sans Condensed)
+ttf-librebaskerville # Body text (serif)
 
 # Cursor
 nordzy-cursors
