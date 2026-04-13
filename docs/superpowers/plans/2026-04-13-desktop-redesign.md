@@ -42,15 +42,15 @@ in-repo distribution of those assets.
 **Files:**
 - Create: `assets/textures/`
 - Create: `assets/textures/.gitkeep` (safety — keeps dir tracked if later emptied)
-- Create: `assets/textures/film-strip-long.png`
-- Create: `assets/textures/brush-bg-white.png`
-- Create: `assets/textures/brush-bg-dark.png` (renamed from `Archive_3324d46e2.png`)
-- Create: `assets/textures/single-page-content-bg.png`
-- Create: `assets/textures/flare-0.jpg` (renamed from `feld-flash-flare-0_cy51je.jpg`)
-- Create: `assets/textures/flare-1.jpg` (renamed from `feld-flash-flare-1_loooiz.jpg`)
-- Create: `assets/textures/frame-16-9.png`
-- Create: `assets/textures/frame-16-9-portrait.png`
-- Create: `assets/textures/tapelet.png` (renamed from `black-tapelet_dysjoh.png`)
+- Create: `assets/textures/film-strip.png`
+- Create: `assets/textures/brush-strip-white.png`
+- Create: `assets/textures/brush-field.png` (renamed from `Archive_3324d46e2.png`)
+- Create: `assets/textures/page-bg.png`
+- Create: `assets/textures/flare-a.jpg` (renamed from `feld-flash-flare-0_cy51je.jpg`)
+- Create: `assets/textures/flare-b.jpg` (renamed from `feld-flash-flare-1_loooiz.jpg`)
+- Create: `assets/textures/frame-landscape.png`
+- Create: `assets/textures/frame-portrait.png`
+- Create: `assets/textures/edge-strip.png` (renamed from `black-tapelet_dysjoh.png`)
 - Create: `assets/textures/MANIFEST.md`
 
 - [ ] **Step 1: Create the directory and copy assets with canonical names**
@@ -59,15 +59,15 @@ in-repo distribution of those assets.
 mkdir -p assets/textures
 touch assets/textures/.gitkeep
 
-cp references/disco-elysium/ui-assets/film-strip-long_a5hufh.png       assets/textures/film-strip-long.png
-cp references/disco-elysium/ui-assets/brush-bg-white_kkkkx7.png         assets/textures/brush-bg-white.png
-cp references/disco-elysium/ui-assets/Archive_3324d46e2.png             assets/textures/brush-bg-dark.png
-cp references/disco-elysium/ui-assets/single-page-content-bg_htmvo8.png assets/textures/single-page-content-bg.png
-cp references/disco-elysium/ui-assets/feld-flash-flare-0_cy51je.jpg     assets/textures/flare-0.jpg
-cp references/disco-elysium/ui-assets/feld-flash-flare-1_loooiz.jpg     assets/textures/flare-1.jpg
-cp references/disco-elysium/ui-assets/frame-16-9_iqf4jq.png             assets/textures/frame-16-9.png
-cp references/disco-elysium/ui-assets/frame-16-9-portrait_snwdsp.png    assets/textures/frame-16-9-portrait.png
-cp references/disco-elysium/ui-assets/black-tapelet_dysjoh.png          assets/textures/tapelet.png
+cp references/disco-elysium/ui-assets/film-strip-long_a5hufh.png       assets/textures/film-strip.png
+cp references/disco-elysium/ui-assets/brush-bg-white_kkkkx7.png         assets/textures/brush-strip-white.png
+cp references/disco-elysium/ui-assets/Archive_3324d46e2.png             assets/textures/brush-field.png
+cp references/disco-elysium/ui-assets/single-page-content-bg_htmvo8.png assets/textures/page-bg.png
+cp references/disco-elysium/ui-assets/feld-flash-flare-0_cy51je.jpg     assets/textures/flare-a.jpg
+cp references/disco-elysium/ui-assets/feld-flash-flare-1_loooiz.jpg     assets/textures/flare-b.jpg
+cp references/disco-elysium/ui-assets/frame-16-9_iqf4jq.png             assets/textures/frame-landscape.png
+cp references/disco-elysium/ui-assets/frame-16-9-portrait_snwdsp.png    assets/textures/frame-portrait.png
+cp references/disco-elysium/ui-assets/black-tapelet_dysjoh.png          assets/textures/edge-strip.png
 ```
 
 - [ ] **Step 2: Write the manifest**
@@ -81,15 +81,15 @@ Runtime textures for disco-shell. Copied from `references/disco-elysium/ui-asset
 
 | File | Source | Purpose |
 |------|--------|---------|
-| `film-strip-long.png` | `film-strip-long_a5hufh.png` | Film-strip frame for Power Menu, Overview |
-| `brush-bg-white.png` | `brush-bg-white_kkkkx7.png` | Painterly light hero bg (inverted surfaces) |
-| `brush-bg-dark.png` | `Archive_3324d46e2.png` | Painterly dark hero bg |
-| `single-page-content-bg.png` | `single-page-content-bg_htmvo8.png` | Side-page backing texture (info panel, launcher) |
-| `flare-0.jpg` | `feld-flash-flare-0_cy51je.jpg` | Warm amber flare for Lockscreen / splash |
-| `flare-1.jpg` | `feld-flash-flare-1_loooiz.jpg` | Warm amber flare alternate |
-| `frame-16-9.png` | `frame-16-9_iqf4jq.png` | Landscape media frame for Overview, Switcher thumbnails |
-| `frame-16-9-portrait.png` | `frame-16-9-portrait_snwdsp.png` | Portrait media frame |
-| `tapelet.png` | `black-tapelet_dysjoh.png` | Slim decorative strip for Notification Toast top edge |
+| `film-strip.png` | `film-strip-long_a5hufh.png` | Film-strip frame for Power Menu, Overview |
+| `brush-strip-white.png` | `brush-bg-white_kkkkx7.png` | Painterly light hero bg (inverted surfaces) |
+| `brush-field.png` | `Archive_3324d46e2.png` | Painterly dark hero bg |
+| `page-bg.png` | `single-page-content-bg_htmvo8.png` | Side-page backing texture (info panel, launcher) |
+| `flare-a.jpg` | `feld-flash-flare-0_cy51je.jpg` | Warm amber flare for Lockscreen / splash |
+| `flare-b.jpg` | `feld-flash-flare-1_loooiz.jpg` | Warm amber flare alternate |
+| `frame-landscape.png` | `frame-16-9_iqf4jq.png` | Landscape media frame for Overview, Switcher thumbnails |
+| `frame-portrait.png` | `frame-16-9-portrait_snwdsp.png` | Portrait media frame |
+| `edge-strip.png` | `black-tapelet_dysjoh.png` | Slim decorative strip for Notification Toast top edge |
 ```
 
 - [ ] **Step 3: Verify all files landed**
@@ -102,7 +102,7 @@ Expected: 11 entries — `.gitkeep`, `MANIFEST.md`, and 9 texture files.
 
 Run:
 ```bash
-for f in film-strip-long.png brush-bg-white.png brush-bg-dark.png single-page-content-bg.png flare-0.jpg flare-1.jpg frame-16-9.png frame-16-9-portrait.png tapelet.png; do
+for f in film-strip.png brush-strip-white.png brush-field.png page-bg.png flare-a.jpg flare-b.jpg frame-landscape.png frame-portrait.png edge-strip.png; do
   test -s "assets/textures/$f" && echo "OK  $f" || echo "MISS $f"
 done
 ```
@@ -366,7 +366,7 @@ them are plan failures unless they flow from the style guide).
   - Z-order: above windows, below Ceremonial surfaces.
 - **Surface:**
   - Base: `rgba(23, 27, 26, 0.88)`.
-  - Texture: `assets/textures/single-page-content-bg.png`, tiled or stretched along the panel's full height, composited at `opacity: 0.6; mix-blend-mode: soft-light`.
+  - Texture: `assets/textures/page-bg.png`, tiled or stretched along the panel's full height, composited at `opacity: 0.6; mix-blend-mode: soft-light`.
   - Right-edge shadow: `box-shadow: 8px 0 32px rgba(0, 0, 0, 0.7)`.
   - Right border: `1px solid rgba(54, 59, 58, 0.5)`.
   - Padding: `16px 14px`.
@@ -389,7 +389,7 @@ them are plan failures unless they flow from the style guide).
 - **Reference:**
   - Parent spec §"1. Info Panel — Peek (left side-page)".
   - Style guide §4 (colors), §5 (fonts), §6 (banner), §7 (painted-canvas), §8.3 optional radial halos behind time if legibility suffers over a busy wallpaper, §9 (borders), §12 (selection indicators — not applicable since no list at MVP).
-  - Assets: `assets/textures/single-page-content-bg.png`.
+  - Assets: `assets/textures/page-bg.png`.
 
 - [ ] **Step 2: Write `docs/widgets/launcher.md`**
 
@@ -430,7 +430,7 @@ Same structure, values below.
 - **Reference:**
   - Parent spec §"2. Launcher — Peek (right side-page)".
   - Style guide §6 (banner), §7 (painted-canvas), §8.3 halos optional, §9 borders, §12 selection (orange left-border).
-  - Assets: `assets/textures/single-page-content-bg.png`.
+  - Assets: `assets/textures/page-bg.png`.
   - Existing disco-shell launcher implementation at `~/Documents/disco-shell/crates/app/src/widgets/launcher.rs` (reference only — this spec does not dictate its internal architecture, only its appearance).
 
 - [ ] **Step 3: Verify both files exist and contain all template sections**
@@ -472,8 +472,8 @@ Follow the template. Key values:
 - **Dismiss:** `Esc`, click outside the panel, or actioned button.
 - **Dimensions:** centered on monitor. Panel width 320 px, height auto. Wallpaper dimmed by a full-screen backdrop `rgba(0, 0, 0, 0.55)`.
 - **Surface:**
-  - Full-screen film strips top and bottom: `assets/textures/film-strip-long.png` tiled horizontally, height 16 px each, z above backdrop below panel.
-  - Panel: `linear-gradient(135deg, #1a1c1b, #0e1110)` base + optional `assets/textures/brush-bg-white.png` at `opacity: 0.15; mix-blend-mode: soft-light` composited on top.
+  - Full-screen film strips top and bottom: `assets/textures/film-strip.png` tiled horizontally, height 16 px each, z above backdrop below panel.
+  - Panel: `linear-gradient(135deg, #1a1c1b, #0e1110)` base + optional `assets/textures/brush-strip-white.png` at `opacity: 0.15; mix-blend-mode: soft-light` composited on top.
   - Panel padding: 24 px.
   - Panel shadow: `0 12px 48px rgba(0, 0, 0, 0.8)`.
   - Banner "END SESSION" overhang `top: -8px; left: -10px`.
@@ -490,7 +490,7 @@ Follow the template. Key values:
 - **Keyboard:** arrow keys / `h j k l` navigate between buttons (primary + 4 secondary as a 5-cell grid with the primary occupying the top row). `↵` activates. `Esc` dismisses. First focus is SHUT DOWN.
 - **Pointer:** click a button to activate.
 - **Animation:** backdrop fades `0 → 1` over 180 ms. Panel scales `0.96 → 1.0` with fade `0 → 1` over 220 ms `disco` easing. Exit mirrors.
-- **Reference:** parent spec §3, style guide §8.5 (layered CTA), §8.1 (film strip), §10 (buttons ceremonial row). Assets: `film-strip-long.png`, optional `brush-bg-white.png`.
+- **Reference:** parent spec §3, style guide §8.5 (layered CTA), §8.1 (film strip), §10 (buttons ceremonial row). Assets: `film-strip.png`, optional `brush-strip-white.png`.
 
 - [ ] **Step 2: Write `docs/widgets/lockscreen.md`**
 
@@ -500,7 +500,7 @@ Follow the template. Key values:
 - **Dimensions:** full monitor.
 - **Surface:**
   - Wallpaper at `brightness: 0.5`.
-  - Flare overlay: `assets/textures/flare-0.jpg` positioned bottom-right, `opacity: 0.35; mix-blend-mode: screen; blur: 4px`. Optional — enable with a Hyprlock `background` layer.
+  - Flare overlay: `assets/textures/flare-a.jpg` positioned bottom-right, `opacity: 0.35; mix-blend-mode: screen; blur: 4px`. Optional — enable with a Hyprlock `background` layer.
 - **Contents (center stack):**
   1. Time — Playfair Display 700 at 64 pt, color `rgb(215, 215, 215)`. Behind it: radial halo `radial-gradient(ellipse at center, rgba(16, 19, 18, 0.85) 0%, transparent 70%)` sized 1.6× time bounding box.
   2. Greeting — Archivo Narrow 700 at 20 pt, uppercase, color `rgb(153, 154, 149)`. Content driven by hour of day (existing Hyprlock config).
@@ -508,7 +508,7 @@ Follow the template. Key values:
 - **Keyboard:** typed characters go into password input. `↵` submits.
 - **Pointer:** none (Wayland session lock captures everything).
 - **Animation:** Hyprlock handles its own fade-in. No custom animation for MVP.
-- **Reference:** parent spec §4, style guide §20 (wallpaper), §4.1 color tokens, `docs/implementation-guide.md` Hyprlock section. Assets: `flare-0.jpg` optional.
+- **Reference:** parent spec §4, style guide §20 (wallpaper), §4.1 color tokens, `docs/implementation-guide.md` Hyprlock section. Assets: `flare-a.jpg` optional.
 
 - [ ] **Step 3: Write `docs/widgets/overview.md`**
 
@@ -517,8 +517,8 @@ Follow the template. Key values:
 - **Dismiss:** click a thumbnail, `↵` on selected, `Esc`.
 - **Dimensions:** full monitor.
 - **Surface:**
-  - Backdrop: `assets/textures/brush-bg-dark.png` stretched to full monitor at `opacity: 0.9`, on top of dimmed wallpaper (`brightness: 0.3`).
-  - Film strips top and bottom: `film-strip-long.png`, 16 px each.
+  - Backdrop: `assets/textures/brush-field.png` stretched to full monitor at `opacity: 0.9`, on top of dimmed wallpaper (`brightness: 0.3`).
+  - Film strips top and bottom: `film-strip.png`, 16 px each.
   - Padding: 48 px.
 - **Contents:**
   1. Workspace groups — horizontal flow. Each group has:
@@ -526,14 +526,14 @@ Follow the template. Key values:
      - Grid of window thumbnails, gap 16 px, max 4 per row.
   2. Each window thumbnail:
      - Fixed size 240×135 (16:9).
-     - Border: `assets/textures/frame-16-9.png` as `border-image`, slice appropriate to the frame's painted edges.
+     - Border: `assets/textures/frame-landscape.png` as `border-image`, slice appropriate to the frame's painted edges.
      - Inner content: live capture (disco-shell responsibility) scaled to fit inside frame.
      - Label below: Archivo Narrow 700 10 px uppercase muted, title (single line ellipsis).
      - Active (focused) window: orange 3 px left-border on the frame, glow `box-shadow: 0 0 16px rgba(235, 100, 8, 0.4)`.
 - **Keyboard:** arrow keys navigate between thumbnails. `↵` focuses the selected window. `Esc` dismisses without changing focus.
 - **Pointer:** click thumbnail → focus that window.
 - **Animation:** backdrop + film strips fade 200 ms. Thumbnails stagger-in at 20 ms per thumbnail (max 200 ms cap).
-- **Reference:** parent spec §5, style guide §8.1 (film strip), §8.2 (brush-bg-dark), §8.6 (media frames), §12 (selection). Assets: `brush-bg-dark.png`, `film-strip-long.png`, `frame-16-9.png`.
+- **Reference:** parent spec §5, style guide §8.1 (film strip), §8.2 (brush-bg-dark), §8.6 (media frames), §12 (selection). Assets: `brush-field.png`, `film-strip.png`, `frame-landscape.png`.
 
 - [ ] **Step 4: Write `docs/widgets/switcher.md`**
 
@@ -547,12 +547,12 @@ Follow the template. Key values:
   - Border: `1px solid rgba(54, 59, 58, 0.5)`.
 - **Contents:**
   1. Banner above the strip — title of currently-selected window, Archivo Narrow 700 14 px uppercase, `#d2d2d2` on `#171b1a` with erosion filter, overhang.
-  2. Horizontal row of thumbnails — each 160×90 (16:9), framed with `frame-16-9.png` border-image, gap 12 px. Selected: orange 3 px left-border + glow.
+  2. Horizontal row of thumbnails — each 160×90 (16:9), framed with `frame-landscape.png` border-image, gap 12 px. Selected: orange 3 px left-border + glow.
   3. No labels under thumbnails (too much text for Alt+Tab speed).
 - **Keyboard:** `Alt` held + `Tab` cycles forward, `Alt + Shift + Tab` cycles backward. Releasing `Alt` commits the selection.
 - **Pointer:** none at MVP.
 - **Animation:** strip enters with a subtle slide (`+8px → 0` y) + fade over 120 ms. Thumbnail selection changes via border-color transition 80 ms. Exit snap (no animation).
-- **Reference:** parent spec §6, style guide §8.6 (media frames), §12. Assets: `frame-16-9.png`.
+- **Reference:** parent spec §6, style guide §8.6 (media frames), §12. Assets: `frame-landscape.png`.
 
 - [ ] **Step 5: Verify all four files have all template sections**
 
@@ -610,7 +610,7 @@ Small transient widgets.
 - **Dimensions:** 320 × min-80 px (auto-height for multi-line body). Anchored top-right, first toast `margin-top: 16px; margin-right: 16px`. Stack grows downward with 8 px gap between toasts.
 - **Surface:**
   - Background: `rgba(16, 19, 18, 0.92)`.
-  - Top decorative strip: `assets/textures/tapelet.png` positioned at the top edge of each card, height 10 px, full card width, `opacity: 0.85`.
+  - Top decorative strip: `assets/textures/edge-strip.png` positioned at the top edge of each card, height 10 px, full card width, `opacity: 0.85`.
   - Border: `1px solid rgba(54, 59, 58, 0.5)`.
   - Padding: `10px 12px` (top extended to `20px` to clear the tapelet).
   - Left accent border (by urgency):
@@ -625,7 +625,7 @@ Small transient widgets.
 - **Keyboard:** none (notifications are not focusable at MVP).
 - **Pointer:** click anywhere on the card → activate default action (or dismiss if none). `Middle-click` → dismiss without action.
 - **Animation:** enter: slide `+40px → 0` x + fade over 220 ms `disco` easing. Exit: slide `0 → +40px` x + fade over 180 ms.
-- **Reference:** parent spec §8, style guide §14 (dialogue pattern), §8.6 (tapelet as slim frame), §12 (orange/red left-border). Assets: `tapelet.png`.
+- **Reference:** parent spec §8, style guide §14 (dialogue pattern), §8.6 (tapelet as slim frame), §12 (orange/red left-border). Assets: `edge-strip.png`.
 
 - [ ] **Step 3: Verify**
 
@@ -719,7 +719,7 @@ hr.div { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
 
 - [ ] **Step 2: Write `info-panel.html`**
 
-Full document with `<!DOCTYPE>`, `<link rel="stylesheet" href="_shared.css">`, and a `<div class="stage">` containing the info panel visual. Use the `single-page-content-bg.png` as a `background-image` layer on the panel (not stretched — tiled or covered; the asset is designed to tile vertically). Include realistic sample data: time 12:34, date FRI · 13 APR, battery 78%, volume 50, wifi on, bluetooth off, 4 workspaces (3 active), media "Tequila Sunset". Power button at bottom.
+Full document with `<!DOCTYPE>`, `<link rel="stylesheet" href="_shared.css">`, and a `<div class="stage">` containing the info panel visual. Use the `page-bg.png` as a `background-image` layer on the panel (not stretched — tiled or covered; the asset is designed to tile vertically). Include realistic sample data: time 12:34, date FRI · 13 APR, battery 78%, volume 50, wifi on, bluetooth off, 4 workspaces (3 active), media "Tequila Sunset". Power button at bottom.
 
 Layout HTML:
 
@@ -735,7 +735,7 @@ Layout HTML:
   <div class="stage">
     <div style="
       position: fixed; top: 0; left: 0; bottom: 0; width: 220px;
-      background: linear-gradient(rgba(23,27,26,0.88), rgba(23,27,26,0.88)), url('../../../assets/textures/single-page-content-bg.png') left top / cover no-repeat;
+      background: linear-gradient(rgba(23,27,26,0.88), rgba(23,27,26,0.88)), url('../../../assets/textures/page-bg.png') left top / cover no-repeat;
       box-shadow: 8px 0 32px rgba(0,0,0,0.7);
       border-right: 1px solid rgba(54,59,58,0.5);
       padding: 16px 14px;
@@ -788,12 +788,12 @@ Full document mirroring info-panel.html but anchored to the right edge,
 with a search input showing `> fire`, and three mock results: Firefox
 (selected with orange left-border), "Files: firefox-config.toml" (muted),
 "Window: Firefox — gh.com" (muted). Footer row with hints. Use the same
-`single-page-content-bg.png` texture and mirrored `-8px 0 32px` shadow.
+`page-bg.png` texture and mirrored `-8px 0 32px` shadow.
 
 - [ ] **Step 4: Write `power-menu.html`**
 
 Full document. Dimmed backdrop, film-strip top and bottom (using
-`assets/textures/film-strip-long.png` as `background-image: repeat-x`), centered
+`assets/textures/film-strip.png` as `background-image: repeat-x`), centered
 panel with banner overhang, layered CTA "SHUT DOWN" (three stacked
 `::before` / `::after` blocks at the specified offsets), 2×2 secondary
 button grid.
@@ -801,23 +801,23 @@ button grid.
 - [ ] **Step 5: Write `lockscreen.html`**
 
 Full-screen mockup. Dimmed wallpaper (`filter: brightness(0.5)`),
-optional flare positioned bottom-right using `assets/textures/flare-0.jpg`
+optional flare positioned bottom-right using `assets/textures/flare-a.jpg`
 as a blended overlay. Centered stack: time (Playfair 64px with radial-halo
 background), greeting (muted Archivo Narrow 20pt), password input field
 with cyan outer border and dark fill.
 
 - [ ] **Step 6: Write `overview.html`**
 
-Full-screen mockup. Background: dimmed wallpaper + `assets/textures/brush-bg-dark.png`
+Full-screen mockup. Background: dimmed wallpaper + `assets/textures/brush-field.png`
 stretched and at 0.9 opacity. Film strips top and bottom. Two mock workspace groups,
 each with a label and a grid of 3 window thumbnails. Each thumbnail uses
-`assets/textures/frame-16-9.png` as a `border-image`. Active window gets
+`assets/textures/frame-landscape.png` as a `border-image`. Active window gets
 orange left-border + glow.
 
 - [ ] **Step 7: Write `switcher.html`**
 
 Full-screen mockup. Dimmed backdrop. Centered horizontal strip containing
-5 thumbnails (all framed with `frame-16-9.png`), current selection (index 2)
+5 thumbnails (all framed with `frame-landscape.png`), current selection (index 2)
 highlighted with orange border + glow. Banner above the strip showing the
 selected window's title ("FIREFOX — github.com").
 
@@ -831,7 +831,7 @@ Centered-bottom 240×60 widget. Background `rgba(23,27,26,0.88)`, banner
 
 Top-right stack of 3 mock toasts at different urgencies: normal (Spotify
 "Now playing"), critical (Battery "Low — 12%"), error (System "Update
-failed"). Each 320×~80 with `tapelet.png` decorative strip at top, app
+failed"). Each 320×~80 with `edge-strip.png` decorative strip at top, app
 name row, body row. Critical has orange left-border, error has red.
 
 - [ ] **Step 10: Verify all 8 mockup files exist and reference the right assets**
@@ -852,17 +852,17 @@ Expected: all `OK`.
 
 Run:
 ```bash
-grep -l "assets/textures/single-page-content-bg.png" docs/mockups/widgets/info-panel.html docs/mockups/widgets/launcher.html >/dev/null && echo "side-page asset referenced in both side widgets"
+grep -l "assets/textures/page-bg.png" docs/mockups/widgets/info-panel.html docs/mockups/widgets/launcher.html >/dev/null && echo "side-page asset referenced in both side widgets"
 ```
 Expected: the echo line.
 
 Run:
 ```bash
-grep -l "assets/textures/film-strip-long.png" docs/mockups/widgets/power-menu.html docs/mockups/widgets/overview.html >/dev/null && echo "film-strip asset referenced"
-grep -l "assets/textures/frame-16-9.png" docs/mockups/widgets/overview.html docs/mockups/widgets/switcher.html >/dev/null && echo "frame asset referenced"
-grep -l "assets/textures/tapelet.png" docs/mockups/widgets/notification-toast.html >/dev/null && echo "tapelet asset referenced"
-grep -l "assets/textures/flare-0.jpg" docs/mockups/widgets/lockscreen.html >/dev/null && echo "flare asset referenced"
-grep -l "assets/textures/brush-bg-dark.png" docs/mockups/widgets/overview.html >/dev/null && echo "brush-bg-dark asset referenced"
+grep -l "assets/textures/film-strip.png" docs/mockups/widgets/power-menu.html docs/mockups/widgets/overview.html >/dev/null && echo "film-strip asset referenced"
+grep -l "assets/textures/frame-landscape.png" docs/mockups/widgets/overview.html docs/mockups/widgets/switcher.html >/dev/null && echo "frame asset referenced"
+grep -l "assets/textures/edge-strip.png" docs/mockups/widgets/notification-toast.html >/dev/null && echo "tapelet asset referenced"
+grep -l "assets/textures/flare-a.jpg" docs/mockups/widgets/lockscreen.html >/dev/null && echo "flare asset referenced"
+grep -l "assets/textures/brush-field.png" docs/mockups/widgets/overview.html >/dev/null && echo "brush-bg-dark asset referenced"
 ```
 Expected: five echo confirmations.
 
@@ -942,7 +942,7 @@ Expected: 8 `OK`.
 - [ ] **Step 3: Confirm all 9 texture assets are staged**
 
 ```bash
-for f in film-strip-long.png brush-bg-white.png brush-bg-dark.png single-page-content-bg.png flare-0.jpg flare-1.jpg frame-16-9.png frame-16-9-portrait.png tapelet.png; do
+for f in film-strip.png brush-strip-white.png brush-field.png page-bg.png flare-a.jpg flare-b.jpg frame-landscape.png frame-portrait.png edge-strip.png; do
   test -s "assets/textures/$f" && echo "OK  asset: $f" || echo "MISS asset: $f"
 done
 ```
@@ -988,11 +988,11 @@ Expected: `2`.
 
 - Panel width 220 px used for both info-panel and launcher.
 - Banner overhang `top: -8px; left: -10px` quoted consistently.
-- Asset filenames consistent across MANIFEST, widget specs, mockups (canonical short names: `film-strip-long.png`, not `film-strip-long_a5hufh.png`).
+- Asset filenames consistent across MANIFEST, widget specs, mockups (canonical short names: `film-strip.png`, not `film-strip-long_a5hufh.png`).
 - `disco` easing referenced as the named cubic-bezier from the style guide in all animation sections.
 - Selection indicator (orange 3 px left-border + `rgba(40, 44, 43, 0.4)` bg) consistent with style guide §12.
 
 **Known risks:**
 
-- `frame-16-9.png` may not work cleanly as a CSS `border-image` depending on its actual paint slice. The mockup tasks (overview, switcher) should visually confirm this; if the border-image slice looks wrong, the mockup task can adjust the `border-image-slice` values without needing a plan revision.
+- `frame-landscape.png` may not work cleanly as a CSS `border-image` depending on its actual paint slice. The mockup tasks (overview, switcher) should visually confirm this; if the border-image slice looks wrong, the mockup task can adjust the `border-image-slice` values without needing a plan revision.
 - The HTML mockups load fonts from Google Fonts over the network. This is acceptable for preview but will fail offline. Not a plan concern (mockups are for visual review, not production).

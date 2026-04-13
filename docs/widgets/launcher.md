@@ -22,7 +22,7 @@ Summoned right-side page. Universal search / action portal with modes (launch, c
 Mirrored version of the Info Panel surface:
 
 - **Base:** `rgba(23, 27, 26, 0.88)`.
-- **Texture:** `assets/textures/single-page-content-bg.png`, `background-repeat: repeat-y`, `background-size: <panel-width> auto`.
+- **Texture:** `assets/textures/page-bg.png`, `background-repeat: repeat-y`, `background-size: <panel-width> auto`.
 - **Tint overlay:** full-panel div at `rgba(14, 17, 16, 0.32)` above texture, below content.
 - **Left border:** `1px solid rgba(54, 59, 58, 0.6)` (mirrored from info panel's right border).
 - **Padding:** `22px 16px 16px 16px`.
@@ -127,5 +127,5 @@ Hint text: Archivo Narrow 700, 10 px, muted, centered, italic off.
 - Parent spec: `docs/superpowers/specs/2026-04-13-desktop-redesign-design.md` §2.
 - Style guide: §4.1 palette, §5 typography, §6 banner, §7 painted-canvas, §8.3 halos (optional behind banner), §9 borders, §12 selection (orange left-border).
 - Existing launcher implementation (functional behaviour): `~/Documents/disco-shell/crates/app/src/widgets/launcher.rs`. This spec adopts its modes; only the visual language is new.
-- Assets: `assets/textures/single-page-content-bg.png`.
+- Assets: `assets/textures/page-bg.png`.
 - Mockup: `docs/mockups/widgets/launcher.html`.

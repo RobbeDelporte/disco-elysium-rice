@@ -20,7 +20,7 @@ Summoned left-side page showing time, system vitals, connectivity, sliders, work
 ## Surface Treatment
 
 - **Base:** `rgba(23, 27, 26, 0.88)`.
-- **Texture:** `assets/textures/single-page-content-bg.png` applied as `background-image` with `background-repeat: repeat-y` and `background-size: 240px auto`. Tiling vertically avoids stretching the brush strokes; the asset's natural width of 1440 px is downscaled to the 240 px panel width.
+- **Texture:** `assets/textures/page-bg.png` applied as `background-image` with `background-repeat: repeat-y` and `background-size: 240px auto`. Tiling vertically avoids stretching the brush strokes; the asset's natural width of 1440 px is downscaled to the 240 px panel width.
 - **Tint overlay:** a sibling div with `background: rgba(14, 17, 16, 0.32)` covering the full panel, sitting above the texture and below the content. This preserves legibility without swallowing the brush strokes.
 - **Right border:** `1px solid rgba(54, 59, 58, 0.6)`.
 - **Inner padding:** `22px 16px 16px 16px` (top extra for the banner overhang).
@@ -148,5 +148,5 @@ No arrow-key navigation is required at MVP for the vitals rows (they are passive
 
 - Parent spec: `docs/superpowers/specs/2026-04-13-desktop-redesign-design.md` §1.
 - Style guide: §4.1 functional palette, §5 typography, §6 banner, §7 painted-canvas, §9 borders, §12 selection (orange left-border), §17 icons (thin-line outline).
-- Assets: `assets/textures/single-page-content-bg.png`.
+- Assets: `assets/textures/page-bg.png`.
 - Mockup: `docs/mockups/widgets/info-panel.html`.
