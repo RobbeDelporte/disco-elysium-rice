@@ -80,3 +80,8 @@ base-devel
 git
 
 # Screenshots: grimblast is in aur.txt as grimblast-git
+
+# Film-artifact texture pipeline
+gmic
+imagemagick
+bats

@@ -1,0 +1,3 @@
+# Film-artifact texture definitions.
+# One table per texture; each produces assets/textures/<name>.png.
+# See docs/superpowers/specs/2026-04-13-film-artifact-texture-pipeline-design.md
