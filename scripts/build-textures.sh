@@ -7,13 +7,19 @@ CONFIG="${TEXTURES_CONFIG:-$REPO_ROOT/assets/textures/textures.toml}"
 
 require_cmd() { command -v "$1" >/dev/null 2>&1 || { echo "error: $1 is required but not installed" >&2; exit 1; }; }
 
+# python3 is needed for toml_list_tables and toml_get, which may be called before rendering
+require_cmd python3
+
 usage() {
   cat <<EOF
-Usage: build-textures.sh [--help] [--list] [<texture_name>]
+Usage: build-textures.sh [--help] [--list] [--get] [<texture_name>]
 
 Generates PNG textures defined in \$CONFIG into \$TEXTURES_DIR.
   --help   Show this message.
   --list   Print the names of every texture in the config and exit.
+  --get    Print a scalar from the config at a dotted path.
+           Usage: --get <section> <key> [<subkey>...]
+           Exit codes: 0 = found, 2 = path missing, 3 = path is table/list.
 
 With no argument, builds all textures. With a name, builds only that one.
 EOF
@@ -53,11 +59,11 @@ PY
 case "${1:-}" in
   --help|-h) usage; exit 0 ;;
   --list)    toml_list_tables; exit 0 ;;
+  --get)     shift; toml_get "$@"; exit $? ;;
 esac
 
 # Only check for rendering dependencies if actually rendering
 require_cmd gmic
-require_cmd python3
 require_cmd identify
 require_cmd sha256sum
 
