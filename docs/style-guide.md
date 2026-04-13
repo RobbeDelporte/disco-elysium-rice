@@ -321,3 +321,121 @@ Sharp, square corners.
 | Ceremonial CTA | `#912711` + layered offsets (§8.5) | `#ccc8c2`, Archivo Narrow bold uppercase | None | **Tier 1 only** |
 
 Primary buttons have an arrow indicator (`▶` or `▲`) and dim to 0.9 opacity on hover.
+
+## 11. Menu / Navigation Items
+
+From the LOAD GAME screen (menu4):
+
+- Font: Archivo Narrow Bold, 22–26px, uppercase
+- Inactive: off-white text (`#ccc8c2`) floating directly over the wallpaper
+- Active: **banner treatment** — dark text (`#171b1a`) on eroded-edge cream banner (`#d2d2d2`, inverted contrast)
+- Menu floats directly over the wallpaper
+
+## 12. Selection Indicators
+
+Two tiers of selection, used depending on prominence.
+
+### Primary Selection — Banner
+
+The banner doubles as the selection indicator for the most prominent items on screen (1–3 per screen):
+
+- **Section titles**: always have the banner (INVENTORY, JOURNAL, SET SKILL)
+- **Active menu item** (menu4): "LOAD GAME" gets a banner
+- **Active tab** (menu5): "TASKS" gets a banner
+
+### Secondary Selection — Orange Left Border
+
+For less prominent items, or when banners are already present on screen:
+
+- `4px solid #eb6408` left border on the selected item
+- Text stays off-white (`#ccc8c2`), background stays dark
+- Use for: bar active workspace, launcher selected item, notification toggle, sidebar active items, list selections within panels
+
+## 13. Selection (Row / Text)
+
+| Usage | Background | Foreground | Description |
+|-------|-----------|------------|-------------|
+| Row/item selection | `#7d807c` | `#171b1a` | Dusty inversion — midpoint between cream and background |
+| Text selection | `#363b3a` | `#ccc8c2` | Subtle highlight — border color background |
+
+Row selection uses a muted inversion: dark text on a dusty mid-tone, less harsh than pure cream but clearly inverted. Text selection is deliberately subtle — just enough to see the highlight without drawing attention.
+
+## 14. Dialogue / Speaker Pattern
+
+Maps to notification content:
+
+- **Speaker name** (app name): Archivo Narrow bold uppercase, `#eb6408`
+- **Body text**: Libre Baskerville, `#999a95`
+- **"YOU"**: Archivo Narrow bold uppercase, `#ccc8c2`
+- **Skill check names**: Archivo Narrow bold uppercase, skill category color
+- **Choices**: `#eb6408`, underline on hover
+
+## 15. Check Success / Failure
+
+- **Success**: green `#0fb666`, Archivo Narrow bold uppercase
+- **Failure**: full red block `#b83a3a`, white text — entire notification becomes the alert
+
+## 16. Stat / Numeric Displays
+
+- Large numbers: Archivo Narrow Bold, 28–48px, `#ccc8c2`
+- Category labels: label tier, skill category color (blue/purple/red/yellow)
+- Background: `#101312` (very dark)
+
+## 17. Icons
+
+Thin, linear, outline-only. Like technical/blueprint schematic drawings — monochrome line art with minimal stroke weight. Derived from the game's HUD icons.
+
+- Stroke: `1.5px`, `round` linecap and linejoin
+- Fill: none (outline only)
+- Default color: `#ccc8c2` (primary text)
+- Hover: `#999a95` (muted)
+- Active/toggled: `#eb6408` (orange)
+- Size: 16–20px
+- Icon set: Lucide, Feather, or similar thin-line icon libraries
+
+## 18. Interaction & Motion
+
+- Default transition: `0.2s ease-in-out`
+- Hover opacity: `0.9` on primary buttons
+- Hyprland animations: `bezier = disco, 0.25, 0.1, 0.25, 1.0`, duration 3
+- **No rotation on functional UI.** Tilted widgets are explicitly excluded.
+
+## 19. Eroded Edge Usage
+
+The SVG eroded-edge filter is applied to **banner backgrounds** only:
+
+- Section title banners (INVENTORY, JOURNAL, SET SKILL, etc.)
+- Active menu item banner
+- Active tab banner
+
+All other elements use clean, solid rendering.
+
+## 20. Wallpaper & GTK Theme
+
+### Wallpaper
+
+`references/disco-elysium/wallpaper.png` → `wallpapers/disco-elysium-sunset.png`.
+
+Two figures on a rooftop against a dramatic amber sunset over a dark city — the palette's origin. Its dominant colors (dark brown-black structures, orange-amber sky, dusty purple clouds) cohere with every color defined above.
+
+**Wallpaper selection guidance** for additional wallpapers:
+
+- Painterly, oil-painting quality — not sharp photography or anime
+- Warm-cool contrast (orange/amber against teal/dark)
+- Muted, desaturated tones
+- Sense of melancholy, vastness, or urban decay
+- Good sources: Disco Elysium concept art, official wallpapers from [Alpha Coders](https://alphacoders.com/disco-elysium-wallpapers)
+
+### GTK Theme
+
+| Component | Recommendation |
+|-----------|---------------|
+| GTK theme | Adwaita-dark (set via gsettings) |
+| Icon theme | Papirus-Dark (or Gruvbox-Plus-Dark AUR for a warmer match) |
+| Cursor theme | Nordzy-cursors — clean, neutral |
+
+---
+
+## Implementation Mapping
+
+Per-component hex-value tables and search-and-replace references have moved to `docs/implementation-guide.md`. This file covers the design language; the implementation guide covers where each value appears in each config.
