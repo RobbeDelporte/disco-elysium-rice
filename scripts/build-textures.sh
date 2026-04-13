@@ -217,6 +217,20 @@ render_texture() {
   mv "$tmp" "$out"
 }
 
+write_manifest() {
+  local manifest="$TEXTURES_DIR/manifest.txt"
+  : > "$manifest"
+  local f name dims size hash
+  for f in "$TEXTURES_DIR"/*.png; do
+    [[ -e "$f" ]] || continue
+    name=$(basename "$f" .png)
+    dims=$(identify -format "%wx%h" "$f")
+    size=$(stat -c %s "$f")
+    hash=$(sha256sum "$f" | awk '{print $1}')
+    printf '%s\t%s\t%sB\t%s\n' "$name" "$dims" "$size" "$hash" >> "$manifest"
+  done
+}
+
 main() {
   local target="${1:-}"
   if [[ -n "$target" ]]; then
@@ -226,6 +240,7 @@ main() {
       render_texture "$name"
     done < <(toml_list_tables)
   fi
+  write_manifest
 }
 
 main "$@"

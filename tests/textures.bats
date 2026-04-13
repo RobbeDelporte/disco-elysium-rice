@@ -120,3 +120,13 @@ EOF
   hash_b=$(sha256sum "$BATS_TEST_TMPDIR/b/sample.png" | awk '{print $1}')
   [ "$hash_a" = "$hash_b" ]
 }
+
+@test "manifest: records each generated texture with dims, size, sha256" {
+  run_with_fixture
+  [ "$status" -eq 0 ]
+  manifest="$BATS_TEST_TMPDIR/manifest.txt"
+  [ -f "$manifest" ]
+  # Expect a line like: "sample<tab>64x48<tab><size>B<tab><hash>"
+  run grep -E '^sample[[:space:]]+64x48[[:space:]]+[0-9]+B[[:space:]]+[a-f0-9]{64}$' "$manifest"
+  [ "$status" -eq 0 ]
+}
