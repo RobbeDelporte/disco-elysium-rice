@@ -224,3 +224,100 @@ Warm-tinted SVG `feTurbulence` noise, blended as `::after` with `opacity: 0.25; 
 ### Brush-stroke Background Variant — Tier 1 only
 
 Painterly dark surface layer using `references/disco-elysium/ui-assets/single-page-content-bg_htmvo8.png` or `Archive_3324d46e2.png` as a CSS `background-image`, sitting above the base panel color. Reserved for ceremonial hero surfaces (splash, power-menu backdrop, lockscreen content panel).
+
+## 8. Decorative Motifs
+
+One subsection per motif. Each specifies: visual description, allowed tier(s), when to use, when *not* to use, and the reference asset.
+
+### 8.1 Film-strip Borders
+
+Horizontal strip with sprocket perforations, top and bottom edges of a ceremonial surface.
+
+- **Tier:** 1 only.
+- **Asset:** `references/disco-elysium/ui-assets/film-strip-long_a5hufh.png`
+- **Use on:** splash screen, optional lockscreen, overview full-screen view.
+- **Do not:** tile on the bar, put on launcher, use as a divider inside functional panels.
+
+### 8.2 Brush-stroke Backgrounds
+
+Painterly dark (or light) surface with visible brush marks, behind the primary panel.
+
+- **Tier:** 1 only.
+- **Assets:**
+  - `references/disco-elysium/ui-assets/brush-bg-white_kkkkx7.png` — light variant, use behind inverted banner-style surfaces.
+  - `references/disco-elysium/ui-assets/Archive_3324d46e2.png` — dark variant, use behind hero panels.
+- **Use on:** splash, power-menu backdrop, lockscreen content panel.
+- **Do not:** use on launcher, notification center, quick settings, bar.
+
+### 8.3 Radial Halos
+
+Soft dark radial gradient behind text to guarantee legibility over busy wallpaper.
+
+- **Tier:** any.
+- **Recipe:** `radial-gradient(ellipse at center, rgba(16, 19, 18, 0.85) 0%, transparent 70%)` placed behind headlines sitting directly on the wallpaper.
+- **Use on:** lockscreen time/greeting, overview labels, splash title, any floating title over imagery.
+
+### 8.4 Cinematic Flares & Bokeh
+
+Warm amber flares, lens bokeh, soft out-of-focus highlights.
+
+- **Tier:** 1 only.
+- **Assets:**
+  - `references/disco-elysium/ui-assets/feld-flash-flare-0_cy51je.jpg`
+  - `references/disco-elysium/ui-assets/feld-flash-flare-1_loooiz.jpg`
+- **Use on:** splash, lockscreen background accent, power-menu background.
+- **Do not:** use on any surface carrying dense information.
+
+### 8.5 Layered Offset CTAs
+
+Primary confirm button with 2–3 stacked color blocks behind it, slightly offset. **No rotation** — tilts are explicitly excluded from this rice.
+
+- **Tier:** 1 only.
+- **Recipe:**
+  - Main button on top (`background: #912711`, text `#ccc8c2`).
+  - `::before` pseudo-element: offset `+6px / +6px`, `background: #7effaa` (`decor-cyan`).
+  - `::after` pseudo-element: offset `+12px / +12px`, `background: #eb6408` (`action`).
+  - Drop shadow: `0 4px 0 rgba(0, 0, 0, 0.2)`.
+- **Use on:** power menu "SHUT DOWN", confirm dialogs "OK", splash "CONTINUE".
+- **Do not:** use on secondary buttons, list items, dense UI.
+
+### 8.6 Media Frames
+
+Painted dark frames around images/thumbnails.
+
+- **Tier:** 1–2.
+- **Assets:**
+  - `references/disco-elysium/ui-assets/frame-16-9_iqf4jq.png` — landscape.
+  - `references/disco-elysium/ui-assets/frame-16-9-portrait_snwdsp.png` — portrait.
+  - `references/disco-elysium/ui-assets/black-tapelet_dysjoh.png` — slim decorative strip.
+- **Use on:** overview thumbnails, notification images, wallpaper picker tiles, album art.
+
+## 9. Borders & Dividers
+
+All solid, clean, geometric.
+
+| Element | Style |
+|---------|-------|
+| Default border | `1px solid #363b3a` |
+| Focus/active | `2px solid #5bc0d6` (Hyprland window border) |
+| Left accent | `2px solid #5bc0d6` (left edge only) |
+| Divider | `1px solid #363b3a` |
+| Panel border | `1px solid rgba(54, 59, 58, 0.3)` |
+
+### Color Usage
+
+- **`#363b3a`** — default for all borders, dividers, frames
+- **`#5bc0d6`** (intellect blue) — focus/active states, success indicators (CHECK SUCCESS)
+- **`#eb6408`** (orange) — actions, selection markers, speaker names, value highlights
+
+## 10. Buttons
+
+Sharp, square corners.
+
+| Type | Background | Text | Border | Scope |
+|------|-----------|------|--------|-------|
+| Primary ("CONTINUE") | `#912711` | `#ccc8c2`, Archivo Narrow bold uppercase | None | Any tier |
+| Secondary ("BACK") | `#1e2221` | `#999a95`, Archivo Narrow bold uppercase | `1px solid rgba(54, 59, 58, 0.5)` | Any tier |
+| Ceremonial CTA | `#912711` + layered offsets (§8.5) | `#ccc8c2`, Archivo Narrow bold uppercase | None | **Tier 1 only** |
+
+Primary buttons have an arrow indicator (`▶` or `▲`) and dim to 0.9 opacity on hover.
