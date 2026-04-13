@@ -21,3 +21,7 @@ enabled = true
 density = 0.08
 opacity = 0.10
 orientation = "vertical"
+
+[sample.vignette]
+enabled = true
+strength = 0.45

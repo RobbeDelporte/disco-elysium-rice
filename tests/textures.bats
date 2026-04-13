@@ -101,3 +101,12 @@ EOF
   row_std=$(convert "$out" -resize 1x48\! -format "%[fx:standard_deviation]" info:)
   awk -v c="$col_std" -v r="$row_std" 'BEGIN { exit !(c > r + 0.005) }'
 }
+
+@test "vignette: corners darker than center" {
+  run_with_fixture sample
+  [ "$status" -eq 0 ]
+  out="$BATS_TEST_TMPDIR/sample.png"
+  center=$(convert "$out" -crop 16x12+24+18 +repage -format "%[fx:mean]" info:)
+  corner=$(convert "$out" -crop 16x12+0+0 +repage -format "%[fx:mean]" info:)
+  awk -v c="$center" -v k="$corner" 'BEGIN { exit !(c > k + 0.03) }'
+}

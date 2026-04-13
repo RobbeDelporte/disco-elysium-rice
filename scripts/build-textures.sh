@@ -193,6 +193,17 @@ render_texture() {
     fi
   fi
 
+  # Layer 4: vignette (final multiply).
+  if [[ "$(toml_get "$name" vignette enabled 2>/dev/null || echo false)" == "True" ]]; then
+    local v_strength; v_strength=$(toml_get "$name" vignette strength)
+    # Radial white→dark gradient, then multiply against the composite.
+    gmic "$tmp" \
+         -input "${width},${height},1,3,255" \
+         -vignette[-1] "$(python3 -c "print(int(${v_strength}*100))"),0,0,0" \
+         -blend multiply \
+         -output "$tmp" >/dev/null
+  fi
+
   mv "$tmp" "$out"
 }
 
