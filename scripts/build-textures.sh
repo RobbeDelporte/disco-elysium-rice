@@ -67,5 +67,44 @@ require_cmd gmic
 require_cmd identify
 require_cmd sha256sum
 
-echo "build-textures.sh: rendering not yet implemented" >&2
-exit 1
+# Dependencies: gmic, imagemagick (convert, identify), python3 >=3.11 (for tomllib),
+# bats (for tests). Install via your system's package manager. No OS assumption.
+
+# --- rendering ---
+
+# Convert "#rrggbb" to "R,G,B" for G'MIC.
+hex_to_rgb_triple() {
+  local hex="${1#'#'}"
+  printf '%d,%d,%d' "0x${hex:0:2}" "0x${hex:2:2}" "0x${hex:4:2}"
+}
+
+render_texture() {
+  local name="$1"
+  local out="$TEXTURES_DIR/$name.png"
+
+  local width height base_color
+  width=$(toml_get "$name" width)
+  height=$(toml_get "$name" height)
+  base_color=$(toml_get "$name" base_color)
+
+  local rgb
+  rgb=$(hex_to_rgb_triple "$base_color")
+
+  mkdir -p "$TEXTURES_DIR"
+
+  # Base: a solid-fill image of the requested size.
+  gmic -input "${width},${height},1,3" -fill "[$rgb]" -output "$out" >/dev/null
+}
+
+main() {
+  local target="${1:-}"
+  if [[ -n "$target" ]]; then
+    render_texture "$target"
+  else
+    while IFS= read -r name; do
+      render_texture "$name"
+    done < <(toml_list_tables)
+  fi
+}
+
+main "$@"

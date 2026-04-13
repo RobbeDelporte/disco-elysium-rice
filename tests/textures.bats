@@ -37,3 +37,25 @@ setup() {
   run_with_fixture --get sample halation
   [ "$status" -eq 3 ]
 }
+
+@test "base fill: produces PNG of correct dimensions" {
+  run_with_fixture sample
+  [ "$status" -eq 0 ]
+  out="$BATS_TEST_TMPDIR/sample.png"
+  [ -f "$out" ]
+  dims=$(identify -format "%wx%h" "$out")
+  [ "$dims" = "64x48" ]
+}
+
+@test "base fill: dominant color matches base_color" {
+  run_with_fixture sample
+  [ "$status" -eq 0 ]
+  out="$BATS_TEST_TMPDIR/sample.png"
+  r=$(convert "$out" -format "%[fx:int(255*mean.r)]" info:)
+  g=$(convert "$out" -format "%[fx:int(255*mean.g)]" info:)
+  b=$(convert "$out" -format "%[fx:int(255*mean.b)]" info:)
+  # #112233 = 17,34,51. Allow ±30 per channel (loose for future layers).
+  (( r >= 0 && r <= 60 ))
+  (( g >= 10 && g <= 70 ))
+  (( b >= 25 && b <= 90 ))
+}
