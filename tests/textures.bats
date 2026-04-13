@@ -110,3 +110,13 @@ EOF
   corner=$(convert "$out" -crop 16x12+0+0 +repage -format "%[fx:mean]" info:)
   awk -v c="$center" -v k="$corner" 'BEGIN { exit !(c > k + 0.03) }'
 }
+
+@test "determinism: two runs produce byte-identical output" {
+  TEXTURES_CONFIG="$FIXTURE" TEXTURES_OUT_DIR="$BATS_TEST_TMPDIR/a" run "$SCRIPT" sample
+  [ "$status" -eq 0 ]
+  TEXTURES_CONFIG="$FIXTURE" TEXTURES_OUT_DIR="$BATS_TEST_TMPDIR/b" run "$SCRIPT" sample
+  [ "$status" -eq 0 ]
+  hash_a=$(sha256sum "$BATS_TEST_TMPDIR/a/sample.png" | awk '{print $1}')
+  hash_b=$(sha256sum "$BATS_TEST_TMPDIR/b/sample.png" | awk '{print $1}')
+  [ "$hash_a" = "$hash_b" ]
+}

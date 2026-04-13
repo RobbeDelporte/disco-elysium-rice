@@ -78,6 +78,13 @@ hex_to_rgb_triple() {
   printf '%d,%d,%d' "0x${hex:0:2}" "0x${hex:2:2}" "0x${hex:4:2}"
 }
 
+# Compute a stable 32-bit seed from a texture name (for G'MIC -srand).
+stable_seed() {
+  local name="$1"
+  local h; h=$(printf '%s' "$name" | sha256sum | cut -c1-8)
+  python3 -c "print(int('$h', 16) & 0x7fffffff)"
+}
+
 # Maps an origin keyword to normalized coordinates (cx, cy) in [0,1].
 halation_origin_coords() {
   case "$1" in
@@ -159,6 +166,7 @@ render_texture() {
 
     gmic "$tmp" \
          -input "${width},${height},1,3,128" \
+         -srand $(stable_seed "${name}-grain") \
          -noise[-1] "${g_std},0" \
          ${mono_cmd} \
          -blend overlay,${g_opacity} \
@@ -175,6 +183,7 @@ render_texture() {
     if [[ "$s_orient" == "vertical" ]]; then
       gmic "$tmp" \
            -input "${width},1,1,1,0" \
+           -srand $(stable_seed "${name}-scratches") \
            -noise[-1] 100,0 -normalize[-1] 0,1 \
            -threshold[-1] "$(python3 -c "print(1-${s_density})")" \
            -resize[-1] "${width},${height},1,1" \
@@ -184,6 +193,7 @@ render_texture() {
     else
       gmic "$tmp" \
            -input "1,${height},1,1,0" \
+           -srand $(stable_seed "${name}-scratches") \
            -noise[-1] 100,0 -normalize[-1] 0,1 \
            -threshold[-1] "$(python3 -c "print(1-${s_density})")" \
            -resize[-1] "${width},${height},1,1" \
