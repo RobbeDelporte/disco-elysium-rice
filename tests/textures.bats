@@ -130,3 +130,30 @@ EOF
   run grep -E '^sample[[:space:]]+64x48[[:space:]]+[0-9]+B[[:space:]]+[a-f0-9]{64}$' "$manifest"
   [ "$status" -eq 0 ]
 }
+
+@test "arg: unknown texture name errors cleanly" {
+  run_with_fixture nonexistent
+  [ "$status" -ne 0 ]
+  [[ "$output" == *"nonexistent"* ]]
+  [[ "$output" == *"not found"* ]]
+}
+
+@test "arg: named build only writes the requested texture" {
+  tmp_fix="$BATS_TEST_TMPDIR/two.toml"
+  cat > "$tmp_fix" <<'EOF'
+[one]
+width = 32
+height = 32
+base_color = "#000000"
+
+[two]
+width = 32
+height = 32
+base_color = "#ffffff"
+EOF
+  TEXTURES_CONFIG="$tmp_fix" TEXTURES_OUT_DIR="$BATS_TEST_TMPDIR/out" \
+    run "$SCRIPT" one
+  [ "$status" -eq 0 ]
+  [ -f "$BATS_TEST_TMPDIR/out/one.png" ]
+  [ ! -f "$BATS_TEST_TMPDIR/out/two.png" ]
+}

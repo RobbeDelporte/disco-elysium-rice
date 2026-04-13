@@ -104,6 +104,13 @@ iso_to_noise_std() {
 
 render_texture() {
   local name="$1"
+
+  # Validate: texture must exist as a top-level table.
+  if ! toml_list_tables | grep -Fxq "$name"; then
+    echo "error: texture '$name' not found in $CONFIG" >&2
+    exit 1
+  fi
+
   local out="$TEXTURES_DIR/$name.png"
 
   local width height base_color
