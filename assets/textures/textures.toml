@@ -1,3 +1,31 @@
 # Film-artifact texture definitions.
 # One table per texture; each produces assets/textures/<name>.png.
 # See docs/superpowers/specs/2026-04-13-film-artifact-texture-pipeline-design.md
+
+[launcher]
+width = 500
+height = 420
+base_color = "#1a2d2f"
+
+[launcher.halation]
+enabled = true
+color = "#eb6408"
+strength = 0.55
+origin = "top-right"
+radius = 0.7
+
+[launcher.grain]
+enabled = true
+iso = 800
+opacity = 0.25
+monochrome = true
+
+[launcher.scratches]
+enabled = true
+density = 0.08
+opacity = 0.10
+orientation = "vertical"
+
+[launcher.vignette]
+enabled = true
+strength = 0.35
