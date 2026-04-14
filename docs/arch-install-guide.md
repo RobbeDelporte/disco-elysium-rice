@@ -122,6 +122,30 @@ uwsm start hyprland-uwsm.desktop
 
 If you want graphical login instead, install one yourself — e.g. `greetd` + `tuigreet` (caelestia's recommendation) or `ly`. This is out of scope for the baseline install.
 
+## 8.5 Pick a wallpaper (regenerates the colour scheme)
+
+Caelestia's Material You scheme is derived from the current wallpaper. To use one from this repo:
+
+```bash
+caelestia wallpaper set ~/disco-elysium-rice/wallpapers/<file>
+```
+
+List built-in schemes if you'd rather not derive one from an image: `caelestia scheme list`, then `caelestia scheme set <name>`.
+
+## 8.6 Verify the shell is running
+
+```bash
+qs list            # should list 'caelestia'
+```
+
+If the bar/launcher didn't come up, start it manually:
+
+```bash
+qs -c caelestia &
+```
+
+Shell restart keybind (useful after editing QML): `Ctrl+Super+Alt+R`.
+
 ## 9. Post-install checklist
 
 - [ ] **Check monitors:** `hyprctl monitors` — if layout is wrong, edit `hosts/<hostname>/monitors.conf` in this repo, then `hyprctl reload`. The caelestia config already sources your per-host file via `~/.config/caelestia/hypr-user.conf`.
@@ -131,6 +155,55 @@ If you want graphical login instead, install one yourself — e.g. `greetd` + `t
 - [ ] **Test launcher:** `Super` (tap, caelestia default)
 - [ ] **Test terminal:** `Super+T` (foot)
 - [ ] **Session menu:** `Ctrl+Alt+Delete`
+
+### Full upstream keybind reference
+
+| Keys | Action |
+|---|---|
+| `Super` | open launcher |
+| `Super+T` | open terminal (foot) |
+| `Super+W` | open browser (zen — only if `--zen` was passed) |
+| `Super+C` | open IDE (vscodium — only if `--vscode` was passed) |
+| `Super+S` | toggle special workspace |
+| `Super+#` | switch to workspace `#` |
+| `Super+Alt+#` | move window to workspace `#` |
+| `Ctrl+Alt+Delete` | session menu |
+| `Ctrl+Super+Space` | toggle media play/pause |
+| `Ctrl+Super+Alt+R` | restart the caelestia shell |
+
+## 10. Optional apps (Zen, VSCodium, Spotify, Discord)
+
+Our `install.sh` does **not** pass optional flags to caelestia's installer. To add any of them later, rerun `install.fish` directly:
+
+```bash
+cd ~/caelestia-upstream    # (symlink to ~/.local/share/caelestia-dots)
+fish ./install.fish --aur-helper=yay --vscode=codium --zen --spotify --discord
+```
+
+Each flag is independent — pass only the ones you want. Re-running is safe; it will prompt before overwriting existing configs.
+
+## 11. GTK theme (optional, matches upstream screenshots)
+
+Caelestia installs `adw-gtk-theme` and `papirus-icon-theme` but does not auto-apply them. To match the look from upstream screenshots:
+
+```bash
+gsettings set org.gnome.desktop.interface gtk-theme "adw-gtk3-dark"
+gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+```
+
+## Editing caelestia later
+
+The upstream clone lives at `~/.local/share/caelestia-dots/` and is exposed as `~/caelestia-upstream` for convenience. **Do not move or delete either path** — `install.fish` symlinks configs from that clone, and moving it will break Hyprland + every other caelestia app.
+
+To edit:
+
+```bash
+cd ~/caelestia-upstream
+# make changes, commit to a fork, or create a local branch
+hyprctl reload       # for hyprland changes
+# Ctrl+Super+Alt+R   # for shell (QML) changes
+```
 
 ## Future work (not part of baseline)
 

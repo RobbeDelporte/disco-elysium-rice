@@ -18,7 +18,7 @@ Arch Linux + Hyprland desktop, built on top of [caelestia-dots](https://github.c
 
 ## Upstream
 
-The desktop itself — bar, launcher, notifications, lock screen, OSD, terminal theming, Hyprland config — is [caelestia-dots/caelestia](https://github.com/caelestia-dots/caelestia) (Quickshell + Hyprland + foot + fuzzel). We don't vendor it; `install.fish` symlinks from a clone at `~/.local/share/caelestia-dots/`.
+The desktop itself — bar, launcher, notifications, lock screen, OSD, terminal theming, Hyprland config — is [caelestia-dots/caelestia](https://github.com/caelestia-dots/caelestia) (Quickshell + Hyprland + foot + fuzzel). We don't vendor it; `install.fish` symlinks from a clone at `~/.local/share/caelestia-dots/` (also exposed as `~/caelestia-upstream` for convenience — edit there when forking). **Don't move or delete the clone** — all caelestia configs are symlinks into it.
 
 Key caelestia repos:
 - [caelestia-dots/caelestia](https://github.com/caelestia-dots/caelestia) — meta (installer, hyprland, foot, fish, starship)
@@ -50,6 +50,16 @@ caelestia scheme set <name>   # change color scheme
 caelestia wallpaper set <img> # change wallpaper (regenerates scheme)
 qs list                       # running quickshell instances
 ```
+
+## Future-work layer
+
+The Disco Elysium palette / widget redesign is not part of the baseline install. Source of truth for that phase:
+
+- `docs/style-guide.md` — palette, surface tiers, typography
+- `docs/widgets/` — per-widget specs (info panel, launcher, lockscreen, OSD, ...)
+- `docs/mockups/` — HTML mockups matching the specs
+- `references/disco-elysium/` — game screenshots
+- `assets/textures/` — film-tape, scratch-bg, brush strips
 
 ## Roadmap
 

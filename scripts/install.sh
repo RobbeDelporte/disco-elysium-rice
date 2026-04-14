@@ -91,6 +91,13 @@ log "Running caelestia install.fish (symlinks configs from $CAELESTIA_SRC)..."
 warn "install.fish will prompt for overwrites; answer Y to accept caelestia's configs."
 (cd "$CAELESTIA_SRC" && fish ./install.fish --aur-helper=yay)
 
+# Convenience symlink so the upstream clone is easy to cd into later
+# (for forking, editing, or following upstream). Do NOT move the underlying
+# clone — install.fish symlinks configs from $CAELESTIA_SRC and moving it
+# would break Hyprland and every other caelestia app.
+ln -sfn "$CAELESTIA_SRC" "$HOME/caelestia-upstream"
+log "Convenience symlink: ~/caelestia-upstream -> $CAELESTIA_SRC"
+
 # --- 4. Our shell configs ---
 log "Symlinking zsh + starship configs..."
 ln -sf "$REPO_ROOT/configs/zsh/.zshrc"    "$HOME/.zshrc"
