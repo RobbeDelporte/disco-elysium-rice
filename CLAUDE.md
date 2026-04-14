@@ -2,100 +2,92 @@
 
 ## What This Is
 
-A dotfiles repository for a complete Arch Linux + Hyprland desktop rice, targeting two machines: a System76 laptop (primary, initial setup) and a Tuxedo laptop (secondary). The visual theme is inspired by the video game Disco Elysium.
+Thin overlay on top of [caelestia-dots](https://github.com/caelestia-dots) — an Arch Linux + Hyprland + Quickshell desktop. Target machines: System76 (primary) and Tuxedo (secondary). Long-term visual goal: *Disco Elysium* aesthetic (warm dark, painterly).
 
-## Current State
+**Current phase:** caelestia defaults (Material You dynamic palette). Disco Elysium palette override is future work.
 
-All configs are functional with the Disco Elysium color palette applied. Desktop shell widgets are provided by the separate [disco-shell](https://github.com/RobbeDelporte/disco-shell) project (Rust + GPUI).
+## Repo boundaries
 
-### What's Done
-- All configs: Hyprland, Kitty, Zsh, Starship, Hyprlock, Hypridle, Neovim, Yazi, GTK3
-- Install script: `scripts/install.sh <hostname>` handles full automated setup
-- Host profiles: `hosts/system76/` and `hosts/tuxedo/` with vendor packages and monitor configs
-- Package lists: `packages/pacman.txt` and `packages/aur.txt`
-- Arch install guide: `docs/arch-install-guide.md`
-- Style guide: `docs/style-guide.md` — Disco Elysium color palette (pipetted from game)
+**We own:**
+- `scripts/install.sh` — orchestration
+- `configs/zsh/.zshrc`, `.zprofile` — port of caelestia's `fish/config.fish` to zsh
+- `configs/starship/starship.toml` — caelestia's starship config (copied verbatim; reused unchanged)
+- `docs/style-guide.md` + `docs/mockups/` + `docs/style-overview*.html` — Disco Elysium palette (source of truth for future override)
+- `references/disco-elysium/` — game screenshots
+- `assets/textures/` — film-tape, scratch-bg, brush strips (unused until palette phase)
+- `wallpapers/`
+- `hosts/{system76,tuxedo}/monitors.conf`
 
-### What's NOT Done Yet
-1. **Monitor configs** — `hosts/*/monitors.conf` may need adjustment using `hyprctl monitors`.
+**Upstream (caelestia-dots) owns:**
+- Hyprland config, keybinds, startup
+- Quickshell QML (bar, launcher, notifications, lock, OSD, powermenu)
+- Foot, fuzzel, thunar, btop, firefox, spicetify, vscode configs
+- The `caelestia` CLI and scheme generation
 
-### Desktop Shell
-Desktop widgets (bar, launcher, notifications, quick settings, overview, switcher, power menu, keybinds) live in a separate repo: [disco-shell](https://github.com/RobbeDelporte/disco-shell) (Rust + GPUI).
+Clone lives at `~/.local/share/caelestia-dots/` and is symlinked into `~/.config/` by `install.fish`. **Don't move or delete it.**
 
-## Technology Choices
+## Key files
 
-| Component | Technology | Config Path |
-|-----------|-----------|-------------|
-| Window manager | Hyprland | `configs/hypr/hyprland.conf` |
-| Desktop shell | disco-shell (Rust + GPUI) | Separate repo |
-| Terminal | Kitty | `configs/kitty/kitty.conf` |
-| Lock screen | Hyprlock | `configs/hypr/hyprlock.conf` |
-| Idle manager | Hypridle | `configs/hypr/hypridle.conf` |
-| Shell | Zsh | `configs/zsh/.zshrc` + `.zprofile` |
-| Shell prompt | Starship | `configs/starship/starship.toml` |
-| File manager (primary) | Yazi (TUI) | `configs/yazi/` |
-| File manager (backup) | Nemo (GTK3) | themed via gsettings |
-| Text editor (primary) | Neovim | `configs/nvim/init.lua` |
-| Wallpaper | awww | (started in hyprland.conf) |
-| Screenshots | Grimblast | (keybind in hyprland.conf) |
-| Clipboard | Cliphist | (started in hyprland.conf) |
-| GTK3 theming | `nwg-look` + Adwaita-dark (gsettings) | Nemo, native GTK3 apps |
+| Path | Purpose |
+|------|---------|
+| `scripts/install.sh` | Entry point. Takes hostname arg. |
+| `configs/zsh/.zshrc` | Zsh port of caelestia fish config |
+| `configs/starship/starship.toml` | Caelestia starship config, unmodified |
+| `docs/style-guide.md` | Disco Elysium palette |
+| `docs/arch-install-guide.md` | Fresh-install walkthrough |
+| `~/.local/share/caelestia-dots/` | Upstream clone (created by install) |
+| `~/.config/caelestia/shell.json` | User-level caelestia settings |
+| `~/.config/caelestia/user-config.zsh` | Zsh overrides (auto-sourced by our .zshrc) |
 
-## Key Documents
+## Working conventions
 
-| Document | Purpose |
-|----------|---------|
-| `docs/arch-install-guide.md` | Step-by-step Arch install from USB to first boot |
-| `docs/style-guide.md` | Disco Elysium visual design language + color palette (pipetted from game) |
-| `docs/implementation-guide.md` | How the design is applied to each config |
-| `docs/on-device-checklist.md` | Post-install verification checklist |
-| `docs/mockups/*.html` | Visual reference mockups for each component (open in browser) |
-| `docs/style-overview.html` | Complete design language visual reference |
+- **Don't fork caelestia unless necessary.** For palette changes, try the scheme mechanism first (`caelestia scheme set`).
+- **Don't vendor upstream files.** If something needs changing, either override via user config or fork the relevant caelestia sub-repo cleanly.
+- **Hyprland verification:** after any change to Hyprland config, run `hyprland --verify-config`. Note: caelestia owns the main `hyprland.conf` now — user overrides go into a sourced include file.
+- **Branch `pre-caelestia-archive`** preserves the pre-pivot state. Don't delete.
 
-## Install Workflow
+## User preferences
 
-```
-1. Boot Arch USB, run archinstall (minimal, no DE)
-2. Log in, connect to WiFi: nmcli device wifi connect "SSID" password "pass"
-3. git clone https://github.com/RobbeDelporte/disco-elysium-rice.git ~/disco-elysium-rice
-4. cd ~/disco-elysium-rice && ./scripts/install.sh system76
-5. Build disco-shell: git clone https://github.com/RobbeDelporte/disco-shell.git ~/disco-shell && cd ~/disco-shell && cargo build --release && cp target/release/disco-shell ~/.local/bin/
-6. sudo reboot → Hyprland starts automatically
-```
+- Login shell: zsh (not fish — fish is only installed to run caelestia's `install.fish`)
+- Keybinds from old setup (Super+T terminal, Super+/ launcher) need to be re-applied in a user include once caelestia is running
+- Experienced Linux user (Ubuntu/Pop!_OS), newer to Arch and Hyprland
+- Concise explanations preferred
 
-## Verification
-
-- **Hyprland config**: After any change to `configs/hypr/hyprland.conf`, always run `hyprland --verify-config` and confirm "config ok" before considering the change done.
-
-## User Preferences
-
-- Keybinds: Super+T for terminal, Super+/ for launcher (muscle memory from Pop!_OS)
-- Dual vim (HJKL) + arrow key binds everywhere
-- Experienced with Ubuntu/Pop!_OS terminal usage, new to Arch and tiling WMs
-- Prefers concise explanations, not hand-holding
-- Style: Disco Elysium — dark, warm, painterly, literary (NOT clean/modern/flat)
-
-## Repo Structure
+## Install workflow
 
 ```
-configs/          # Shared dotfiles (symlinked to ~/.config/)
-  hypr/           # hyprland.conf, hyprlock.conf, hypridle.conf
-  kitty/          # kitty.conf
-  nvim/           # init.lua + lua/disco-elysium.lua
-  yazi/           # yazi.toml, theme.toml, keymap.toml
-  zsh/            # .zshrc, .zprofile (symlinked to ~/)
-  starship/       # starship.toml (symlinked to ~/.config/starship.toml)
-  fontconfig/     # fonts.conf (font rendering config)
-hosts/            # Per-machine overrides
-  system76/       # packages.txt, monitors.conf
-  tuxedo/         # packages.txt, monitors.conf
-packages/         # Shared package lists
-  pacman.txt      # Official repo packages
-  aur.txt         # AUR packages
-scripts/
-  install.sh      # Automated setup script (takes hostname arg)
+1. Fresh Arch install (see docs/arch-install-guide.md)
+2. git clone https://github.com/RobbeDelporte/disco-elysium-rice ~/disco-elysium-rice
+3. cd ~/disco-elysium-rice && ./scripts/install.sh <hostname>
+4. Reboot, log into Hyprland
+```
+
+## Future work (scoped out for now)
+
+1. Disco Elysium palette → `schemes/disco-elysium.json` loaded via `caelestia scheme set`
+2. If that proves insufficient: fork `caelestia-dots/shell`, patch `services/Colours.qml`
+3. Wire `assets/textures/` (film-tape, scratch-bg) into the Quickshell surfaces
+4. Port old keybinds into user-override Hyprland include
+
+## Repo structure
+
+```
+assets/
+  textures/              # film-tape, scratch-bg, brush strips
+configs/
+  zsh/                   # .zshrc, .zprofile (ported from caelestia fish)
+  starship/              # starship.toml (verbatim from caelestia)
+docs/
+  arch-install-guide.md
+  style-guide.md         # Disco Elysium palette
+  mockups/               # visual references
+  style-overview*.html
+hosts/
+  system76/monitors.conf
+  tuxedo/monitors.conf
 references/
-  disco-elysium/  # Style reference images from the game
-wallpapers/       # Wallpaper collection
-docs/             # Guides, style guide, mockups
+  disco-elysium/         # game screenshots
+scripts/
+  install.sh
+wallpapers/
 ```

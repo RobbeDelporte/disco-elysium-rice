@@ -1,58 +1,61 @@
-# disco-elysium-rice
+# Disco Elysium Rice
 
-Hyprland rice on Arch Linux — Disco Elysium inspired. Tiling Wayland compositor with a complete desktop environment.
+Arch Linux + Hyprland desktop, built on top of [caelestia-dots](https://github.com/caelestia-dots). Visual north-star: the video game *Disco Elysium* — warm dark, painterly, literary.
 
-## Stack
+**Current state:** pivoted to caelestia-dots with its stock Material You dynamic theming. The Disco Elysium palette override is future work — the style guide and reference material in this repo are the source of truth for that phase.
 
-| Component | Tool |
-|-----------|------|
-| OS | Arch Linux |
-| Compositor | Hyprland |
-| Desktop shell | [disco-shell](https://github.com/RobbeDelporte/disco-shell) (Rust + GPUI) |
-| Terminal | Kitty |
-| Shell | Zsh + Starship |
-| Lock screen | Hyprlock |
-| Idle manager | Hypridle |
-| Editor | Neovim |
-| File manager | Yazi (TUI) + Nemo (GUI) |
-| Wallpaper | awww |
-| Screenshots | Grimblast |
-| Clipboard | Cliphist + fuzzel |
+## What this repo provides
 
-## Quick Start
+- `scripts/install.sh <hostname>` — orchestrates: AUR helper → deps → caelestia clone + `install.fish` → zsh/starship symlinks → host monitor config
+- `configs/zsh/` — zsh translation of caelestia's fish config (aliases, color sequences, OSC 133 prompt marks, user-config sourcing)
+- `configs/starship/starship.toml` — caelestia's starship config, unmodified (used directly by zsh)
+- `docs/style-guide.md` — Disco Elysium color palette pipetted from the game
+- `docs/mockups/`, `docs/style-overview*.html` — visual references
+- `references/disco-elysium/` — game screenshots
+- `assets/textures/` — film-tape, scratch-bg, brush strips (will be wired into the shell during the palette override phase)
+- `wallpapers/` — wallpaper collection
+- `hosts/{system76,tuxedo}/monitors.conf` — per-machine monitor layouts
 
-1. Install Arch Linux following [docs/arch-install-guide.md](docs/arch-install-guide.md)
-2. Clone this repo: `git clone git@github.com:RobbeDelporte/disco-elysium-rice.git ~/disco-elysium-rice`
-3. Run: `./scripts/install.sh <hostname>`
-4. Build disco-shell: `git clone git@github.com:RobbeDelporte/disco-shell.git ~/disco-shell && cd ~/disco-shell && cargo build --release && cp target/release/disco-shell ~/.local/bin/`
-5. Reboot
+## Upstream
 
-See [docs/package-setup-guide.md](docs/package-setup-guide.md) for detailed package management.
+The desktop itself — bar, launcher, notifications, lock screen, OSD, terminal theming, Hyprland config — is [caelestia-dots/caelestia](https://github.com/caelestia-dots/caelestia) (Quickshell + Hyprland + foot + fuzzel). We don't vendor it; `install.fish` symlinks from a clone at `~/.local/share/caelestia-dots/`.
 
-## Theme
+Key caelestia repos:
+- [caelestia-dots/caelestia](https://github.com/caelestia-dots/caelestia) — meta (installer, hyprland, foot, fish, starship)
+- [caelestia-dots/shell](https://github.com/caelestia-dots/shell) — Quickshell QML shell
+- [caelestia-dots/cli](https://github.com/caelestia-dots/cli) — `caelestia` command (scheme, wallpaper)
 
-Visual style based on **Disco Elysium** — dark, warm, painterly, literary. Colors pipetted from the game's UI. See [docs/style-guide.md](docs/style-guide.md) for the complete palette and [docs/style-overview.html](docs/style-overview.html) for a visual reference.
+## Install
 
-## Supported Machines
+```bash
+# On a fresh Arch system (see docs/arch-install-guide.md for base install)
+git clone https://github.com/RobbeDelporte/disco-elysium-rice ~/disco-elysium-rice
+cd ~/disco-elysium-rice
+./scripts/install.sh system76    # or 'tuxedo'
+sudo reboot
+```
 
-- `system76` — System76 laptop (primary)
-- `tuxedo` — Tuxedo laptop (secondary)
+After reboot, log into the Hyprland session. First launch may take a moment while caelestia generates its scheme from the default wallpaper.
 
-## Key Bindings
+Useful commands post-install:
+```bash
+caelestia --help              # CLI entry point
+caelestia scheme set <name>   # change color scheme
+caelestia wallpaper set <img> # change wallpaper (regenerates scheme)
+qs list                       # running quickshell instances
+```
 
-| Action | Bind |
-|--------|------|
-| Terminal | Super+Return / Super+T |
-| Launcher | Super+D / Super+/ |
-| Close window | Super+Q |
-| Toggle float | Super+V |
-| Fullscreen | Super+F |
-| Focus | Super+HJKL / Arrows |
-| Move window | Super+Shift+HJKL / Arrows |
-| Resize | Super+Ctrl+HJKL / Arrows |
-| Workspaces | Super+1-9 |
-| Screenshot | Super+S (area) / Super+Shift+S (full) |
-| Clipboard | Super+Shift+V |
-| Lock | Super+Ctrl+L |
-| Power menu | Super+Shift+E |
-| Notifications | Super+N |
+## Roadmap
+
+- [ ] Apply Disco Elysium palette as a caelestia scheme (`schemes/disco-elysium.json`)
+- [ ] If scheme format proves too limiting: fork `caelestia-dots/shell` and hardcode `services/Colours.qml`
+- [ ] Wire `assets/textures/` (film-tape, scratch-bg) into shell decorations
+- [ ] Port any remaining Disco keybinds (Super+T terminal, Super+/ launcher) into a user override include for caelestia's Hyprland config
+
+## License
+
+This repo: MIT. Upstream caelestia-dots components: GPL-3.0 — applies to any forks we make of their QML shell.
+
+## Archive
+
+The pre-pivot hand-built rice lives on branch `pre-caelestia-archive`.
