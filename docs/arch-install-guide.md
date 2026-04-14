@@ -98,29 +98,40 @@ cd ~/disco-elysium-rice
 ```
 
 The script will:
-- Update the system
-- Install all packages (pacman + AUR, may take 10-20 minutes)
-- Bootstrap paru (AUR helper, requires building Rust — takes a few minutes)
-- Symlink all configs
-- Set zsh as default shell (you'll be prompted for your password)
-- Enable services
+- Bootstrap `yay` (AUR helper) if missing
+- Install host-specific packages (System76 / Tuxedo drivers) and `zsh` + `fish` (fish is needed only to run caelestia's `install.fish`)
+- Clone `caelestia-dots/caelestia` to `~/.local/share/caelestia-dots/` and run its `install.fish`, which pulls the caelestia metapackage (all runtime deps: Hyprland, Quickshell, caelestia-shell, caelestia-cli, foot, fuzzel, fonts, etc.) and symlinks its own configs into `~/.config/`
+- Symlink our `.zshrc`, `.zprofile`, `starship.toml` into `$HOME`
+- Write a user override at `~/.config/caelestia/hypr-user.conf` that sources this host's `monitors.conf`
+- Set zsh as the login shell (you'll be prompted for your password)
+- Enable NetworkManager and PipeWire services
 
-## 8. Reboot into Hyprland
+During `install.fish` you'll be prompted to back up `~/.config` (choose 2 if you want a backup) and to confirm overwrites — answer `Y` to accept caelestia's configs.
+
+## 8. Start a Hyprland session
+
+No display manager is installed by default. After reboot you land at a TTY.
 
 ```bash
 sudo reboot
+# log in at TTY1 with your username + password, then:
+uwsm start hyprland-uwsm.desktop
 ```
 
-Log in at the TTY with your username and password (on TTY1). Hyprland starts automatically.
+(caelestia ships with `uwsm` and the matching Hyprland desktop entry.)
 
-**If Hyprland doesn't start:** Make sure you're on TTY1 (press Ctrl+Alt+F1 if needed), then log in.
+If you want graphical login instead, install one yourself — e.g. `greetd` + `tuigreet` (caelestia's recommendation) or `ly`. This is out of scope for the baseline install.
 
 ## 9. Post-install checklist
 
-- [ ] **Check monitors:** `hyprctl monitors` — edit `hosts/<hostname>/monitors.conf` if needed, then reload with `hyprctl reload`
-- [ ] **GPU drivers:** Run `lspci | grep VGA`, then uncomment the right lines in `hosts/<hostname>/packages.txt` and run `paru -S <driver-packages>`
-- [ ] **Set GTK theme:** Run `nwg-look` to pick theme, icons, fonts, cursor
+- [ ] **Check monitors:** `hyprctl monitors` — if layout is wrong, edit `hosts/<hostname>/monitors.conf` in this repo, then `hyprctl reload`. The caelestia config already sources your per-host file via `~/.config/caelestia/hypr-user.conf`.
+- [ ] **GPU drivers (if needed):** `lspci | grep -E 'VGA|3D'`, then install the driver package for your GPU manually (e.g. `sudo pacman -S nvidia-dkms` or `mesa` variants). Not automated — GPU choice is per-machine.
 - [ ] **Test notifications:** `notify-send "Hello" "Rice is working!"`
-- [ ] **Test screenshot:** `Super+S` to capture an area
-- [ ] **Test launcher:** `Super+D` or `Super+/` to open launcher
-- [ ] **Apply Disco Elysium theme:** Follow `docs/style-guide.md` replacement table to update all configs from placeholder colors
+- [ ] **Test screenshot:** `Super+S` (caelestia default)
+- [ ] **Test launcher:** `Super` (tap, caelestia default)
+- [ ] **Test terminal:** `Super+T` (foot)
+- [ ] **Session menu:** `Ctrl+Alt+Delete`
+
+## Future work (not part of baseline)
+
+Applying the Disco Elysium palette is a later phase — see `docs/style-guide.md` and the Roadmap in the top-level `README.md`. The baseline install leaves caelestia's stock Material You dynamic theming in place.

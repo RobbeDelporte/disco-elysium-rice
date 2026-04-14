@@ -35,7 +35,13 @@ cd ~/disco-elysium-rice
 sudo reboot
 ```
 
-After reboot, log into the Hyprland session. First launch may take a moment while caelestia generates its scheme from the default wallpaper.
+After reboot, log in at TTY1 and start a session:
+
+```bash
+uwsm start hyprland-uwsm.desktop
+```
+
+No display manager is installed by default — install `greetd`+`tuigreet` or `ly` yourself if you want graphical login. First launch may take a moment while caelestia generates its scheme from the default wallpaper.
 
 Useful commands post-install:
 ```bash
