@@ -12,9 +12,6 @@ Thumbs.db
 # Superpowers brainstorm sessions
 .superpowers/
 
-# Host-specific symlinks created by install script
-configs/hypr/monitors.conf
-
 # Secrets (never commit)
 .env
 *.pem
