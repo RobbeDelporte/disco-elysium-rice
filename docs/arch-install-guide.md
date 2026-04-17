@@ -97,16 +97,24 @@ cd ~/disco-elysium-rice
 ./scripts/install.sh tuxedo
 ```
 
-The script will:
-- Bootstrap `yay` (AUR helper) if missing
-- Install host-specific packages (System76 / Tuxedo drivers) and `zsh` + `fish` (fish is needed only to run caelestia's `install.fish`)
-- Clone `caelestia-dots/caelestia` to `~/.local/share/caelestia-dots/` and run its `install.fish`, which pulls the caelestia metapackage (all runtime deps: Hyprland, Quickshell, caelestia-shell, caelestia-cli, foot, fuzzel, fonts, etc.) and symlinks its own configs into `~/.config/`
-- Symlink our `.zshrc`, `.zprofile`, `starship.toml` into `$HOME`
-- Write a user override at `~/.config/caelestia/hypr-user.conf` that sources this host's `monitors.conf`
-- Set zsh as the login shell (you'll be prompted for your password)
-- Enable NetworkManager and PipeWire services
+The script will (every step is idempotent — safe to re-run):
+- Bootstrap `yay` (AUR helper) if missing.
+- Install host-specific packages (System76 / Tuxedo drivers), `zsh` + `fish` (fish is needed only to run caelestia's `install.fish`), `cmake` + `base-devel` (needed to build the shell native plugin).
+- Clone the three personal forks to their canonical paths and wire up `origin` (user fork) + `upstream` (caelestia-dots) remotes:
+    - `RobbeDelporte/caelestia` → `~/.local/share/caelestia-dots/`
+    - `RobbeDelporte/shell` → `~/.config/quickshell/caelestia/`
+    - `RobbeDelporte/cli` → `~/.local/share/caelestia-cli/`
+- Run `install.fish --aur-helper=yay --noconfirm` from the dots fork. This pulls the caelestia metapackage (all runtime deps: Hyprland, Quickshell, caelestia-shell, caelestia-cli, foot, fuzzel, fonts, etc.) and symlinks the dots-fork configs into `~/.config/`.
+- Build and install the shell fork's native QML plugin into `~/.local/lib/qt6/qml/Caelestia/` (cmake, incremental on re-runs).
+- Write the CLI shim at `~/.local/bin/caelestia` so `caelestia` on `$PATH` resolves to the fork instead of `/usr/bin/caelestia`.
+- Write `~/.config/environment.d/caelestia-plugin.conf` so `QML_IMPORT_PATH` picks up the fork plugin at login.
+- Symlink our `.zshrc`, `.zprofile`, `starship.toml` into `$HOME`.
+- Copy wallpapers into `~/Pictures/Wallpapers/` (copied, not symlinked — Quickshell's FileSystemModel doesn't follow symlinks).
+- Write `~/.config/caelestia/hypr-user.conf` that sources this host's `monitors.conf`.
+- Set zsh as the login shell (you'll be prompted for your password).
+- Enable NetworkManager and PipeWire user services.
 
-During `install.fish` you'll be prompted to back up `~/.config` (choose 2 if you want a backup) and to confirm overwrites — answer `Y` to accept caelestia's configs.
+With `--noconfirm` passed to `install.fish`, there are no interactive prompts — existing configs under `~/.config/` get overwritten with dots-fork symlinks. On a fresh Arch install that's what you want. On a machine that already has its own configs, take a `cp -r ~/.config ~/.config.bak` first.
 
 ## 8. Start a Hyprland session
 
@@ -173,14 +181,14 @@ Shell restart keybind (useful after editing QML): `Ctrl+Super+Alt+R`.
 
 ## 10. Optional apps (Zen, VSCodium, Spotify, Discord)
 
-Our `install.sh` does **not** pass optional flags to caelestia's installer. To add any of them later, rerun `install.fish` directly:
+Our `install.sh` does **not** pass optional flags to caelestia's installer. To add any of them later, rerun `install.fish` directly from the dots fork:
 
 ```bash
-cd ~/caelestia-upstream    # (symlink to ~/.local/share/caelestia-dots)
+cd ~/.local/share/caelestia-dots    # the dots fork (also aliased as ~/caelestia-upstream)
 fish ./install.fish --aur-helper=yay --vscode=codium --zen --spotify --discord
 ```
 
-Each flag is independent — pass only the ones you want. Re-running is safe; it will prompt before overwriting existing configs.
+Each flag is independent — pass only the ones you want. Re-running is safe; it will prompt before overwriting existing configs (or pass `--noconfirm` to skip prompts).
 
 ## 11. GTK theme (optional, matches upstream screenshots)
 
@@ -194,16 +202,32 @@ gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
 
 ## Editing caelestia later
 
-The upstream clone lives at `~/.local/share/caelestia-dots/` and is exposed as `~/caelestia-upstream` for convenience. **Do not move or delete either path** — `install.fish` symlinks configs from that clone, and moving it will break Hyprland + every other caelestia app.
+The three personal forks live at their canonical paths:
+
+| Fork | Local clone |
+|------|-------------|
+| `RobbeDelporte/shell` (QML shell) | `~/.config/quickshell/caelestia/` |
+| `RobbeDelporte/cli` (Python CLI) | `~/.local/share/caelestia-cli/` |
+| `RobbeDelporte/caelestia` (dots configs) | `~/.local/share/caelestia-dots/` (also aliased `~/caelestia-upstream`) |
+
+Each has `origin` = your fork and `upstream` = caelestia-dots. **Do not move or delete any of them** — live configs symlink into them, and Quickshell + the CLI shim + the native plugin all point at these paths.
 
 To edit:
 
 ```bash
-cd ~/caelestia-upstream
-# make changes, commit to a fork, or create a local branch
-hyprctl reload       # for hyprland changes
-# Ctrl+Super+Alt+R   # for shell (QML) changes
+cd ~/.config/quickshell/caelestia    # shell (QML)
+# or ~/.local/share/caelestia-cli    # CLI (Python)
+# or ~/.local/share/caelestia-dots   # dots (hypr, foot, fish, ...)
+git checkout -b <topic>
+# make changes
+# for Hyprland:        hyprctl reload
+# for shell (QML):     Ctrl+Super+Alt+R
+# for shell plugin:    cd ~/.config/quickshell/caelestia && cmake --build build && cmake --install build
+git commit -am "..."
+git push -u origin <topic>
 ```
+
+Sync with upstream later via `~/disco-elysium-rice/meta/update.sh`.
 
 ## Future work (not part of baseline)
 

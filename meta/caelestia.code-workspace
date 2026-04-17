@@ -1,0 +1,32 @@
+{
+    "folders": [
+        { "name": "rice (this repo)", "path": "../" },
+        { "name": "shell (QML)",      "path": "../../.config/quickshell/caelestia" },
+        { "name": "cli (Python)",     "path": "../../.local/share/caelestia-cli" },
+        { "name": "dots (configs)",   "path": "../../.local/share/caelestia-dots" },
+        { "name": "user-config",      "path": "../../.config/caelestia" },
+        { "name": "meta",             "path": "." }
+    ],
+    "settings": {
+        "files.exclude": {
+            "**/__pycache__": true,
+            "**/*.pyc": true
+        },
+        "qt-qml.qmlls.customExePath": "/usr/bin/qmlls6",
+        "qt-qml.doNotAskForQmllsDownload": true,
+        "python.analysis.extraPaths": [
+            "../../.local/share/caelestia-cli/src"
+        ],
+        "git.autofetch": true,
+        "git.detectSubmodulesLimit": 20
+    },
+    "extensions": {
+        "recommendations": [
+            "theqtcompany.qt-qml",
+            "ms-python.python",
+            "ms-python.vscode-pylance",
+            "skellock.just",
+            "tamasfe.even-better-toml"
+        ]
+    }
+}
