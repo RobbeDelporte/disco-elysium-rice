@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Disco Elysium Rice — caelestia fork-based installer
+# caelestia fork-based installer
 #
 # Usage: ./scripts/install.sh <hostname>
 #   hostname ∈ { system76, tuxedo }
