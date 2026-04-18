@@ -206,6 +206,7 @@ link_tracked "$REPO_ROOT/zsh/.zshrc"               "$HOME/.zshrc"
 link_tracked "$REPO_ROOT/zsh/.zprofile"            "$HOME/.zprofile"
 link_tracked "$REPO_ROOT/caelestia/shell.json"     "$HOME/.config/caelestia/shell.json"
 link_tracked "$REPO_ROOT/caelestia/hypr-user.conf" "$HOME/.config/caelestia/hypr-user.conf"
+link_tracked "$REPO_ROOT/caelestia/hypr-vars.conf" "$HOME/.config/caelestia/hypr-vars.conf"
 link_tracked "$REPO_ROOT/mimeapps.list"            "$HOME/.config/mimeapps.list"
 link_tracked "$REPO_ROOT/git/ignore"               "$HOME/.config/git/ignore"
 

@@ -4,11 +4,139 @@
             "durations": {
                 "scale": 0.4441442307692307
             }
+        },
+        "font": {
+            "family": {
+                "material": "Material Symbols Rounded",
+                "mono": "CaskaydiaCove Nerd Font",
+                "sans": "Rubik"
+            },
+            "size": {
+                "scale": 1
+            }
+        },
+        "padding": {
+            "scale": 1
+        },
+        "rounding": {
+            "scale": 1
+        },
+        "spacing": {
+            "scale": 1
+        },
+        "transparency": {
+            "base": 0.85,
+            "enabled": false,
+            "layers": 0.6
         }
     },
     "background": {
         "desktopClock": {
             "enabled": true
+        },
+        "enabled": true,
+        "visualiser": {
+            "autoHide": true,
+            "enabled": false,
+            "rounding": 5,
+            "spacing": 2
+        },
+        "wallpaperEnabled": true
+    },
+    "bar": {
+        "activeWindow": {
+            "compact": false,
+            "showOnHover": true
+        },
+        "clock": {
+            "showDate": true,
+            "showIcon": true
+        },
+        "dragThreshold": 20,
+        "excludedScreens": [
+        ],
+        "persistent": true,
+        "showOnHover": false,
+        "status": {
+            "showAudio": true,
+            "showBattery": true,
+            "showBluetooth": true,
+            "showMicrophone": true,
+            "showNetwork": true
+        },
+        "workspaces": {
+            "activeIndicator": true,
+            "showWindows": true,
+            "shown": 5
         }
+    },
+    "border": {
+        "rounding": 25,
+        "smoothing": 1,
+        "thickness": 10
+    },
+    "dashboard": {
+        "enabled": true,
+        "showOnHover": false
+    },
+    "general": {
+        "battery": {
+            "warnLevels": [
+                20,
+                10,
+                5
+            ]
+        },
+        "idle": {
+            "lockBeforeSleep": true
+        }
+    },
+    "launcher": {
+        "actionPrefix": ">",
+        "dragThreshold": 30,
+        "enabled": true,
+        "maxShown": 8
+    },
+    "notifs": {
+        "clearThreshold": 0.3,
+        "defaultExpireTimeout": 5000,
+        "expire": true
+    },
+    "osd": {
+        "enabled": true,
+        "hideDelay": 2000
+    },
+    "paths": {
+        "wallpaperDir": "~/Pictures/Wallpapers"
+    },
+    "services": {
+        "defaultPlayer": "spotify",
+        "gpuType": "auto",
+        "useTwelveHourClock": false,
+        "weatherLocation": ""
+    },
+    "session": {
+        "commands": {
+            "logout": [
+                "loginctl",
+                "terminate-user",
+                ""
+            ],
+            "reboot": [
+                "systemctl",
+                "reboot"
+            ],
+            "shutdown": [
+                "systemctl",
+                "poweroff"
+            ]
+        },
+        "dragThreshold": 30
+    },
+    "sidebar": {
+        "enabled": true
+    },
+    "utilities": {
+        "enabled": true
     }
 }

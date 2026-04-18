@@ -25,6 +25,7 @@ Per-app folders at the repo root (mirroring caelestia-dots' own layout).
 |--------------------------------|---|------------------------------------------|
 | `caelestia/shell.json`         | → | `~/.config/caelestia/shell.json`         |
 | `caelestia/hypr-user.conf`     | → | `~/.config/caelestia/hypr-user.conf`     |
+| `caelestia/hypr-vars.conf`     | → | `~/.config/caelestia/hypr-vars.conf`     |
 | `git/ignore`                   | → | `~/.config/git/ignore`                   |
 | `mimeapps.list`                | → | `~/.config/mimeapps.list`                |
 | `zsh/.zshrc`                   | → | `~/.zshrc`                               |
