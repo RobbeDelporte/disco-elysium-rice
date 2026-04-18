@@ -6,7 +6,7 @@
 #
 # What this does (each step is idempotent — safe to re-run):
 #   1. Installs an AUR helper (yay) if missing
-#   2. Installs bootstrap packages (fish, zsh, networkmanager)
+#   2. Installs bootstrap packages (fish, zsh, networkmanager, build tools)
 #      and host-specific hardware packages
 #   3. Clones the three personal caelestia forks to their canonical paths,
 #      wiring origin (user fork) + upstream (caelestia-dots) remotes:
@@ -14,18 +14,19 @@
 #        - RobbeDelporte/shell     → ~/.config/quickshell/caelestia
 #        - RobbeDelporte/cli       → ~/.local/share/caelestia-cli
 #   4. Runs caelestia's install.fish from the dots fork (installs
-#      caelestia-meta + symlinks configs into ~/.config/)
+#      caelestia-meta + symlinks caelestia configs into ~/.config/)
 #   5. Builds and installs the native QML plugin from the shell fork
 #   6. Installs the CLI shim at ~/.local/bin/caelestia
 #   7. Installs environment.d config that prepends the fork plugin dir
 #      to QML_IMPORT_PATH
-#   8. Symlinks zsh + starship configs from this repo
+#   8. Symlinks this repo's per-app folders into their destinations
+#      (zsh/, caelestia/, git/, mimeapps.list)
 #   9. Copies wallpapers to ~/Pictures/Wallpapers
-#  10. Writes host monitor config into caelestia's user include
-#  11. Enables NetworkManager and PipeWire user services
+#  10. Wires host monitor config into caelestia's user include
+#  11. Sets zsh as login shell; enables NetworkManager + PipeWire services
 #
 # After first run, keep things up to date with:
-#   yay -Syu && ./meta/update.sh
+#   yay -Syu && ./scripts/update.sh
 
 set -euo pipefail
 
@@ -83,6 +84,24 @@ write_if_changed() {
     log "Wrote $dest"
 }
 
+# --- helper: atomically replace $dest with a symlink to $target,
+#             backing up any pre-existing non-symlink file/dir to .bak ---
+link_tracked() {
+    local target="$1" dest="$2"
+    # Already pointing at the right place? Noop.
+    if [[ -L "$dest" ]] && [[ "$(readlink -- "$dest")" == "$target" ]]; then
+        return 0
+    fi
+    mkdir -p "$(dirname "$dest")"
+    # If the destination is a real file/dir (not a symlink), preserve it.
+    if [[ -e "$dest" && ! -L "$dest" ]]; then
+        warn "Backing up existing $dest → $dest.bak"
+        mv -- "$dest" "$dest.bak"
+    fi
+    ln -sfn -- "$target" "$dest"
+    log "Linked $dest → $target"
+}
+
 # --- 1. AUR helper ---
 if ! command -v yay >/dev/null; then
     log "Installing yay (AUR helper)..."
@@ -107,6 +126,7 @@ PACMAN_PKGS=(
     zsh                          # our login shell
     networkmanager               # ensure it's installed before we enable it
     cmake                        # build system for the shell native plugin
+    ninja                        # faster build backend for cmake
     pkgconf                      # cmake find_package dep
     base-devel                   # make, gcc, ... for the plugin build
 )
@@ -142,10 +162,9 @@ clone_fork \
     https://github.com/caelestia-dots/cli.git \
     "$CAELESTIA_CLI"
 
-# Convenience symlink so the dots fork is easy to cd into later.
-# Do NOT move the underlying clone — install.fish symlinks configs from it,
-# and moving it would break Hyprland and every other caelestia app.
-ln -sfn "$CAELESTIA_DOTS" "$HOME/caelestia-upstream"
+# Clean up the legacy ~/caelestia-upstream convenience symlink — the
+# VSCode workspace in this repo already reaches the dots fork directly.
+rm -f "$HOME/caelestia-upstream"
 
 # --- 4. Run caelestia's install.fish (from the dots fork) ---
 log "Running install.fish from the dots fork..."
@@ -157,13 +176,12 @@ warn "install.fish with --noconfirm will overwrite any non-fork configs under ~/
 # the AUR caelestia-shell plugin doesn't have. Configure once, then build +
 # install. cmake handles incremental builds, so re-runs are fast.
 log "Building shell native QML plugin..."
-if [[ ! -f "$CAELESTIA_SHELL/build/CMakeCache.txt" ]]; then
-    cmake -B "$CAELESTIA_SHELL/build" -S "$CAELESTIA_SHELL" \
-        -DENABLE_MODULES=plugin \
-        -DCMAKE_INSTALL_PREFIX="$HOME/.local" \
-        -DINSTALL_QMLDIR=lib/qt6/qml \
-        -DINSTALL_LIBDIR=lib/caelestia
-fi
+cmake -B "$CAELESTIA_SHELL/build" -S "$CAELESTIA_SHELL" -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DENABLE_MODULES=plugin \
+    -DCMAKE_INSTALL_PREFIX="$HOME/.local" \
+    -DINSTALL_QMLDIR=lib/qt6/qml \
+    -DINSTALL_LIBDIR=lib/caelestia
 cmake --build "$CAELESTIA_SHELL/build" -j"$(nproc)"
 cmake --install "$CAELESTIA_SHELL/build"
 
@@ -180,12 +198,16 @@ write_if_changed "$HOME/.config/environment.d/caelestia-plugin.conf" 644 "QML_IM
 QML2_IMPORT_PATH=\${HOME}/.local/lib/qt6/qml:\${QML2_IMPORT_PATH}
 "
 
-# --- 8. Our shell configs ---
-log "Symlinking zsh + starship configs..."
-ln -sf "$REPO_ROOT/configs/zsh/.zshrc"    "$HOME/.zshrc"
-ln -sf "$REPO_ROOT/configs/zsh/.zprofile" "$HOME/.zprofile"
-mkdir -p "$HOME/.config"
-ln -sf "$REPO_ROOT/configs/starship/starship.toml" "$HOME/.config/starship.toml"
+# --- 8. Symlink this repo's tracked configs into their destinations ---
+# Per-app folders at the repo root mirror caelestia-dots' layout; each maps
+# to one destination. link_tracked backs up pre-existing real files to .bak.
+log "Symlinking tracked configs..."
+link_tracked "$REPO_ROOT/zsh/.zshrc"               "$HOME/.zshrc"
+link_tracked "$REPO_ROOT/zsh/.zprofile"            "$HOME/.zprofile"
+link_tracked "$REPO_ROOT/caelestia/shell.json"     "$HOME/.config/caelestia/shell.json"
+link_tracked "$REPO_ROOT/caelestia/hypr-user.conf" "$HOME/.config/caelestia/hypr-user.conf"
+link_tracked "$REPO_ROOT/mimeapps.list"            "$HOME/.config/mimeapps.list"
+link_tracked "$REPO_ROOT/git/ignore"               "$HOME/.config/git/ignore"
 
 # --- 9. Wallpapers ---
 # Copy (not symlink) — caelestia's Quickshell FileSystemModel doesn't follow
@@ -198,42 +220,21 @@ for wall in "$REPO_ROOT/wallpapers"/*.png; do
 done
 log "Copied wallpapers to $WALL_DIR"
 
+# --- 10. Host monitors — link the current host's monitors.conf into the
+# live caelestia config dir so the tracked hypr-user.conf can source it
+# host-agnostically.
+if [[ -f "$HOST_DIR/monitors.conf" ]]; then
+    link_tracked "$HOST_DIR/monitors.conf" \
+                 "$HOME/.config/caelestia/monitors-host.conf"
+fi
+
+# --- 11. Login shell + services ---
 # Make zsh the login shell
 if [[ "$(getent passwd "$USER" | cut -d: -f7)" != "$(command -v zsh)" ]]; then
     log "Setting zsh as login shell (will prompt for password)..."
     chsh -s "$(command -v zsh)"
 fi
 
-# --- 10. Host monitors via caelestia user include ---
-# Upstream caelestia's hyprland.conf sources ~/.config/caelestia/hypr-user.conf
-# at the end. We make sure that file contains a source-line for this host's
-# monitors.conf — but we don't clobber any other user customizations that
-# may already live in hypr-user.conf (input sensitivity, animation overrides,
-# extra keybinds, ...).
-if [[ -f "$HOST_DIR/monitors.conf" ]]; then
-    CAEL_USER_DIR="$HOME/.config/caelestia"
-    USER_CONF="$CAEL_USER_DIR/hypr-user.conf"
-    SOURCE_LINE="source = $HOST_DIR/monitors.conf"
-    mkdir -p "$CAEL_USER_DIR"
-    if [[ ! -f "$USER_CONF" ]]; then
-        cat > "$USER_CONF" <<EOF
-# ~/.config/caelestia/hypr-user.conf
-# Loaded LAST by caelestia's hyprland.conf — overrides anything above it.
-# Add your own Hyprland directives here.
-
-# ── Machine-specific (from install.sh) ────────────────────────────
-$SOURCE_LINE
-EOF
-        log "Wrote $USER_CONF (sources $HOST monitors.conf)"
-    elif grep -qxF "$SOURCE_LINE" "$USER_CONF"; then
-        log "$USER_CONF already sources $HOST monitors.conf"
-    else
-        warn "$USER_CONF exists but does not source '$HOST_DIR/monitors.conf'."
-        warn "Add this line manually if desired: $SOURCE_LINE"
-    fi
-fi
-
-# --- 11. Services ---
 log "Enabling services..."
 sudo systemctl enable --now NetworkManager.service
 systemctl --user enable --now pipewire.service pipewire-pulse.service wireplumber.service
@@ -241,6 +242,6 @@ systemctl --user enable --now pipewire.service pipewire-pulse.service wireplumbe
 log "Done."
 log "  Reboot, then log in at TTY1 (re-login is needed for QML_IMPORT_PATH to pick up)."
 log "  Start a session:        uwsm start hyprland-uwsm.desktop"
-log "  Sync forks later with:  $REPO_ROOT/meta/update.sh"
+log "  Sync forks later with:  $REPO_ROOT/scripts/update.sh"
 log "  Shell sanity check:     qs -c caelestia"
 log "  Scheme / wallpaper:     caelestia --help"

@@ -100,7 +100,14 @@ sync_one() {
     fi
 
     if [[ "$name" == "shell" ]]; then
-        echo "  rebuilding native plugin..."
+        echo "  reconfiguring + rebuilding native plugin..."
+        # Re-run configure so a quickshell-git ABI bump is picked up.
+        cmake -B "$dir/build" -S "$dir" -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DENABLE_MODULES=plugin \
+            -DCMAKE_INSTALL_PREFIX="$HOME/.local" \
+            -DINSTALL_QMLDIR=lib/qt6/qml \
+            -DINSTALL_LIBDIR=lib/caelestia
         cmake --build "$dir/build" -j"$(nproc)"
         cmake --install "$dir/build"
     fi

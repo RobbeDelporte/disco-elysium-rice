@@ -1,0 +1,14 @@
+{
+    "appearance": {
+        "anim": {
+            "durations": {
+                "scale": 0.4441442307692307
+            }
+        }
+    },
+    "background": {
+        "desktopClock": {
+            "enabled": true
+        }
+    }
+}
