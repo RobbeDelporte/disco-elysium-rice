@@ -29,3 +29,32 @@ compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
 if command -v starship >/dev/null 2>&1; then
     eval "$(starship init zsh)"
 fi
+
+# Caelestia palette — the scheme switcher writes OSC escape sequences here;
+# emitting them repaints the terminal's ANSI 0-15 / fg / bg / cursor to match.
+# Fish's config.fish does the same via `cat ...sequences.txt`.
+[[ -r "$XDG_STATE_HOME/caelestia/sequences.txt" ]] && \
+    cat "$XDG_STATE_HOME/caelestia/sequences.txt"
+
+# OSC 133 prompt markers — lets foot jump between prompts
+# (Ctrl+Shift+Z / X in caelestia's foot config).
+autoload -Uz add-zsh-hook
+_caelestia_prompt_mark() { print -Pn '\e]133;A\e\\' }
+add-zsh-hook precmd _caelestia_prompt_mark
+
+# Better ls — matches caelestia's fish default (icons + dirs first).
+if command -v eza >/dev/null 2>&1; then
+    alias ls='eza --icons --group-directories-first -1'
+fi
+
+# Interactive greeting — mirrors fish_greeting from the caelestia-dots fork.
+if [[ -o interactive ]]; then
+    printf '\e[38;5;16m'
+    print -r -- '     ______           __          __  _       '
+    print -r -- '    / ____/___ ____  / /__  _____/ /_(_)___ _ '
+    print -r -- '   / /   / __ `/ _ \/ / _ \/ ___/ __/ / __ `/ '
+    print -r -- '  / /___/ /_/ /  __/ /  __(__  ) /_/ / /_/ /  '
+    print -r -- '  \____/\__,_/\___/_/\___/____/\__/_/\__,_/   '
+    printf '\e[0m'
+    command -v fastfetch >/dev/null 2>&1 && fastfetch --key-padding-left 5
+fi

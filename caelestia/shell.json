@@ -2,7 +2,7 @@
     "appearance": {
         "anim": {
             "durations": {
-                "scale": 0.4441442307692307
+                "scale": 0.3371488287771286
             }
         },
         "font": {
@@ -49,11 +49,12 @@
             "showOnHover": true
         },
         "clock": {
-            "showDate": true,
-            "showIcon": true
+            "showDate": false,
+            "showIcon": false
         },
         "dragThreshold": 20,
         "excludedScreens": [
+            "HDMI-A-1"
         ],
         "persistent": true,
         "showOnHover": false,
@@ -61,23 +62,29 @@
             "showAudio": true,
             "showBattery": true,
             "showBluetooth": true,
-            "showMicrophone": true,
+            "showMicrophone": false,
             "showNetwork": true
+        },
+        "tray": {
+            "background": false,
+            "compact": false,
+            "recolour": true
         },
         "workspaces": {
             "activeIndicator": true,
+            "perMonitorWorkspaces": false,
             "showWindows": true,
-            "shown": 5
+            "shown": 6
         }
     },
     "border": {
-        "rounding": 25,
+        "rounding": 7,
         "smoothing": 1,
-        "thickness": 10
+        "thickness": 7
     },
     "dashboard": {
         "enabled": true,
-        "showOnHover": false
+        "showOnHover": true
     },
     "general": {
         "battery": {
@@ -112,6 +119,8 @@
     "services": {
         "defaultPlayer": "spotify",
         "gpuType": "auto",
+        "useFahrenheit": false,
+        "useFahrenheitPerformance": false,
         "useTwelveHourClock": false,
         "weatherLocation": ""
     },

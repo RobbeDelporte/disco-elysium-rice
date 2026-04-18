@@ -101,6 +101,14 @@ sync_one() {
 
     if [[ "$name" == "shell" ]]; then
         echo "  reconfiguring + rebuilding native plugin..."
+        # Wipe build dir if a previous run used a different generator
+        # (e.g. Unix Makefiles from a manual build) — cmake refuses to
+        # reconfigure across generators.
+        if [[ -f "$dir/build/CMakeCache.txt" ]] \
+            && ! grep -q '^CMAKE_GENERATOR:INTERNAL=Ninja$' "$dir/build/CMakeCache.txt"; then
+            echo "  build/ has non-Ninja generator — wiping for clean reconfigure"
+            rm -rf "$dir/build"
+        fi
         # Re-run configure so a quickshell-git ABI bump is picked up.
         cmake -B "$dir/build" -S "$dir" -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \

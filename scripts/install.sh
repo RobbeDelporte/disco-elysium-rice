@@ -150,15 +150,15 @@ fi
 # --- 3. Clone the three personal caelestia forks ---
 log "Setting up caelestia forks..."
 clone_fork \
-    https://github.com/RobbeDelporte/caelestia.git \
+    git@github.com:RobbeDelporte/caelestia.git \
     https://github.com/caelestia-dots/caelestia.git \
     "$CAELESTIA_DOTS"
 clone_fork \
-    https://github.com/RobbeDelporte/shell.git \
+    git@github.com:RobbeDelporte/shell.git \
     https://github.com/caelestia-dots/shell.git \
     "$CAELESTIA_SHELL"
 clone_fork \
-    https://github.com/RobbeDelporte/cli.git \
+    git@github.com:RobbeDelporte/cli.git \
     https://github.com/caelestia-dots/cli.git \
     "$CAELESTIA_CLI"
 
@@ -191,11 +191,17 @@ write_if_changed "$HOME/.local/bin/caelestia" 755 "#!/usr/bin/env sh
 exec \"\$HOME/.local/share/caelestia-cli/bin/caelestia\" \"\$@\"
 "
 
-# --- 7. Environment file: prepend fork plugin dir to QML_IMPORT_PATH ---
-# Loaded by the systemd user manager at login; inherited by UWSM. Requires a
-# re-login (not just a reload) to take effect.
+# --- 7. Environment files ---
+# Loaded by the systemd user manager at login; inherited by UWSM and every
+# process it spawns (shells, foot, launchers, ...). Requires a re-login
+# (not just a reload) to take effect.
+#   caelestia-plugin.conf: prepend fork plugin dir to QML_IMPORT_PATH
+#   local-bin.conf: shell-agnostic PATH entry (so fish / systemd units /
+#     desktop launchers find ~/.local/bin without sourcing .zshrc)
 write_if_changed "$HOME/.config/environment.d/caelestia-plugin.conf" 644 "QML_IMPORT_PATH=\${HOME}/.local/lib/qt6/qml:\${QML_IMPORT_PATH}
 QML2_IMPORT_PATH=\${HOME}/.local/lib/qt6/qml:\${QML2_IMPORT_PATH}
+"
+write_if_changed "$HOME/.config/environment.d/local-bin.conf" 644 "PATH=\${HOME}/.local/bin:\${PATH}
 "
 
 # --- 8. Symlink this repo's tracked configs into their destinations ---

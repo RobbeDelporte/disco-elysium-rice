@@ -12,6 +12,10 @@
         },
         "qt-qml.qmlls.customExePath": "/usr/bin/qmlls6",
         "qt-qml.doNotAskForQmllsDownload": true,
+        "qt-qml.qmlls.useQmlImportPathEnvVar": true,
+        "qt-qml.qmlls.additionalImportPaths": [
+            "/home/robbe/.local/lib/qt6/qml"
+        ],
         "python.analysis.extraPaths": [
             "../.local/share/caelestia-cli/src"
         ],
